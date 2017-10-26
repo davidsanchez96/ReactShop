@@ -18,6 +18,14 @@ const HomeNavigator = TabNavigator({
         animationEnabled: true,
         tabBarOptions: {
             activeTintColor: '#fd4062',
+            showIcon: true,
+            indicatorStyle: {
+                height: 0  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
+            },
+            style: {
+                backgroundColor: '#fff', // TabBar 背景色
+                // height: 44
+            },
         }
     }
 );
