@@ -3,6 +3,10 @@ import {
     Text,
     Image,
     FlatList,
+    View,
+    InteractionManager,
+    SectionList,
+    StyleSheet,
 } from 'react-native';
 import get from '../../action/categoryActions';
 import {connect} from 'react-redux';
@@ -23,17 +27,66 @@ class Category extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(get())
+        InteractionManager.runAfterInteractions(() => {
+            this.props.dispatch(get())
+        })
+
+    }
+
+    _renderItem({item}) {
+        return <Text>{item.title}</Text>
+    }
+
+    _renderSectionHeader({section}) {
+        return <Text>{section.title.title}</Text>
     }
 
     render() {
-        return <FlatList
-            data={[{key: 'a'}, {key: 'b'}]}
-            renderItem={({item}) => <Text>{item.key}</Text>}
-        />
+        const {categoryReducer} = this.props;
+        let data = categoryReducer.data.filter(val => val.parentId == 0);
+        let itemData=categoryReducer.data.filter(val => val.parentId == data[0].id);
+        for()
+        return (
+            <View style={styles.container}>
+                <Text>{data.length != 0 ? data[0].name : '2131'}</Text>
+                <FlatList
+                    data={data}
+                    renderItem={({item}) => <Text>{item.name}</Text>}
+                />
+                <SectionList
+                    renderItem={this._renderItem}
+                    renderSectionHeader={this._renderSectionHeader}
+                    sections={[
+                        { title: { title: "A" }, data: [{ title: "阿童木" }, { title: "阿玛尼" }, { title: "爱多多" }] },
+                        { title: { title: "A" }, data: [{ title: "表哥" }, { title: "贝贝" }, { title: "表弟" }, { title: "表姐" }, { title: "表叔" }] },
+                        { title: { title: "A" }, data: [{ title: "成吉思汗" }, { title: "超市快递" }] },
+                        { title: { title: "A" }, data: [{ title: "王磊" }, { title: "王者荣耀" }, { title: "往事不能回味" },{ title: "王小磊" }, { title: "王中磊" }, { title: "王大磊" }] },
+                    ]}
+                />
+            </View>
+        )
     }
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+    },
+    instructions: {
+        textAlign: 'center',
+        color: '#333333',
+        marginBottom: 5,
+    },
+});
 const mapStateToProps = (state) => ({
     categoryReducer: state.categoryReducer
 });

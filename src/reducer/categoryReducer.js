@@ -12,6 +12,7 @@ export default function category(state=initialState, action) {
             break;
         case types.Loaded:
             return {
+                ...state,
                 loading:false,
                 data:action.data,
             }
