@@ -1,7 +1,7 @@
 import React from 'react';
 import {TabNavigator, StackNavigator, addNavigationHelpers} from 'react-navigation';
 import Main from './main/Main';
-import Goods from './goods/Goods';
+import Goods from './goods/Category';
 import {connect} from 'react-redux';
 import GoodsDetail from "./goods/GoodsDetail";
 import Shopping from "./shopping/Shopping";
