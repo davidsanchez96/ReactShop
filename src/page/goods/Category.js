@@ -7,6 +7,7 @@ import {
     InteractionManager,
     SectionList,
     StyleSheet,
+    TouchableOpacity,
 } from 'react-native';
 import get from '../../action/categoryActions';
 import {connect} from 'react-redux';
@@ -34,35 +35,54 @@ class Category extends Component {
     }
 
     _renderItem({item}) {
-        return <Text>{item.title}</Text>
+        return (
+            <TouchableOpacity style={styles.goodsItem}
+                activeOpacity={0.8}>
+                <Image
+                    source={{uri: item.imgSrc || 'http://172.19.23.210/Hkshop_app/pro01.jpg'}}/>
+                <Text numberOfLines={1} allowFontScaling={false}>{item.name}</Text>
+            </TouchableOpacity>
+        )
     }
 
     _renderSectionHeader({section}) {
-        return <Text>{section.title.title}</Text>
+        return <Text>{section.key}</Text>
     }
+
+    _keyExtractor = (item, index) => item.id;
 
     render() {
         const {categoryReducer} = this.props;
         let data = categoryReducer.data.filter(val => val.parentId == 0);
-        let itemData=categoryReducer.data.filter(val => val.parentId == data[0].id);
-        for()
+        let itemData = categoryReducer.data.filter(val => val.parentId == data[0].id);
+        const sections = [];
+        for (let i = 0, long = itemData.length; i < long; i++) {
+            let datas = [];
+            for (let j = 0, length = categoryReducer.data.length; j < length; j++) {
+                if (itemData[i].id == categoryReducer.data[j].parentId) {
+                    datas.push(categoryReducer.data[j])
+                }
+            }
+            sections.push({key: itemData[i].name, data: datas});
+            console.log(sections);
+        }
         return (
             <View style={styles.container}>
-                <Text>{data.length != 0 ? data[0].name : '2131'}</Text>
-                <FlatList
-                    data={data}
-                    renderItem={({item}) => <Text>{item.name}</Text>}
+                <FlatList style={styles.left}
+                          data={data}
+                          keyExtractor={this._keyExtractor}
+                          renderItem={({item}) => <Text>{item.name}</Text>}
                 />
-                <SectionList
-                    renderItem={this._renderItem}
-                    renderSectionHeader={this._renderSectionHeader}
-                    sections={[
-                        { title: { title: "A" }, data: [{ title: "阿童木" }, { title: "阿玛尼" }, { title: "爱多多" }] },
-                        { title: { title: "A" }, data: [{ title: "表哥" }, { title: "贝贝" }, { title: "表弟" }, { title: "表姐" }, { title: "表叔" }] },
-                        { title: { title: "A" }, data: [{ title: "成吉思汗" }, { title: "超市快递" }] },
-                        { title: { title: "A" }, data: [{ title: "王磊" }, { title: "王者荣耀" }, { title: "往事不能回味" },{ title: "王小磊" }, { title: "王中磊" }, { title: "王大磊" }] },
-                    ]}
-                />
+                <View style={styles.right}>
+                    <SectionList
+                        renderItem={this._renderItem}
+                        contentContainerStyle={{  flexDirection: 'row',//设置横向布局
+                            flexWrap: 'wrap',  justifyContent:'space-between',}}
+                        keyExtractor={this._keyExtractor}
+                        renderSectionHeader={this._renderSectionHeader}
+                        sections={sections}
+                    />
+                </View>
             </View>
         )
     }
@@ -72,19 +92,22 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'center',
+
+        backgroundColor: 'white',
+    },
+    left: {
+        flex: 1,
+        backgroundColor: 'red',
+    },
+    right: {
+        flex: 3,
+    },
+    goodsItem: {
+
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
+        marginBottom: 10,
+        marginLeft: 5,
+        marginRight: 5
     },
 });
 const mapStateToProps = (state) => ({
