@@ -2,7 +2,8 @@ import * as types from '../utils/actionTypes';
 
 const initialState={
     loading:true,
-    data:[]
+    data:[],
+    index:0,
 
 }
 export default function category(state=initialState, action) {
@@ -17,6 +18,12 @@ export default function category(state=initialState, action) {
                 data:action.data,
             }
             break;
+        case types.Selected:
+            return{
+                ...state,
+                loading:false,
+                index:action.index,
+            }
         default:
             return state;
             break;
