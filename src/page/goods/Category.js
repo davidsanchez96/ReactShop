@@ -45,7 +45,7 @@ class Category extends Component {
                 <Image style={styles.rightImage}
                        source={{uri: item.imgSrc || 'http://172.19.23.210/Hkshop_app/pro01.jpg'}}/>
                 <Text style={styles.rightText}
-                      numberOfLines={1} allowFontScaling={false}>{item.name}</Text>
+                      numberOfLines={2} allowFontScaling={false}>{item.name}</Text>
             </TouchableOpacity>
         )
     }
