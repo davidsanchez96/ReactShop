@@ -176,5 +176,4 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     categoryReducer: state.categoryReducer
 });
-
 export default connect(mapStateToProps)(Category);
