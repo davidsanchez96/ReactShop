@@ -43,13 +43,13 @@ class Main extends Component {
                 <SectionList
                     ListHeaderComponent={this._renderTableHeader}
                     renderItem={({item}) => <Text> 324</Text>}
-                    renderSectionHeader={({section}) => <Text> header</Text>}
+                    renderSectionHeader={({section}) => <Text> {section.title}</Text>}
                     stickySectionHeadersEnabled={false}
                     keyExtractor={item => item.title}
                     removeClippedSubviews={false}
                     sections={
                         [
-                            {data: ['34', '324'], title: 'ef'},
+                            {data: ['34', '324'], title: 'e432432f', renderItem:this._renderItem},
                             {data: ['34', '324'], title: 'ef'},
                         ]
                     }
@@ -60,15 +60,18 @@ class Main extends Component {
 
     }
 
+    _renderItem = () => {
+        return <Text>AAAAAAA</Text>
+    }
     _renderTableHeader = () => {
         const {mainReducer} = this.props;
         let banners = mainReducer.data.sliders;
         return (
             <Swiper
                 style={{}}
-                height={200}
+                height= {0.55 * WIDTH}
             >
-                {banners.map((slider,i) => {
+                {banners.map((slider, i) => {
                     return (
                         <TouchableOpacity
                             activeOpacity={0.8}
