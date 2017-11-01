@@ -2,11 +2,12 @@ import * as types from '../utils/actionTypes';
 
 const initialState={
     loading:true,
-    data:[],
-    index:0,
+    data:{
+        "sliders": []
+    },
 
 }
-export default function category(state=initialState, action) {
+export default function main(state=initialState, action) {
     switch (action.type) {
         case types.Loading:
             return state;
@@ -16,13 +17,6 @@ export default function category(state=initialState, action) {
                 ...state,
                 loading:false,
                 data:action.data,
-            }
-            break;
-        case types.Selected:
-            return{
-                ...state,
-                loading:false,
-                index:action.index,
             }
             break;
         default:
