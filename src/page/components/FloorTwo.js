@@ -86,19 +86,9 @@ export default class FloorTwo extends Component {
   }
 
   _handleBack(action, actionParam) {
-    if(action && action!=undefined && !this._isEmptyObject(actionParam)){
-      msg.emit('route:goToNext', {
-        sceneName: action,
-        ...actionParam
-      });
-    }
+
   }
-  _isEmptyObject(e) {
-    var t;
-    for (t in e)
-      return !1;
-    return !0
-  }
+
 }
 const imgWidth = SCREEN_WIDTH / 2 - 1;
 const bigImgHeight = 0.89 * imgWidth;

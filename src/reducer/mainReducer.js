@@ -3,7 +3,8 @@ import * as types from '../utils/actionTypes';
 const initialState={
     loading:true,
     data:{
-        "sliders": []
+        "sliders": [],
+        "floors": [],
     },
 
 }
