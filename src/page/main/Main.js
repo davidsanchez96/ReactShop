@@ -40,6 +40,10 @@ class Main extends Component {
             this.props.dispatch(getMain());
         })
     }
+    refreshing(){
+
+    }
+
 
     render() {
         const sections = [];
@@ -68,6 +72,19 @@ class Main extends Component {
                     keyExtractor={item => item.title}
                     removeClippedSubviews={false}
                     sections={sections}
+                    onRefresh={()=>{
+                        let timer =  setTimeout(()=>{
+                            clearTimeout(timer)
+                            alert('刷新成功')
+                        },4000)
+                    }}
+                    refreshing={false}
+                    onEndReachedThreshold={0}
+                    onEndReached={
+                        ()=>{
+                            alert('刷新成功')
+                        }
+                    }
                 />
             </View>
         );
