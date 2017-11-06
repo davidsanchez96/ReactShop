@@ -51,6 +51,7 @@ class Main extends Component {
         const sections = [];
         const {mainReducer} = this.props;
         let floors = mainReducer.data.floors;
+        let loading=mainReducer.loading;
         for (let i = 0; i < floors.length; i++) {
             let data = [];
             data.push(floors[i]);
@@ -75,16 +76,12 @@ class Main extends Component {
                     removeClippedSubviews={false}
                     sections={sections}
                     onRefresh={() => {
-                        let timer = setTimeout(() => {
-                            clearTimeout(timer)
-                            alert('刷新成功')
-                        }, 4000)
+                        this.props.dispatch(getMain());
                     }}
-                    refreshing={false}
+                    refreshing={loading}
                     onEndReachedThreshold={0}
                     onEndReached={
                         () => {
-                            alert('刷新成功')
                         }
                     }
                 />

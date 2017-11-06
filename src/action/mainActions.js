@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
 import {URL} from "../utils/Constant";
-import {Loaded, Loading} from "../utils/actionTypes";
+import {Loaded, Loading, NetError} from "../utils/actionTypes";
 
 export function getMain() {
     return (dispatch) => {
@@ -12,7 +12,7 @@ export function getMain() {
             },
             (error) => {
                 console.log('---------'+error);
-                alert(error)
+                dispatch({type: NetError});
             });
     }
 }
