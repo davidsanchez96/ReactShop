@@ -8,7 +8,7 @@ const initialState = {
 }
 export default function category(state = initialState, action) {
     switch (action.type) {
-        case types.Loading:
+        case types.CategoryLoading:
             return {
                 ...state,
                 loading: true,

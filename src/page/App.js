@@ -26,9 +26,11 @@ const HomeNavigator = TabNavigator({
             },
             style: {
                 backgroundColor: 'white', // TabBar 背景色
-                 height: 44
             },
-        }
+
+
+        },
+
     }
 );
 export const AppNavigator = StackNavigator({
