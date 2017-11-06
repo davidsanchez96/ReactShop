@@ -11,14 +11,14 @@ export default function category(state=initialState, action) {
         case types.Loading:
             return state;
             break;
-        case types.Loaded:
+        case types.CategoryLoaded:
             return {
                 ...state,
                 loading:false,
                 data:action.data,
             }
             break;
-        case types.Selected:
+        case types.CategorySelected:
             return{
                 ...state,
                 loading:false,

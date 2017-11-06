@@ -32,6 +32,7 @@ class Main extends Component {
                        height: 25, tintColor: tintColor
                    }}
             />
+
         ),
     };
 
@@ -40,7 +41,8 @@ class Main extends Component {
             this.props.dispatch(getMain());
         })
     }
-    refreshing(){
+
+    refreshing() {
 
     }
 
@@ -52,7 +54,7 @@ class Main extends Component {
         for (let i = 0; i < floors.length; i++) {
             let data = [];
             data.push(floors[i]);
-            sections.push({ data: data, renderItem: this._renderItemFloorOne});
+            sections.push({data: data, renderItem: this._renderItemFloorOne});
         }
         sections.push({title: ' ', data: []});
         return (
@@ -62,7 +64,7 @@ class Main extends Component {
                     renderItem={({item}) => <Text> 324</Text>}
                     renderSectionHeader={({section}) => {
                         return (
-                            section.title  ?
+                            section.title ?
                                 <Text> {section.title}</Text> :
                                 null
                         );
@@ -72,16 +74,16 @@ class Main extends Component {
                     keyExtractor={item => item.title}
                     removeClippedSubviews={false}
                     sections={sections}
-                    onRefresh={()=>{
-                        let timer =  setTimeout(()=>{
+                    onRefresh={() => {
+                        let timer = setTimeout(() => {
                             clearTimeout(timer)
                             alert('刷新成功')
-                        },4000)
+                        }, 4000)
                     }}
                     refreshing={false}
                     onEndReachedThreshold={0}
                     onEndReached={
-                        ()=>{
+                        () => {
                             alert('刷新成功')
                         }
                     }

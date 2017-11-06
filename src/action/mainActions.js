@@ -11,7 +11,8 @@ export function getMain() {
                 dispatch({type: Loaded, data: result});
             },
             (error) => {
-                console.log(error);
+                console.log('---------'+error);
+                alert(error)
             });
     }
 }

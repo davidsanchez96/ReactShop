@@ -1,3 +1,5 @@
+
+import Toast from 'react-native-root-toast';
 export default  NetUtils = {
     /**
      * http get 请求简单封装
@@ -14,6 +16,7 @@ export default  NetUtils = {
             })
             .catch((err) => {
                 failCallback(err);
+                Toast.show('您的网络不给力');
             });
     },
 

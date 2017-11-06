@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
 import {CategoryUrl} from "../utils/Constant";
-import {Loaded, Loading, Selected} from "../utils/actionTypes";
+import {CategoryLoaded, Loading, CategorySelected} from "../utils/actionTypes";
 
 export function get() {
     return (dispatch) => {
@@ -8,7 +8,7 @@ export function get() {
         NetUtils.get(CategoryUrl,
             (result) => {
                 console.log(result.data);
-                dispatch({type: Loaded, data: result.data});
+                dispatch({type: CategoryLoaded, data: result.data});
             },
             (error) => {
                 console.log(error);
@@ -18,7 +18,7 @@ export function get() {
 
 export function select(index) {
     return {
-        type: Selected,
+        type: CategorySelected,
         index: index,
     }
 }
