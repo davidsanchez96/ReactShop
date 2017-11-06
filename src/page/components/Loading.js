@@ -10,26 +10,28 @@ export default class Loading extends Component {
     render() {
         return (
             <View style={styles.loading}>
-                <ActivityIndicator color="white"/>
-                <Text style={styles.loadingTitle}>加载中……</Text>
+                <ActivityIndicator color="#CCCCCC"/>
+                <Text style={styles.loadingTitle}>加载中…</Text>
             </View>
         )
     }
 }
 const styles = StyleSheet.create({
     loading: {
-        backgroundColor: 'gray',
-        height: 80,
-        width: 100,
-        borderRadius: 10,
+        flex:1,
+        backgroundColor: 'rgba(0,0,0,0.3)',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
 
     loadingTitle: {
         marginTop: 10,
-        fontSize: 14,
-        color: 'white'
+        fontSize: 12,
+        color: '#CCCCCC'
     }
 })
