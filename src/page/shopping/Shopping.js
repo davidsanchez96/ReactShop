@@ -11,11 +11,12 @@ export default class Shopping extends Component {
     static navigationOptions = {
         tabBarLabel: '购物车',
         tabBarIcon: ({tintColor}) => (
-            <View>
+            <View style={{alignItems:'center',justifyContent:'center'}}>
                 <Image source={{uri: cartIcon, scale: 2}}
                        style={{
                            width: 25,
-                           height: 25, tintColor: tintColor
+                           height: 25,
+                           tintColor: tintColor,
                        }}
                 />
                 <Badge badge={12}/>
