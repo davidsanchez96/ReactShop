@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
 import {CategoryUrl} from "../utils/Constant";
-import {CategoryLoaded, Loading, CategorySelected} from "../utils/actionTypes";
+import {CategoryLoaded, Loading, CategorySelected, NetError} from "../utils/actionTypes";
 
 export function get() {
     return (dispatch) => {
@@ -12,6 +12,7 @@ export function get() {
             },
             (error) => {
                 console.log(error);
+                dispatch({type: NetError});
             });
     }
 }
