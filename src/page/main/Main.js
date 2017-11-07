@@ -44,10 +44,6 @@ class Main extends Component {
         })
     }
 
-    refreshing() {
-
-    }
-
 
     render() {
         const sections = [];
@@ -62,28 +58,28 @@ class Main extends Component {
         sections.push({title: ' ', data: []});
         return (
             <View style={styles.container}>
-                    <SectionList
-                        ListHeaderComponent={() => this._renderTableHeader()}
-                        renderItem={({item}) => <Text> 324</Text>}
-                        renderSectionHeader={({section}) => {
-                            return (
-                                section.title ?
-                                    <Text> {section.title}</Text> :
-                                    null
-                            );
-                        }
-                        }
-                        stickySectionHeadersEnabled={false}
-                        keyExtractor={item => item.title}
-                        removeClippedSubviews={false}
-                        sections={sections}
-                        onRefresh={() => {
-                            this.props.dispatch(getMain());
-                        }}
-                        onScroll={(e)=>this._handleScroll(e)}
-                        refreshing={loading}
+                <SectionList
+                    ListHeaderComponent={() => this._renderTableHeader()}
+                    renderItem={({item}) => <Text> 324</Text>}
+                    renderSectionHeader={({section}) => {
+                        return (
+                            section.title ?
+                                <Text> {section.title}</Text> :
+                                null
+                        );
+                    }
+                    }
+                    stickySectionHeadersEnabled={false}
+                    keyExtractor={item => item.title}
+                    removeClippedSubviews={false}
+                    sections={sections}
+                    onRefresh={() => {
+                        this.props.dispatch(getMain());
+                    }}
+                    onScroll={(e) => this._handleScroll(e)}
+                    refreshing={loading}
 
-                    />
+                />
                 {this._renderTopBar()}
             </View>
         );
@@ -103,7 +99,7 @@ class Main extends Component {
         );
     }
 
-    _handleScroll=(e)=> {
+    _handleScroll = (e) => {
         //View滑动的拉动距离
         const offsetY = e.nativeEvent.contentInset.top + e.nativeEvent.contentOffset.y;
         // this._changeTopBarStyle(offsetY);
