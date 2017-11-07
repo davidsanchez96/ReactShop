@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
 import {URL} from "../utils/Constant";
-import {Loaded, Loading, NetError} from "../utils/actionTypes";
+import {Change, Loaded, Loading, NetError, Show} from "../utils/actionTypes";
 
 export function getMain() {
     return (dispatch) => {
@@ -17,3 +17,16 @@ export function getMain() {
     }
 }
 
+export function show(index) {
+    return {
+        type: Show,
+        show: index,
+    }
+}
+
+export function change(index) {
+    return {
+        type: Change,
+        change: index,
+    }
+}

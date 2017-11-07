@@ -5,6 +5,8 @@
 export const Loading = 'loading';
 export const Loaded = 'loaded';
 export const NetError = 'netError';
+export const Show = 'show';
+export const Change = 'change';
 /**
  * category
  * @type {string}
