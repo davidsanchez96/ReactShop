@@ -19,7 +19,7 @@ export default class Shopping extends Component {
                            tintColor: tintColor,
                        }}
                 />
-                <Badge badge={12}/>
+                <Badge badge={223}/>
             </View>
         ),
     }

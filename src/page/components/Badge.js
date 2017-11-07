@@ -16,8 +16,8 @@ export default class Badge extends Component {
     render() {
         let count = this.props.badge;
 
-        if (count >= 99) {
-            count = 99;
+        if (count > 99) {
+            count = '99+';
         } else if (count < 10) {
             count = ' ' + this.props.badge + ' ';
         }
@@ -33,21 +33,22 @@ export default class Badge extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingLeft: 5,
-        paddingRight: 5,
-        height: 15,
+        height: 16,
+        minWidth: 16,
+        paddingLeft: 2,
+        paddingRight: 2,
         backgroundColor: '#f00',
-        borderRadius: 7,
+        borderRadius: 8,
         position: 'absolute',
         justifyContent: 'center',
         alignItems: 'center',
-        top: 0,
-        right: -10,
+        right: -8,
+        top: 3
     },
     text: {
         color: '#FFF',
         fontWeight: 'bold',
-        fontSize: 11
+        fontSize: 8
     }
 });
 

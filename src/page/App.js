@@ -21,13 +21,29 @@ const HomeNavigator = TabNavigator({
             activeTintColor: '#fd4062',
             inactiveTintColor: 'gray', // 文字和图片未选中颜色
             showIcon: true,
+            showLabel: true,
             indicatorStyle: {
                 height: 0  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
             },
             style: {
                 backgroundColor: 'white', // TabBar 背景色
+                padding: 0,
+                margin:0,
             },
-
+            labelStyle: {
+                fontSize: 12,
+                padding: 0,
+                margin:0,
+            },
+            iconStyle: {
+                width: 150,
+                padding: 0,
+                margin:0,
+            },
+            tabStyle:{
+                padding: 0,
+                margin:0,
+            }
 
         },
 
