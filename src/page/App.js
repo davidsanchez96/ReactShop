@@ -6,6 +6,9 @@ import {connect} from 'react-redux';
 import GoodsDetail from "./goods/GoodsDetail";
 import Shopping from "./shopping/Shopping";
 import User from "./user/User";
+import Search from "./components/Search";
+import SearchBar from "./components/SearchBar";
+import MainTopBar from "./components/MainTopBar";
 
 
 const HomeNavigator = TabNavigator({
@@ -56,7 +59,16 @@ export const AppNavigator = StackNavigator({
     },
     GoodsDetail: {
         screen: GoodsDetail,
-    }
+    },
+    Search: {
+        screen: Search,
+    },
+    SearchBar: {
+        screen: SearchBar,
+    },
+    MainTopBar: {
+        screen: MainTopBar,
+    },
 });
 
 

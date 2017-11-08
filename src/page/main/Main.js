@@ -88,11 +88,13 @@ class Main extends Component {
     }
 
     _renderTopBar() {
+        this.props.navigation;
         const {mainReducer} = this.props;
         let show = mainReducer.show;
         let change = mainReducer.change;
         return (
             <MainTopBar
+                navigation={this.props.navigation}
                 visible={show}
                 backgroundColor={change}
             />

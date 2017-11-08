@@ -9,7 +9,7 @@ import {
     Dimensions,
     Image,
 } from 'react-native';
-import Search from "./Search";
+import SearchBar from "./SearchBar";
 
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -37,12 +37,13 @@ export default class MainTopBar extends Component {
 
 
     render() {
+        this.props.navigation;
         return (
             <Animated.View style={[styles.topBar, {backgroundColor: this.props.backgroundColor, top: this._top}]}>
                 <TouchableOpacity style={styles.topBtn} activeOpacity={0.8} onPress={this._onBarCodeScan}>
                     <Image style={styles.topIcon} source={require('./img/sweep.png')}/>
                 </TouchableOpacity>
-                <Search placeHolder='搜索商品' topic='searchPageOnMain:setVisible'/>
+                <SearchBar navigation={this.props.navigation} placeHolder='搜索商品' topic='searchPageOnMain:setVisible'/>
                 <TouchableOpacity style={styles.topBtn} activeOpacity={0.8}
                                   onPress={this._messageHandler}>
                     <Image style={styles.topIcon} source={require('./img/message.png')}/>
