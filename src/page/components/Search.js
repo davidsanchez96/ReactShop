@@ -1,22 +1,41 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {View, StyleSheet, AsyncStorage, Dimensions, Platform, StatusBarIOS} from 'react-native';
+import {
+    View, StyleSheet, AsyncStorage, Dimensions, Text, Platform, StatusBarIOS,
+    FlatList,
+} from 'react-native';
 
 import SearchTop from "./SearchTop";
 import SearchHistory from "./SearchHistory";
 import SearchSuggest from "./SearchSuggest";
 import {connect} from 'react-redux';
+import Loading from "./Loading";
+import {suggestion} from "../../action/searchActions";
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
-
 
 //最大显示的搜索关键字历史数目
 var MAX_SHOW_KEY_WORD = 10;
 //最大保存的搜索关键字历史数目
 var MAX_STORE_KEY_WORD = 30;
-
+let inputText;
 class Search extends Component {
+
+    static navigationOptions = ({navigation}) => {
+        const {params = {}} = navigation.state;
+        let header = (
+            <SearchTop
+                callbackParent={(newState) => params.callbackParent(newState)}
+                onAddSearch={params.onAddSearch}
+                goSearchList={params.goSearchList}
+                searchText={params.searchText}
+                onBack={params.onBack}
+                ref={(searchBar) => inputText = searchBar}
+            />)
+        return {header};
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -31,6 +50,17 @@ class Search extends Component {
     componentDidMount() {
         this._fetchCache();
         this.setState({searchText: this.props.searchText});
+
+
+        this.props.navigation.setParams({
+            callbackParent: this._onChildChanged,
+            onAddSearch: this._handleOnAddSearch,
+            goSearchList: this._handleGoGoodsList,
+            searchText: this.props.searchText,
+            onBack: this._back,
+            searchBar: this.props._searchBar,
+        })
+        this._handleOnAddSearch('123456');
     }
 
 
@@ -42,30 +72,43 @@ class Search extends Component {
         if (Platform.OS === 'ios' && this.props.statusBarStyle != undefined) {
             StatusBarIOS.setStyle(this.props.statusBarStyle);
         }
-
+        const {searchReducer} = this.props;
+        let loading = searchReducer.loading;
+        let data = searchReducer.data;
         return (
             <View style={styles.container}>
                 {/*查询bar*/}
-                <SearchTop callbackParent={(newState) => this.onChildChanged(newState)}
-                           onAddSearch={this._handleOnAddSearch}
-                           goSearchList={this._handleGoGoodsList}
-                           onBack={this._onBack}
-                           searchText={this.props.searchText}
-                           ref={(searchBar) => this._searchBar = searchBar}
-                />
+                {/*<SearchTop callbackParent={(newState) => this.onChildChanged(newState)}*/}
+                {/*onAddSearch={this._handleOnAddSearch}*/}
+                {/*goSearchList={this._handleGoGoodsList}*/}
+                {/*onBack={this._onBack}*/}
+                {/*searchText={this.props.searchText}*/}
+                {/*ref={(searchBar) => this._searchBar = searchBar}*/}
+                {/*/>*/}
                 {
                     this.state.searchText
-                        ?
-                        <SearchSuggest
-                            queryString={this.state.searchText}
-                            goSearchList={this._handleGoGoodsList}
-                        />
+                        ? (loading ? <Loading/> :
+                            <FlatList
+                                data={data}
+                                renderItem={({item}) => {
+                                    <TouchableOpacity
+                                        style={styles.suggestion}
+                                        activeOpacity={0.8}
+                                        onPress={() => {
+                                        }
+                                        }>
+                                        <Text style={styles.keywordText}>{item}</Text>
+                                    </TouchableOpacity>
+                                }
+                                }
+                            />
+                        )
                         :
                         <SearchHistory
                             searchText={this.state.searchText}
                             onClearData={() => {
                                 console.log('--->onClearDataCallback----');
-                                this._searchBar.blur();
+                                inputText.blur();
                             }}
                             isLoaded={this.state.isLoaded}
                             dataSource={this.state.dataSource}
@@ -78,18 +121,23 @@ class Search extends Component {
     }
 
 
-    onChildChanged(newState) {
+    _onChildChanged = (newState) => {
         this.setState({
             searchText: newState
         });
+
+        this.props.dispatch(suggestion(newState));
+
     }
 
-    _onBack() {
+    _back = ()=> {
         const topic = this.props.topic || 'searchPage:setVisible';
-        msg.emit(topic, false);
-        if (Platform.OS === 'ios' && this.props.statusBarStyle != undefined) {
-            StatusBarIOS.setStyle('light-content');
-        }
+        // msg.emit(topic, false);
+        // if (Platform.OS === 'ios' && this.props.statusBarStyle != undefined) {
+        //     StatusBarIOS.setStyle('light-content');
+        // }
+        const {goBack} = this.props.navigation;
+        goBack();
     }
 
 
@@ -118,6 +166,7 @@ class Search extends Component {
      * 添加历史记录,如果存在相同的记录,则删除已有的记录再添加新的
      */
     async _handleOnAddSearch(searchText) {
+
         if (!searchText || searchText === '') {
             return;
         }
@@ -173,10 +222,10 @@ class Search extends Component {
 
         this._handleOnAddSearch(searchText);
 
-        msg.emit('route:popAndReplaceByName', {
-            sceneName: nextSceneName,
-            searchParam: {searchText: searchText || this.state.searchText}
-        }, nextSceneName);
+        // msg.emit('route:popAndReplaceByName', {
+        //     sceneName: nextSceneName,
+        //     searchParam: {searchText: searchText || this.state.searchText}
+        // }, nextSceneName);
     }
 }
 
@@ -194,7 +243,25 @@ var styles = StyleSheet.create({
         height: HEIGHT,
         width: WIDTH,
         paddingBottom: 50
-    }
+    },
+    suggestion: {
+        backgroundColor: '#fff',
+        height: 50,
+        paddingLeft: 20,
+        paddingRight: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    keywordText: {
+        color: '#666'
+    },
+    countText: {
+        color: '#666',
+        fontSize: 12
+    },
 });
 
 
@@ -218,7 +285,8 @@ function deleteArrayByValue(array, value) {
 
     return array.slice(0, pos).concat(array.slice(pos + 1, array.length));
 }
+
 const mapStateToProps = (state) => ({
-    state
+    searchReducer: state.searchReducer
 });
 export default connect(mapStateToProps)(Search);

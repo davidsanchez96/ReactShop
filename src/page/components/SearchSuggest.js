@@ -35,9 +35,9 @@ export default class SearchSuggest extends Component {
 
         this.setState({isLoading: true});
 
-        // InteractionManager.runAfterInteractions(() => {
-        //     this._updateSuggestions();
-        // });
+        InteractionManager.runAfterInteractions(() => {
+            this._updateSuggestions();
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -96,16 +96,16 @@ export default class SearchSuggest extends Component {
      * @private
      */
     _updateSuggestions() {
-        // getSuggestion({queryString: this.props.queryString}).then((res) => {
-        //     if (__DEV__) {
-        //         console.log('suggest _updateSuggestions recevie http response', res);
-        //     }
-        //
-        //     this.setState({
-        //         isLoading: false,
-        //         suggestions: res
-        //     });
-        // });
+        getSuggestion({queryString: this.props.queryString}).then((res) => {
+            if (__DEV__) {
+                console.log('suggest _updateSuggestions recevie http response', res);
+            }
+
+            this.setState({
+                isLoading: false,
+                suggestions: res
+            });
+        });
     }
 }
 
