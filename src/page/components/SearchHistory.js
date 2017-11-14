@@ -1,9 +1,11 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {View, Text,  StyleSheet, ScrollView, TouchableOpacity, Image, PixelRatio,Dimensions} from 'react-native';
+import {
+    View, Text, Alert,
+    StyleSheet, ScrollView, TouchableOpacity, Image, PixelRatio, Dimensions
+} from 'react-native';
 import Dialog from "./Dialog";
-
 
 
 var screen = Dimensions.get('window');
@@ -64,11 +66,10 @@ export default class SearchHistory extends Component {
 
                     <Dialog
                         visible={this.state.visible}
-                        maskStyle={{top: -76}}
                         title=''
                         msgContent='确定清空历史搜索吗？'
-                        cancelHandle={this._handleCancel}
-                        okHandle={this._cleanHistory}/>
+                        cancelHandle={()=>this._handleCancel()}
+                        okHandle={()=>this._cleanHistory()}/>
                 </View>
             )
         } else {
@@ -99,13 +100,24 @@ export default class SearchHistory extends Component {
         this.setState({
             visible: true
         });
+
+
+        // Alert.alert(
+        //     'Alert Title',
+        //     'My Alert Msg',
+        //     [
+        //         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        //         {text: 'OK', onPress: () => console.log('OK Pressed')},
+        //     ],
+        //     {cancelable: false}
+        // )
     }
 
 
     /**
      * 取消
      */
-    _handleCancel() {
+     _handleCancel() {
         this.setState({
             visible: false
         });
