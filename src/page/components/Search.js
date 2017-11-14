@@ -112,8 +112,8 @@ class Search extends Component {
                             }}
                             isLoaded={this.state.isLoaded}
                             dataSource={this.state.dataSource}
-                            goSearchList={this._handleGoGoodsList}
-                            onClearSearch={this._handleClearSearchCache}
+                            goSearchList={()=>this._handleGoGoodsList()}
+                            onClearSearch={()=>this._handleClearSearchCache()}
                         />
                 }
             </View>
