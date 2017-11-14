@@ -1,9 +1,9 @@
 import React from 'react';
 import {TabNavigator, StackNavigator, addNavigationHelpers} from 'react-navigation';
 import Main from './main/Main';
-import Goods from './goods/Category';
+import Goods from './category/Category';
 import {connect} from 'react-redux';
-import GoodsDetail from "./goods/GoodsDetail";
+import GoodsDetail from "./category/GoodsDetail";
 import Shopping from "./shopping/Shopping";
 import User from "./user/User";
 import Search from "./components/Search";
@@ -63,12 +63,7 @@ export const AppNavigator = StackNavigator({
     Search: {
         screen: Search,
     },
-    SearchBar: {
-        screen: SearchBar,
-    },
-    MainTopBar: {
-        screen: MainTopBar,
-    },
+
 });
 
 
