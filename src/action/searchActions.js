@@ -20,9 +20,3 @@ export function suggestion(key) {
     }
 }
 
-export function select(index) {
-    return {
-        type: CategorySelected,
-        index: index,
-    }
-}

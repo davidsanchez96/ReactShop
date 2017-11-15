@@ -41,7 +41,7 @@ export default class SearchHistory extends Component {
                         style={styles.listWrapper}
                         automaticallyAdjustContentInsets={false}
                         keyboardDismissMode={'on-drag'}
-                        keyboardShouldPersistTaps={true}>
+                        keyboardShouldPersistTaps={'handled'}>
                         <View style={styles.searchTitle}><Text style={{fontSize: 16}}>历史搜索</Text></View>
                         {
                             this.props.dataSource.map((v, i) => {

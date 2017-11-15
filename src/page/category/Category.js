@@ -104,6 +104,7 @@ class Category extends Component {
                             keyExtractor={this._keyExtractor}
                             renderSectionHeader={this._renderSectionHeader}
                             sections={sections}
+                            stickySectionHeadersEnabled={true}
                         />
                     </View>
                 </View>

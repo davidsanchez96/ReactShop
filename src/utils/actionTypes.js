@@ -18,3 +18,5 @@ export const CategorySelected = 'categorySelected';
  */
 export const SuggestionLoading = 'SuggestionLoading';
 export const SuggestionLoaded = 'SuggestionLoaded';
+export const GoodsListLoading = 'GoodsListLoading';
+export const GoodsListLoaded = 'GoodsListLoaded';

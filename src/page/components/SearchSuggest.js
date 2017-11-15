@@ -69,7 +69,7 @@ export default class SearchSuggest extends Component {
                 contentContainerStyle={styles.container}
                 automaticallyAdjustContentInsets={false}
                 keyboardDismissMode={'on-drag'}
-                keyboardShouldPersistTaps={true}>
+                keyboardShouldPersistTaps={'handled'}>
                 {
                     this.state.suggestions.map((suggestion) => {
                         return (
