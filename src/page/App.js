@@ -1,5 +1,10 @@
 import React from 'react';
-import {TabNavigator, StackNavigator, addNavigationHelpers} from 'react-navigation';
+import {
+    TabNavigator,
+    StackNavigator,
+    NavigationActions,
+    addNavigationHelpers
+} from 'react-navigation';
 import Main from './main/Main';
 import Goods from './category/Category';
 import {connect} from 'react-redux';
@@ -7,8 +12,8 @@ import GoodsDetail from "./category/GoodsDetail";
 import Shopping from "./shopping/Shopping";
 import User from "./user/User";
 import Search from "./components/Search";
-import SearchBar from "./components/SearchBar";
-import MainTopBar from "./components/MainTopBar";
+import {BackHandler} from "react-native";
+import GoodsList from "./category/GoodsList";
 
 
 const HomeNavigator = TabNavigator({
@@ -31,21 +36,21 @@ const HomeNavigator = TabNavigator({
             style: {
                 backgroundColor: 'white', // TabBar 背景色
                 padding: 0,
-                margin:0,
+                margin: 0,
             },
             labelStyle: {
                 fontSize: 12,
                 padding: 0,
-                margin:0,
+                margin: 0,
             },
             iconStyle: {
                 width: 150,
                 padding: 0,
-                margin:0,
+                margin: 0,
             },
-            tabStyle:{
+            tabStyle: {
                 padding: 0,
-                margin:0,
+                margin: 0,
             }
 
         },
@@ -63,7 +68,9 @@ export const AppNavigator = StackNavigator({
     Search: {
         screen: Search,
     },
-
+    GoodsList: {
+        screen: GoodsList,
+    }
 });
 
 
@@ -76,6 +83,23 @@ class App extends React.Component {
             })}/>
         );
     }
+
+    componentDidMount() {
+        BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    }
+
+    onBackPress = () => {
+        const {dispatch, nav} = this.props;
+        if (nav.index === 0) {
+            return false;
+        }
+        dispatch(NavigationActions.back());
+        return true;
+    };
 }
 
 const mapStateToProps = (state) => ({

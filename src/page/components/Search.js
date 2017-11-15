@@ -12,6 +12,7 @@ import SearchSuggest from "./SearchSuggest";
 import {connect} from 'react-redux';
 import Loading from "./Loading";
 import {suggestion} from "../../action/searchActions";
+import {NavigationActions} from 'react-navigation';
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
@@ -136,8 +137,17 @@ class Search extends Component {
         // if (Platform.OS === 'ios' && this.props.statusBarStyle != undefined) {
         //     StatusBarIOS.setStyle('light-content');
         // }
-        const {goBack} = this.props.navigation;
+        const {goBack,dispatch,navigate} = this.props.navigation;
         goBack();
+        navigate('GoodsList');
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate('GoodsList')
+            ],
+        });
+
+        dispatch(resetAction);
     }
 
 
@@ -214,7 +224,7 @@ class Search extends Component {
      * 商品查询
      */
     _handleGoGoodsList(searchText) {
-        this._onBack();
+        // this._onBack();
         var nextSceneName = this.props.resultSceneName || 'GoodsList';
         if (__DEV__) {
             console.log('Searchpage _handleGoGoodsList state====>', JSON.stringify(this.state, null, 2));
@@ -226,6 +236,9 @@ class Search extends Component {
         //     sceneName: nextSceneName,
         //     searchParam: {searchText: searchText || this.state.searchText}
         // }, nextSceneName);
+
+        const {navigate} = this.props.navigation;
+        navigate('GoodsList');
     }
 }
 
@@ -287,6 +300,7 @@ function deleteArrayByValue(array, value) {
 }
 
 const mapStateToProps = (state) => ({
-    searchReducer: state.searchReducer
+    searchReducer: state.searchReducer,
+
 });
 export default connect(mapStateToProps)(Search);
