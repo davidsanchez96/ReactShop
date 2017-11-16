@@ -1,44 +1,64 @@
 import React, {Component} from 'react';
 import {
+    View,
     Text,
     SectionList,
+    TouchableOpacity,
+    Image,
+    Dimensions,
+    StyleSheet,
+    ActivityIndicator,
 } from 'react-native';
 import {connect} from 'react-redux';
 import GoodsTop from "../components/GoodsTop";
-import {goodsList} from "../../action/goodsListActions";
+import {getMore, goodsList, showBig} from "../../action/goodsListActions";
+import FilterBar from "../components/FilterBar";
+import NumberControl from "../components/NumberControl";
 
+const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
+let page=0;
 class GoodsList extends Component {
+
     static navigationOptions = ({navigation}) => {
         const {params = {}} = navigation.state;
         let header = (
             <GoodsTop
                 searchText={params.searchText}
                 onBack={params.onBack}
+                show={params.show}
+                viewType={params.isTow}
             />)
         return {header};
     }
 
     componentDidMount() {
+        const {goodsListReducer} = this.props;
+        let isTwo = goodsListReducer.isTwo;
         this.props.navigation.setParams({
             onBack: this._back,
             searchText: this.props.searchText,
+            show: this._show,
+            viewType: isTwo,
         });
-        this.props.dispatch(goodsList('1'));
+        this.props.dispatch(goodsList(page));
     }
 
     render() {
         const sections = [];
         const {goodsListReducer} = this.props;
         let loading = goodsListReducer.loading;
+
         sections.push({title: ' 21321312', data: goodsListReducer.data});
         return (
             <SectionList
-                renderItem={({item}) => <Text> 324</Text>}
+                contentContainerStyle={styles.content}
+                renderItem={this._renderPro}
+                ListFooterComponent={()=>this._renderFooter()}
                 renderSectionHeader={({section}) => {
                     return (
-                        section.title ?
-                            <Text> {section.title}</Text> :
-                            null
+                        <FilterBar
+                            searchParam={goodsListReducer.searchParam}
+                            viewOption={goodsListReducer.viewOption}/>
                     );
                 }
                 }
@@ -50,8 +70,225 @@ class GoodsList extends Component {
                     this.props.dispatch(goodsList());
                 }}
                 refreshing={loading}
+                onEndReached={this._onEndReached.bind(this)}
+                onEndReachedThreshold={0}
             />
         );
+    }
+
+    _onEndReached() {
+        const {goodsListReducer,dispatch} = this.props;
+        let hasMore = goodsListReducer.hasMore;
+        let loading = goodsListReducer.loading;
+        if(hasMore == 0&&!loading ){
+            page++;
+            dispatch(goodsList(page));
+        }
+
+    }
+
+    _renderFooter() {
+        const {goodsListReducer} = this.props;
+        let hasMore = goodsListReducer.hasMore;
+        if (hasMore==1) {
+            return (
+                <View style={{height: 30, alignItems: 'center', justifyContent: 'center',}}>
+                    <Text style={{color: '#999999', fontSize: 14, marginTop: 5, marginBottom: 5,}}>
+                        没有更多数据了
+                    </Text>
+                </View>
+            );
+        } else if (hasMore==2) {
+            return (
+                <View style={styles.footer}>
+                    <ActivityIndicator/>
+                    <Text>正在加载更多数据...</Text>
+                </View>
+            );
+        }else {
+            return null;
+        }
+    }
+
+    /**
+     * 商品row
+     */
+    _renderPro = ({item, index}) => {
+        const {goodsListReducer} = this.props;
+        let isTwo = goodsListReducer.isTwo;
+        if (isTwo) {
+            return (
+                this._renderBigView(item, index)
+            )
+        } else {
+            return this._renderContent(item, index)
+        }
+    }
+
+    _renderBigView(item, index) {
+        return (
+            <View style={styles.goodsItem}>
+                <TouchableOpacity
+                    style={{flex: 1, alignItems: 'center'}}
+                    activeOpacity={0.8}
+                    onPress={() => msg.emit('route:goToNext', {
+                        sceneName: 'GoodsDetail',
+                        goodsInfoId: item.id,
+                        goodsInfo: item
+                    })}>
+
+                    <Image style={styles.proImg}
+                           source={{uri: item.image}}/>
+                    <View style={{padding: 10}}>
+                        <Text style={styles.proTitle} allowFontScaling={false} numberOfLines={2}>{item.name}</Text>
+                    </View>
+                </TouchableOpacity>
+
+                <View style={{padding: 10, width: SCREEN_WIDTH / 2 - 15}}>
+
+
+                    <View style={styles.priceStyle}>
+                        <Text style={styles.advertPrice}
+                              allowFontScaling={false}>
+                            {window.token ? `￥${(Math.round(item.preferPrice * 100) / 100).toFixed(2)}` :
+                                `￥${(Math.round(item.marketPrice * 100) / 100).toFixed(2)}`}
+                        </Text>
+                        <Text style={styles.stockStyle}>
+                            {window.token ? `库存:${item.stock === null ? 0 : item.stock}` : (item.stock ? '库存有货' : '库存无货')}
+                        </Text>
+                    </View>
+                    <View style={[styles.priceStyle, {flex: 1, justifyContent: 'space-between'}]}>
+                        <NumberControl
+                            chosenNum={item.clientCartNo}
+                            maxNum={item.stock}
+                            minNum={0}
+                            width={80}
+                            height={20}
+                            callbackParent={(number) => {
+                                item.clientCartNo = number;
+                                this.refs.list.change(index, item);
+                            }}
+                        />
+                        <TouchableOpacity
+                            style={item.clientCartNo ? styles.shopStyle : styles.shopDisableStyle}
+                            activeOpacity={0.8}
+                            disabled={item.clientCartNo ? false : true}
+                            onPress={() => {
+                                msg.emit('goods:addShoppingCart', item.id, item.clientCartNo, true);
+                            }}>
+                            <Image style={{width: 16, height: 16}}
+                                   source={require('../components/img/shop.png')}
+                            />
+                        </TouchableOpacity>
+
+
+                    </View>
+                    <View style={[styles.priceStyle, {marginTop: 0}]}>
+                        <View style={styles.imageStyle}>
+                            <Text style={styles.textStyle}>
+                                {item.operatingType}
+                            </Text>
+                        </View>
+                        {
+                            item.marktingTags.map((item) => {
+                                return (
+                                    <View style={styles.image2Style}>
+                                        <Text style={styles.redTextStyle}>
+                                            {item}
+                                        </Text>
+                                    </View>
+                                )
+                            })
+                        }
+                    </View>
+                </View>
+            </View>
+        );
+    }
+
+
+    _renderContent(item, index) {
+        return (
+            <View style={styles.smallView}>
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => msg.emit('route:goToNext', {
+                        sceneName: 'GoodsDetail',
+                        goodsInfoId: item.id,
+                        goodsInfo: item
+                    })}>
+                    <Image style={styles.goodsImage}
+                           source={{uri: item.image}}/>
+                </TouchableOpacity>
+                <View style={styles.listInfo}>
+                    <TouchableOpacity
+
+                        activeOpacity={0.8}
+                        onPress={() => msg.emit('route:goToNext', {
+                            sceneName: 'GoodsDetail',
+                            goodsInfoId: item.id,
+                            goodsInfo: item
+                        })}>
+                        <Text style={styles.goodsName} allowFontScaling={false} numberOfLines={2}>{item.name}</Text>
+                    </TouchableOpacity>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <View style={{flex: 1}}>
+                            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                <Text style={styles.goodsPrice} allowFontScaling={false}>&yen;{window.token ?
+                                    (Math.round(item.preferPrice * 100) / 100).toFixed(2) :
+                                    (Math.round(item.marketPrice * 100) / 100).toFixed(2)}</Text>
+                                <Text style={[styles.stockStyle, {marginLeft: 5, flex: 1}]}>
+                                    {window.token ? `库存:${item.stock === null ? 0 : item.stock}` : (item.stock ? '库存有货' : '库存无货')}
+                                </Text>
+                                <NumberControl
+                                    chosenNum={item.clientCartNo}
+                                    maxNum={item.stock}
+                                    minNum={0}
+                                    width={60}
+                                    height={15}
+                                    size={12}
+                                    callbackParent={(number) => {
+                                        item.clientCartNo = number;
+                                        this.refs.list.change(index, item);
+                                    }}
+                                />
+                            </View>
+                            <View style={[styles.priceStyle, {marginTop: 0}]}>
+                                <View style={styles.imageStyle}>
+                                    <Text style={styles.textStyle}>
+                                        {item.operatingType}
+                                    </Text>
+                                </View>
+                                {
+                                    item.marktingTags.map((item) => {
+                                        return (
+                                            <View style={styles.image2Style}>
+                                                <Text style={styles.redTextStyle}>
+                                                    {item}
+                                                </Text>
+                                            </View>
+                                        )
+                                    })
+                                }
+                            </View>
+                        </View>
+                        <TouchableOpacity
+                            style={item.clientCartNo ? [styles.imageStyle, {height: 26, marginLeft: 5, marginTop: 0}] :
+                                styles.disableStyle}
+                            activeOpacity={0.8}
+                            disabled={item.clientCartNo ? false : true}
+                            onPress={() => {
+                                msg.emit('goods:addShoppingCart', item.id, item.clientCartNo, true);
+                            }}>
+                            <Text style={{color: 'white', fontSize: 12}}>加入购物车</Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+                </View>
+
+            </View>
+        )
     }
 
     _back = () => {
@@ -66,6 +303,9 @@ class GoodsList extends Component {
         }
         goBack(key);
     }
+    _show = () => {
+        this.props.dispatch(showBig());
+    }
 }
 
 const mapStateToProps = (state) => ({
@@ -73,3 +313,189 @@ const mapStateToProps = (state) => ({
     nav: state.nav,
 });
 export default connect(mapStateToProps)(GoodsList);
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
+    content: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    listView: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        paddingLeft: 10,
+        paddingRight: 10,
+        justifyContent: 'space-between'
+    },
+    smallList: {
+        flexDirection: 'column'
+    },
+    goodsItem: {
+        width: SCREEN_WIDTH / 2 - 15,
+        //paddingTop: 10,
+        //overflow: 'hidden',
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 3,
+        marginTop: 10,
+        marginLeft: 10,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+    },
+    proImg: {
+        width: SCREEN_WIDTH / 2 - 17,
+        height: SCREEN_WIDTH / 2 - 17,
+    },
+    blockBox: {
+        opacity: 0,
+        width: SCREEN_WIDTH / 2 - 15,
+        height: SCREEN_WIDTH / 2 + 5,
+        position: 'absolute',
+        top: -(SCREEN_WIDTH / 2 + 5),
+        left: 0
+    },
+    proTitle: {
+        fontSize: 13,
+        height: 32,
+    },
+    proPrice: {
+        fontSize: 15,
+        color: '#e63a59'
+    },
+    smallView: {
+        width: SCREEN_WIDTH,
+        backgroundColor: '#fff',
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderTopColor: 'transparent',
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderBottomColor: '#ddd',
+        padding: 10
+    },
+    goodsImage: {
+        //width: 100,
+        //height: 100,
+        width: SCREEN_WIDTH / 4 - 5,
+        height: SCREEN_WIDTH / 4 - 5,
+        marginRight: 20
+    },
+    listInfo: {
+        flex: 1
+    },
+    goodsName: {
+        fontSize: 13,
+        marginBottom: 10
+    },
+    goodsPrice: {
+        fontSize: 15,
+        color: '#e63a59',
+    },
+    praiseInfo: {
+        fontSize: 13,
+        color: '#999'
+    },
+    swiperBtn: {
+        width: 50,
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    priceStyle: {
+        marginTop: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        flexWrap: 'wrap'
+    },
+    advertPrice: {
+        fontSize: 16,
+        fontWeight: '400',
+        color: '#f00101',
+        flex: 1
+    },
+    stockStyle: {
+        color: '#696969',
+        fontSize: 10,
+    },
+    textStyle: {
+        backgroundColor: '#00000000',
+        fontSize: 10,
+        color: 'white',
+    },
+    redTextStyle: {
+        backgroundColor: '#00000000',
+        fontSize: 10,
+        color: '#f00101',
+    },
+    imageStyle: {
+        marginTop: 5,
+        backgroundColor: '#f00101',
+        borderRadius: 3,
+        borderColor: '#f00101',
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 5,
+        paddingLeft: 3,
+        paddingRight: 3,
+        paddingTop: 1,
+        paddingBottom: 1
+    },
+    disableStyle: {
+        backgroundColor: '#afafaf',
+        borderRadius: 3,
+        borderColor: '#afafaf',
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 5,
+        paddingLeft: 3,
+        paddingRight: 3,
+        paddingTop: 1,
+        paddingBottom: 1,
+        height: 26,
+        marginLeft: 5,
+    },
+    image2Style: {
+        marginTop: 5,
+        borderColor: '#f00101',
+        borderWidth: 1,
+        borderRadius: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 5,
+        paddingLeft: 3,
+        paddingRight: 3,
+        paddingTop: 1,
+        paddingBottom: 1
+    },
+    shopStyle: {
+        backgroundColor: '#f00101',
+        borderRadius: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 2,
+        paddingBottom: 2
+    },
+    shopDisableStyle: {
+        backgroundColor: '#afafaf',
+        borderRadius: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 2,
+        paddingBottom: 2
+    },
+    footer:{
+        flexDirection:'row',
+        height:24,
+        justifyContent:'center',
+        alignItems:'center',
+        marginBottom:10,
+    },
+});

@@ -29,17 +29,23 @@ export default class GoodsTop extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            validSearchText: ''
+            validSearchText: '',
+            viewType: '',
         }
     }
 
+    componentDidMount() {
+        this.setState(
+            {viewType: this.props.viewType}
+            );
+    }
 
     render() {
 
 
         return (
             <View style={styles.topBar}>
-                <TouchableOpacity style={styles.backBtn} activeOpacity={0.8} onPress={()=>this.props.onBack()}>
+                <TouchableOpacity style={styles.backBtn} activeOpacity={0.8} onPress={() => this.props.onBack()}>
                     <Image style={styles.backIcon} source={require('./img/left.png')}/>
                 </TouchableOpacity>
                 <View
@@ -53,16 +59,21 @@ export default class GoodsTop extends Component {
                             clearButtonMode='while-editing'
                             value={this.props.searchText}
                             editable={true}
-                            onChangeText={(search) => this.setProps({searchText: search})}
+                            onChangeText={(search) => this.setState({searchText: search})}
                             allowFontScaling={false}>
                             {this.props.searchText || '搜索商品'}
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.menuBtn} activeOpacity={0.8} onPress={this.props.changeView}>
+                <TouchableOpacity style={styles.menuBtn} activeOpacity={0.8} onPress={() => {
+                    this.setState(previousState => {
+                        return {viewType: !previousState.viewType};
+                    });
+                    this.props.show();
+                }}>
                     <Image
                         style={styles.menuIcon}
-                        source={this.props.viewType ? require('./img/menu.png') : require('./img/secMenu.png')}/>
+                        source={this.state.viewType ? require('./img/menu.png') : require('./img/secMenu.png')}/>
                 </TouchableOpacity>
             </View>
         )

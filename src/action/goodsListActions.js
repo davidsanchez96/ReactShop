@@ -1,19 +1,30 @@
 import NetUtils from "../utils/NetUtils";
 import {SearchUrl} from "../utils/Constant";
 import {
-    NetError, GoodsListLoading, GoodsListLoaded
+    NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore
 } from "../utils/actionTypes";
 
 const BASIC_PROP_NAMES = ['brands', 'added', 'thirdStatus', 'thirdShopId', 'showStock', 'freeShipment',
     'isCustomerDismount', 'districtId'];
 
-export function goodsList(pageNum,queryString,viewOption,searchParam) {
+export function goodsList(pageNum, queryString, viewOption, searchParam) {
     return (dispatch) => {
-        dispatch({type: GoodsListLoading});
-        NetUtils.post(SearchUrl, _getPostBody(pageNum,queryString,viewOption,searchParam),
+        if(pageNum>0){
+            dispatch({type: GoodsListShowMore});
+        }else {
+            dispatch({type: GoodsListLoading});
+        }
+
+        NetUtils.post(SearchUrl, _getPostBody(pageNum, queryString, viewOption, searchParam),
             (result) => {
-                console.log(result.data);
-                dispatch({type: GoodsListLoaded, data: result.data});
+                console.log(result);
+                let hasMore=false;
+                if(result.data.length<10){
+                    hasMore=1;
+                }else {
+                    hasMore=0;
+                }
+                dispatch({type: GoodsListLoaded, data: result.data,hasMore:hasMore,page:pageNum});
             },
             (error) => {
                 console.log(error);
@@ -22,14 +33,20 @@ export function goodsList(pageNum,queryString,viewOption,searchParam) {
     }
 }
 
+export function showBig() {
+    return {
+        type:GoodsListShow,
+    }
+}
+
 /**
  * 获取搜索POST请求Body
  * @private
  */
-function _getPostBody(pageNum,queryString,viewOption,searchParam) {
+function _getPostBody(pageNum, queryString, viewOption, searchParam) {
 
     var postBody = {};
-    postBody['queryString'] = queryString?queryString:'';
+    postBody['queryString'] = queryString ? queryString : '';
     postBody['pageNum'] = pageNum ? pageNum : 0;
 
     if (viewOption) {

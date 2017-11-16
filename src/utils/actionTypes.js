@@ -20,3 +20,5 @@ export const SuggestionLoading = 'SuggestionLoading';
 export const SuggestionLoaded = 'SuggestionLoaded';
 export const GoodsListLoading = 'GoodsListLoading';
 export const GoodsListLoaded = 'GoodsListLoaded';
+export const GoodsListShow = 'GoodsListShow';
+export const GoodsListShowMore = 'GoodsListShowMore';
