@@ -25,7 +25,7 @@ export default function goodList(state = initialState, action) {
             };
             break;
         case types.GoodsListLoaded:
-            if (action.pageNum == 0) {
+            if (action.page == 0) {
                 return {
                     ...state,
                     loading: false,

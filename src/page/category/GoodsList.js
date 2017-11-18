@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
-    SectionList,
+    FlatList,
     TouchableOpacity,
     Image,
     Dimensions,
@@ -15,8 +15,9 @@ import {getMore, goodsList, showBig} from "../../action/goodsListActions";
 import FilterBar from "../components/FilterBar";
 import NumberControl from "../components/NumberControl";
 
-const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
-let page=0;
+const {width: SCREEN_WIDTH} = Dimensions.get('window');
+let page = 0;
+
 class GoodsList extends Component {
 
     static navigationOptions = ({navigation}) => {
@@ -40,49 +41,58 @@ class GoodsList extends Component {
             show: this._show,
             viewType: isTwo,
         });
-        this.props.dispatch(goodsList(page));
+        this.props.dispatch(goodsList(page, '234'));
     }
 
     render() {
         const sections = [];
         const {goodsListReducer} = this.props;
         let loading = goodsListReducer.loading;
-
-        sections.push({title: ' 21321312', data: goodsListReducer.data});
+        let isTwo = goodsListReducer.isTwo;
+        for (let i = 0; i < goodsListReducer.data.length; i++) {
+            let data = goodsListReducer.data[i];
+            data.key = i;
+            sections.push(data);
+        }
+        // sections.push({key: ' 21321312', data: goodsListReducer.data});
         return (
-            <SectionList
-                contentContainerStyle={styles.content}
-                renderItem={this._renderPro}
-                ListFooterComponent={()=>this._renderFooter()}
-                renderSectionHeader={({section}) => {
-                    return (
-                        <FilterBar
-                            searchParam={goodsListReducer.searchParam}
-                            viewOption={goodsListReducer.viewOption}/>
-                    );
-                }
-                }
-                stickySectionHeadersEnabled={true}
-                keyExtractor={item => item.id}
-                removeClippedSubviews={false}
-                sections={sections}
-                onRefresh={() => {
-                    this.props.dispatch(goodsList());
-                }}
-                refreshing={loading}
-                onEndReached={this._onEndReached.bind(this)}
-                onEndReachedThreshold={0}
-            />
+            <View style={styles.container}>
+                <FilterBar
+                    searchParam={goodsListReducer.searchParam}
+                    viewOption={goodsListReducer.viewOption}/>
+                <FlatList
+                    // contentContainerStyle={styles.content}
+                    renderItem={this._renderPro}
+                    ListFooterComponent={() => this._renderFooter()}
+                    // renderSectionHeader={({section}) => {
+                    //     return (
+                    //
+                    //     );
+                    // }
+                    // }
+                    numColumns={isTwo?2:1}
+                    stickySectionHeadersEnabled={true}
+                    keyExtractor={item => item.id}
+                    removeClippedSubviews={false}
+                    data={sections}
+                    onRefresh={() => {
+                        this.props.dispatch(goodsList(0, '12'));
+                    }}
+                    refreshing={loading}
+                    onEndReached={this._onEndReached.bind(this)}
+                    onEndReachedThreshold={0}
+                />
+            </View>
         );
     }
 
     _onEndReached() {
-        const {goodsListReducer,dispatch} = this.props;
+        const {goodsListReducer, dispatch} = this.props;
         let hasMore = goodsListReducer.hasMore;
         let loading = goodsListReducer.loading;
-        if(hasMore == 0&&!loading ){
+        if (hasMore == 0 && !loading) {
             page++;
-            dispatch(goodsList(page));
+            dispatch(goodsList(page, '12'));
         }
 
     }
@@ -90,7 +100,7 @@ class GoodsList extends Component {
     _renderFooter() {
         const {goodsListReducer} = this.props;
         let hasMore = goodsListReducer.hasMore;
-        if (hasMore==1) {
+        if (hasMore == 1) {
             return (
                 <View style={{height: 30, alignItems: 'center', justifyContent: 'center',}}>
                     <Text style={{color: '#999999', fontSize: 14, marginTop: 5, marginBottom: 5,}}>
@@ -98,14 +108,14 @@ class GoodsList extends Component {
                     </Text>
                 </View>
             );
-        } else if (hasMore==2) {
+        } else if (hasMore == 2) {
             return (
                 <View style={styles.footer}>
                     <ActivityIndicator/>
                     <Text>正在加载更多数据...</Text>
                 </View>
             );
-        }else {
+        } else {
             return null;
         }
     }
@@ -192,7 +202,7 @@ class GoodsList extends Component {
                         {
                             item.marktingTags.map((item) => {
                                 return (
-                                    <View style={styles.image2Style}>
+                                    <View key={item} style={styles.image2Style}>
                                         <Text style={styles.redTextStyle}>
                                             {item}
                                         </Text>
@@ -209,7 +219,7 @@ class GoodsList extends Component {
 
     _renderContent(item, index) {
         return (
-            <View style={styles.smallView}>
+            <View key={item.key} style={styles.smallView}>
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => msg.emit('route:goToNext', {
@@ -262,7 +272,7 @@ class GoodsList extends Component {
                                 {
                                     item.marktingTags.map((item) => {
                                         return (
-                                            <View style={styles.image2Style}>
+                                            <View key={item} style={styles.image2Style}>
                                                 <Text style={styles.redTextStyle}>
                                                     {item}
                                                 </Text>
@@ -491,11 +501,11 @@ const styles = StyleSheet.create({
         paddingTop: 2,
         paddingBottom: 2
     },
-    footer:{
-        flexDirection:'row',
-        height:24,
-        justifyContent:'center',
-        alignItems:'center',
-        marginBottom:10,
+    footer: {
+        flexDirection: 'row',
+        height: 24,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
     },
 });
