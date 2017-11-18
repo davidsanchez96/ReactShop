@@ -2,7 +2,7 @@ import * as types from '../utils/actionTypes';
 
 const initialState = {
     loading: true,
-    loadingMore:false,
+    loadingMore: false,
     hasMore: false,
     data: [],
     viewOption: {
@@ -61,6 +61,12 @@ export default function goodList(state = initialState, action) {
             return {
                 ...state,
                 loadingMore: true,
+            }
+            break;
+        case types.GoodsListSearch:
+            return {
+                ...state,
+                searchParam: Object.assign(state.searchParam, action.searchParam),
             }
             break;
         default:

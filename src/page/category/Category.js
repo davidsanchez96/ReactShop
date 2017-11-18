@@ -38,10 +38,13 @@ class Category extends Component {
 
     }
 
-    _renderItem({item}) {
+    _renderItem=({item})=> {
         return (
             <TouchableOpacity style={styles.rightItem}
-                              activeOpacity={0.8}>
+                              activeOpacity={0.8}
+                              onPress={() => {
+                                  this.props.navigation.navigate('GoodsList', { searchParam: {cates:item.name} })
+                              }}>
                 <Image style={styles.rightImage}
                        source={{uri: item.imgSrc || 'http://172.19.23.210/Hkshop_app/pro01.jpg'}}/>
                 <Text style={styles.rightText}
@@ -54,13 +57,13 @@ class Category extends Component {
     _renderLeftItem = ({item, index}) => {
         return (
             <TouchableOpacity
-                style={[styles.leftItem,currentIndex==index && (currentIndex=== index) &&
+                style={[styles.leftItem, currentIndex == index && (currentIndex === index) &&
                 {borderRightColor: '#fff', backgroundColor: '#fff'}]}
                 activeOpacity={0.8}
                 onPress={() => {
                     this.props.dispatch(select(index))
                 }}>
-                <Text style={[styles.leftText, (currentIndex=== index) &&
+                <Text style={[styles.leftText, (currentIndex === index) &&
                 {color: '#ff3651'}]}>{item.name}</Text>
             </TouchableOpacity>
         )
@@ -133,11 +136,11 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         borderBottomColor: '#ededed',
         borderRightColor: '#ededed',
-        borderBottomWidth: 1 ,
-        borderRightWidth: 1 ,
+        borderBottomWidth: 1,
+        borderRightWidth: 1,
         backgroundColor: '#fbfbfb',
     },
-    leftText:{
+    leftText: {
         textAlign: 'center',
         fontSize: 14,
         color: '#666',

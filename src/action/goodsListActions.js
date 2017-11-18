@@ -1,30 +1,30 @@
 import NetUtils from "../utils/NetUtils";
 import {SearchUrl} from "../utils/Constant";
 import {
-    NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore
+    NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore, GoodsListSearch
 } from "../utils/actionTypes";
 
 const BASIC_PROP_NAMES = ['brands', 'added', 'thirdStatus', 'thirdShopId', 'showStock', 'freeShipment',
     'isCustomerDismount', 'districtId'];
 
-export function goodsList(pageNum, queryString, viewOption, searchParam) {
+export function goodsList(pageNum, searchParam,viewOption) {
     return (dispatch) => {
-        if(pageNum>0){
+        if (pageNum > 0) {
             dispatch({type: GoodsListShowMore});
-        }else {
+        } else {
             dispatch({type: GoodsListLoading});
         }
 
-        NetUtils.post(SearchUrl, _getPostBody(pageNum, queryString, viewOption, searchParam),
+        NetUtils.post(SearchUrl, _getPostBody(pageNum, searchParam,viewOption ),
             (result) => {
                 console.log(result);
-                let hasMore=false;
-                if(result.data.length<10){
-                    hasMore=false;
-                }else {
-                    hasMore=true;
+                let hasMore = false;
+                if (result.data.length < 10) {
+                    hasMore = false;
+                } else {
+                    hasMore = true;
                 }
-                dispatch({type: GoodsListLoaded, data: result.data,hasMore:hasMore,page:pageNum});
+                dispatch({type: GoodsListLoaded, data: result.data, hasMore: hasMore, page: pageNum});
             },
             (error) => {
                 console.log(error);
@@ -35,7 +35,14 @@ export function goodsList(pageNum, queryString, viewOption, searchParam) {
 
 export function showBig() {
     return {
-        type:GoodsListShow,
+        type: GoodsListShow,
+    }
+}
+
+export function searchPara(searchParam) {
+    return {
+        type: GoodsListSearch,
+        searchParam:searchParam,
     }
 }
 
@@ -43,10 +50,9 @@ export function showBig() {
  * 获取搜索POST请求Body
  * @private
  */
-function _getPostBody(pageNum, queryString, viewOption, searchParam) {
+function _getPostBody(pageNum, searchParam,viewOption ) {
 
     var postBody = {};
-    postBody['queryString'] = queryString ? queryString : '';
     postBody['pageNum'] = pageNum ? pageNum : 0;
 
     if (viewOption) {
@@ -82,26 +88,46 @@ function _getPostBody(pageNum, queryString, viewOption, searchParam) {
         }
     }
     if (searchParam) {
-        searchParam.map((v, k) => {
+        for(let k in searchParam){
             if (BASIC_PROP_NAMES.indexOf(k) !== -1) {
-                postBody[k] = v;
+                postBody[k] = searchParam[k];
             }
             else if (k === 'searchText') {
-
+                postBody['queryString'] = searchParam[k];
             }
             else if (k === 'cates') {
-                postBody['cateName'] = v.size > 0 ? v.get(0) : null;
+                postBody['cateName'] = searchParam[k];//.size > 0 ? searchParam[k].get(0) : null;
             }
             else if (k === 'priceAutoSectionNum') {
                 return;
             }
             else if (k == 'prices') {
-                postBody['prices'] = _getPricePostData(v);
+                postBody['prices'] = _getPricePostData(searchParam[k]);
             }
             else {
-                postBody['paramMap'][k] = v;
+                postBody['paramMap'][k] = searchParam[k];
             }
-        });
+        }
+        // searchParam.map((v, k) => {
+        //     if (BASIC_PROP_NAMES.indexOf(k) !== -1) {
+        //         postBody[k] = v;
+        //     }
+        //     else if (k === 'searchText') {
+        //
+        //     }
+        //     else if (k === 'cates') {
+        //         postBody['cateName'] = v.size > 0 ? v.get(0) : null;
+        //     }
+        //     else if (k === 'priceAutoSectionNum') {
+        //         return;
+        //     }
+        //     else if (k == 'prices') {
+        //         postBody['prices'] = _getPricePostData(v);
+        //     }
+        //     else {
+        //         postBody['paramMap'][k] = v;
+        //     }
+        // });
     }
 
     return postBody;

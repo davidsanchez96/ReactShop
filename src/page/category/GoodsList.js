@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import GoodsTop from "../components/GoodsTop";
-import {getMore, goodsList, showBig} from "../../action/goodsListActions";
+import {goodsList, searchPara, showBig} from "../../action/goodsListActions";
 import FilterBar from "../components/FilterBar";
 import NumberControl from "../components/NumberControl";
 
@@ -27,7 +27,7 @@ class GoodsList extends Component {
                 searchText={params.searchText}
                 onBack={params.onBack}
                 show={params.show}
-                viewType={params.isTow}
+                viewType={params.viewType}
             />)
         return {header};
     }
@@ -41,7 +41,9 @@ class GoodsList extends Component {
             show: this._show,
             viewType: isTwo,
         });
-        this.props.dispatch(goodsList(page, '可乐'));
+        this.props.dispatch(searchPara(this.props.navigation.state.params.searchParam));
+        let searchParam = goodsListReducer.searchParam;
+        this.props.dispatch(goodsList(page, searchParam));
     }
 
     render() {
@@ -63,7 +65,7 @@ class GoodsList extends Component {
                     removeClippedSubviews={false}
                     data={goodsListReducer.data}
                     onRefresh={() => {
-                        this.props.dispatch(goodsList(0, '12'));
+                        this.props.dispatch(goodsList(0));
                     }}
                     refreshing={loading}
                     onEndReached={this._onEndReached.bind(this)}
@@ -78,9 +80,10 @@ class GoodsList extends Component {
         let hasMore = goodsListReducer.hasMore;
         let loading = goodsListReducer.loading;
         let loadingMore = goodsListReducer.loadingMore;
+        let searchParam = goodsListReducer.searchParam;
         if (hasMore && !loading && !loadingMore) {
             page++;
-            dispatch(goodsList(page, '可乐'));
+            dispatch(goodsList(page, searchParam));
         }
 
     }
@@ -89,7 +92,7 @@ class GoodsList extends Component {
         const {goodsListReducer} = this.props;
         let hasMore = goodsListReducer.hasMore;
         let loading = goodsListReducer.loading;
-        if(loading)
+        if (loading)
             return null;
         if (hasMore) {
             return (
@@ -100,8 +103,8 @@ class GoodsList extends Component {
             );
         } else {
             return (
-                <View style={{height: 30, alignItems: 'center', justifyContent: 'center',}}>
-                    <Text style={{color: '#999999', fontSize: 14, marginTop: 5, marginBottom: 5,}}>
+                <View style={styles.footer}>
+                    <Text>
                         没有更多数据了
                     </Text>
                 </View>
@@ -493,9 +496,8 @@ const styles = StyleSheet.create({
     },
     footer: {
         flexDirection: 'row',
-        height: 24,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 10,
+        margin: 10,
     },
 });
