@@ -20,9 +20,9 @@ export function goodsList(pageNum, queryString, viewOption, searchParam) {
                 console.log(result);
                 let hasMore=false;
                 if(result.data.length<10){
-                    hasMore=1;
+                    hasMore=false;
                 }else {
-                    hasMore=0;
+                    hasMore=true;
                 }
                 dispatch({type: GoodsListLoaded, data: result.data,hasMore:hasMore,page:pageNum});
             },

@@ -41,40 +41,27 @@ class GoodsList extends Component {
             show: this._show,
             viewType: isTwo,
         });
-        this.props.dispatch(goodsList(page, '234'));
+        this.props.dispatch(goodsList(page, '可乐'));
     }
 
     render() {
-        const sections = [];
         const {goodsListReducer} = this.props;
         let loading = goodsListReducer.loading;
         let isTwo = goodsListReducer.isTwo;
-        for (let i = 0; i < goodsListReducer.data.length; i++) {
-            let data = goodsListReducer.data[i];
-            data.key = i;
-            sections.push(data);
-        }
-        // sections.push({key: ' 21321312', data: goodsListReducer.data});
         return (
             <View style={styles.container}>
                 <FilterBar
                     searchParam={goodsListReducer.searchParam}
                     viewOption={goodsListReducer.viewOption}/>
                 <FlatList
-                    // contentContainerStyle={styles.content}
                     renderItem={this._renderPro}
                     ListFooterComponent={() => this._renderFooter()}
-                    // renderSectionHeader={({section}) => {
-                    //     return (
-                    //
-                    //     );
-                    // }
-                    // }
-                    numColumns={isTwo?2:1}
+                    key={(isTwo ? 'h' : 'v')}
+                    numColumns={isTwo ? 2 : 1}
                     stickySectionHeadersEnabled={true}
                     keyExtractor={item => item.id}
                     removeClippedSubviews={false}
-                    data={sections}
+                    data={goodsListReducer.data}
                     onRefresh={() => {
                         this.props.dispatch(goodsList(0, '12'));
                     }}
@@ -90,9 +77,10 @@ class GoodsList extends Component {
         const {goodsListReducer, dispatch} = this.props;
         let hasMore = goodsListReducer.hasMore;
         let loading = goodsListReducer.loading;
-        if (hasMore == 0 && !loading) {
+        let loadingMore = goodsListReducer.loadingMore;
+        if (hasMore && !loading && !loadingMore) {
             page++;
-            dispatch(goodsList(page, '12'));
+            dispatch(goodsList(page, '可乐'));
         }
 
     }
@@ -100,15 +88,10 @@ class GoodsList extends Component {
     _renderFooter() {
         const {goodsListReducer} = this.props;
         let hasMore = goodsListReducer.hasMore;
-        if (hasMore == 1) {
-            return (
-                <View style={{height: 30, alignItems: 'center', justifyContent: 'center',}}>
-                    <Text style={{color: '#999999', fontSize: 14, marginTop: 5, marginBottom: 5,}}>
-                        没有更多数据了
-                    </Text>
-                </View>
-            );
-        } else if (hasMore == 2) {
+        let loading = goodsListReducer.loading;
+        if(loading)
+            return null;
+        if (hasMore) {
             return (
                 <View style={styles.footer}>
                     <ActivityIndicator/>
@@ -116,7 +99,14 @@ class GoodsList extends Component {
                 </View>
             );
         } else {
-            return null;
+            return (
+                <View style={{height: 30, alignItems: 'center', justifyContent: 'center',}}>
+                    <Text style={{color: '#999999', fontSize: 14, marginTop: 5, marginBottom: 5,}}>
+                        没有更多数据了
+                    </Text>
+                </View>
+
+            );
         }
     }
 

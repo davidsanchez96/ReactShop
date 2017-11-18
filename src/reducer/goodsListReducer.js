@@ -2,7 +2,8 @@ import * as types from '../utils/actionTypes';
 
 const initialState = {
     loading: true,
-    hasMore: 0,
+    loadingMore:false,
+    hasMore: false,
     data: [],
     viewOption: {
         bigView: true,
@@ -14,7 +15,7 @@ const initialState = {
     searchParam: {
         searchText: ''
     },
-    isTwo: false,
+    isTwo: true,
 }
 export default function goodList(state = initialState, action) {
     switch (action.type) {
@@ -31,6 +32,7 @@ export default function goodList(state = initialState, action) {
                     loading: false,
                     data: action.data,
                     hasMore: action.hasMore,
+                    loadingMore: false,
                 }
             } else {
                 return {
@@ -38,6 +40,7 @@ export default function goodList(state = initialState, action) {
                     loading: false,
                     data: state.data.concat(action.data),
                     hasMore: action.hasMore,
+                    loadingMore: false,
                 }
             }
 
@@ -57,7 +60,7 @@ export default function goodList(state = initialState, action) {
         case types.GoodsListShowMore:
             return {
                 ...state,
-                hasMore: 2,
+                loadingMore: true,
             }
             break;
         default:
