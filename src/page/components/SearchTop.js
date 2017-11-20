@@ -90,9 +90,9 @@ export default class SearchTop extends Component {
     /**
      * 查询
      */
-    _handleSearch() {
+    _handleSearch=()=> {
         //让搜索框失去焦点
-        this._blurSearchInput();
+        this._search.blur();
 
         //如果没有输入关键字
         if (!this.state.searchText || this.state.searchText == '') {

@@ -57,6 +57,9 @@ class GoodsList extends Component {
                     viewOption={goodsListReducer.viewOption}/>
                 <FlatList
                     renderItem={this._renderPro}
+                    ListEmptyComponent={()=>{
+                        return <Text>暂无数据</Text>
+                    }}
                     ListFooterComponent={() => this._renderFooter()}
                     key={(isTwo ? 'h' : 'v')}
                     numColumns={isTwo ? 2 : 1}
@@ -65,7 +68,7 @@ class GoodsList extends Component {
                     removeClippedSubviews={false}
                     data={goodsListReducer.data}
                     onRefresh={() => {
-                        this.props.dispatch(goodsList(0));
+                        this.props.dispatch(goodsList(0,goodsListReducer.searchParam));
                     }}
                     refreshing={loading}
                     onEndReached={this._onEndReached.bind(this)}
@@ -92,7 +95,7 @@ class GoodsList extends Component {
         const {goodsListReducer} = this.props;
         let hasMore = goodsListReducer.hasMore;
         let loading = goodsListReducer.loading;
-        if (loading)
+        if (loading||goodsListReducer.data.length==0)
             return null;
         if (hasMore) {
             return (

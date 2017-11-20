@@ -113,7 +113,7 @@ class Search extends Component {
                             }}
                             isLoaded={this.state.isLoaded}
                             dataSource={this.state.dataSource}
-                            goSearchList={()=>this._handleGoGoodsList()}
+                            goSearchList={(v)=>this._handleGoGoodsList(v)}
                             onClearSearch={()=>this._handleClearSearchCache()}
                         />
                 }
@@ -137,17 +137,9 @@ class Search extends Component {
         // if (Platform.OS === 'ios' && this.props.statusBarStyle != undefined) {
         //     StatusBarIOS.setStyle('light-content');
         // }
-        const {goBack,dispatch,navigate} = this.props.navigation;
+        const {goBack} = this.props.navigation;
         goBack();
-        navigate('GoodsList');
-        const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate('GoodsList')
-            ],
-        });
 
-        dispatch(resetAction);
     }
 
 
@@ -223,7 +215,7 @@ class Search extends Component {
     /**
      * 商品查询
      */
-    _handleGoGoodsList(searchText) {
+    _handleGoGoodsList=(searchText)=> {
         // this._onBack();
         var nextSceneName = this.props.resultSceneName || 'GoodsList';
         if (__DEV__) {
@@ -238,7 +230,7 @@ class Search extends Component {
         // }, nextSceneName);
 
         const {navigate} = this.props.navigation;
-        navigate('GoodsList');
+        navigate('GoodsList', { searchParam: {searchText: searchText || this.state.searchText} });
     }
 }
 
