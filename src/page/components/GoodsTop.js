@@ -3,14 +3,11 @@
 import React, {Component} from 'react';
 import {
     View,
-    ListView,
-    Text,
     TextInput,
     StyleSheet,
     TouchableOpacity,
     Image,
     Dimensions,
-    PixelRatio,
     Platform
 } from 'react-native';
 
@@ -37,7 +34,7 @@ export default class GoodsTop extends Component {
     componentDidMount() {
         this.setState(
             {viewType: this.props.viewType}
-            );
+        );
     }
 
     render() {
@@ -53,16 +50,14 @@ export default class GoodsTop extends Component {
                     <Image
                         style={styles.searchIcon} source={require('./img/search.png')}/>
                     <TouchableOpacity style={styles.button} onPress={this._showSearchPage}>
-                        <Text
-                            ref={'input'}
+                        <TextInput
                             style={styles.input}
-                            clearButtonMode='while-editing'
                             value={this.props.searchText}
-                            editable={true}
-                            onChangeText={(search) => this.setState({searchText: search})}
-                            allowFontScaling={false}>
-                            {this.props.searchText || '搜索商品'}
-                        </Text>
+                            editable={false}
+                            placeholder={'搜索商品'}
+                            pointerEvents="none"
+                            Value={this.props.searchText}
+                            allowFontScaling={false}/>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.menuBtn} activeOpacity={0.8} onPress={() => {
@@ -79,6 +74,15 @@ export default class GoodsTop extends Component {
         )
     }
 
+    _showSearchPage = () => {
+        // if (__DEV__) {
+        //   console.log('***** QMSearch _showSearchPage is called');
+        // }
+        // const topic = this.props.topic;
+        // msg.emit(topic || 'searchPage:setVisible', true, this.props.searchText);
+        const {navigate} = this.props.navigation;
+        navigate('Search', {searchText: this.props.searchText});
+    }
 
 }
 

@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {
-    View, StyleSheet, AsyncStorage, Dimensions, Text, Platform, StatusBarIOS,
+    View, StyleSheet, AsyncStorage, Dimensions, Text,
     FlatList,
 } from 'react-native';
 
@@ -21,6 +21,7 @@ var MAX_SHOW_KEY_WORD = 10;
 //最大保存的搜索关键字历史数目
 var MAX_STORE_KEY_WORD = 30;
 let inputText;
+
 class Search extends Component {
 
     static navigationOptions = ({navigation}) => {
@@ -50,17 +51,22 @@ class Search extends Component {
 
     componentDidMount() {
         this._fetchCache();
-        this.setState({searchText: this.props.searchText});
+        let searchText = this.props.navigation.state.params ? this.props.navigation.state.params.searchText : '';
+        this.setState({searchText: searchText});
 
 
         this.props.navigation.setParams({
             callbackParent: this._onChildChanged,
             onAddSearch: this._handleOnAddSearch,
             goSearchList: this._handleGoGoodsList,
-            searchText: this.props.searchText,
+            searchText: searchText,
             onBack: this._back,
             searchBar: this.props._searchBar,
         })
+
+        if(searchText){
+            this.props.dispatch(suggestion(searchText));
+        }
     }
 
 
@@ -69,9 +75,6 @@ class Search extends Component {
             console.log("searchPage render", this.state)
         }
 
-        if (Platform.OS === 'ios' && this.props.statusBarStyle != undefined) {
-            StatusBarIOS.setStyle(this.props.statusBarStyle);
-        }
         const {searchReducer} = this.props;
         let loading = searchReducer.loading;
         let data = searchReducer.data;
@@ -112,8 +115,8 @@ class Search extends Component {
                             }}
                             isLoaded={this.state.isLoaded}
                             dataSource={this.state.dataSource}
-                            goSearchList={(v)=>this._handleGoGoodsList(v)}
-                            onClearSearch={()=>this._handleClearSearchCache()}
+                            goSearchList={(v) => this._handleGoGoodsList(v)}
+                            onClearSearch={() => this._handleClearSearchCache()}
                         />
                 }
             </View>
@@ -130,7 +133,7 @@ class Search extends Component {
 
     }
 
-    _back = ()=> {
+    _back = () => {
         const topic = this.props.topic || 'searchPage:setVisible';
         // msg.emit(topic, false);
         // if (Platform.OS === 'ios' && this.props.statusBarStyle != undefined) {
@@ -214,7 +217,7 @@ class Search extends Component {
     /**
      * 商品查询
      */
-    _handleGoGoodsList=(searchText)=> {
+    _handleGoGoodsList = (searchText) => {
         // this._onBack();
         var nextSceneName = this.props.resultSceneName || 'GoodsList';
         if (__DEV__) {
@@ -229,7 +232,7 @@ class Search extends Component {
         // }, nextSceneName);
 
         const {navigate} = this.props.navigation;
-        navigate('GoodsList', { searchParam: {searchText: searchText || this.state.searchText} });
+        navigate('GoodsList', {searchParam: {searchText: searchText || this.state.searchText}});
     }
 }
 

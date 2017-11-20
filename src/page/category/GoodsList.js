@@ -28,22 +28,24 @@ class GoodsList extends Component {
                 onBack={params.onBack}
                 show={params.show}
                 viewType={params.viewType}
+                navigation={params.navigation}
             />)
         return {header};
     }
 
     componentDidMount() {
-        const {goodsListReducer} = this.props;
+        const {goodsListReducer, dispatch, navigation} = this.props;
         let isTwo = goodsListReducer.isTwo;
         this.props.navigation.setParams({
             onBack: this._back,
-            searchText: this.props.searchText,
+            searchText: navigation.state.params.searchParam.searchText,
             show: this._show,
             viewType: isTwo,
+            navigation:navigation,
         });
-        this.props.dispatch(searchPara(this.props.navigation.state.params.searchParam));
+        this.props.dispatch(searchPara(navigation.state.params.searchParam));
         let searchParam = goodsListReducer.searchParam;
-        this.props.dispatch(goodsList(page, searchParam));
+        dispatch(goodsList(page, searchParam));
     }
 
     componentWillUnmount() {
