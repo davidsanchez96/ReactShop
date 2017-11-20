@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import GoodsTop from "../components/GoodsTop";
-import {goodsList, searchPara, showBig} from "../../action/goodsListActions";
+import {goodsList, searchPara, showBig, reset} from "../../action/goodsListActions";
 import FilterBar from "../components/FilterBar";
 import NumberControl from "../components/NumberControl";
 
@@ -46,6 +46,10 @@ class GoodsList extends Component {
         this.props.dispatch(goodsList(page, searchParam));
     }
 
+    componentWillUnmount() {
+        this.props.dispatch(reset());
+    }
+
     render() {
         const {goodsListReducer} = this.props;
         let loading = goodsListReducer.loading;
@@ -57,9 +61,7 @@ class GoodsList extends Component {
                     viewOption={goodsListReducer.viewOption}/>
                 <FlatList
                     renderItem={this._renderPro}
-                    ListEmptyComponent={()=>{
-                        return <Text>暂无数据</Text>
-                    }}
+                    ListEmptyComponent={this._empty}
                     ListFooterComponent={() => this._renderFooter()}
                     key={(isTwo ? 'h' : 'v')}
                     numColumns={isTwo ? 2 : 1}
@@ -68,7 +70,7 @@ class GoodsList extends Component {
                     removeClippedSubviews={false}
                     data={goodsListReducer.data}
                     onRefresh={() => {
-                        this.props.dispatch(goodsList(0,goodsListReducer.searchParam));
+                        this.props.dispatch(goodsList(0, goodsListReducer.searchParam));
                     }}
                     refreshing={loading}
                     onEndReached={this._onEndReached.bind(this)}
@@ -91,11 +93,22 @@ class GoodsList extends Component {
 
     }
 
+    _empty = () => {
+        const {goodsListReducer} = this.props;
+        let loading = goodsListReducer.loading;
+        if (loading) {
+            return null;
+        } else {
+            return <Text>暂无数据</Text>
+        }
+
+    }
+
     _renderFooter() {
         const {goodsListReducer} = this.props;
         let hasMore = goodsListReducer.hasMore;
         let loading = goodsListReducer.loading;
-        if (loading||goodsListReducer.data.length==0)
+        if (loading || goodsListReducer.data.length == 0)
             return null;
         if (hasMore) {
             return (

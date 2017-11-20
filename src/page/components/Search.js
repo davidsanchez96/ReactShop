@@ -61,7 +61,6 @@ class Search extends Component {
             onBack: this._back,
             searchBar: this.props._searchBar,
         })
-        this._handleOnAddSearch('123456');
     }
 
 

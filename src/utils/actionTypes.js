@@ -23,3 +23,4 @@ export const GoodsListLoaded = 'GoodsListLoaded';
 export const GoodsListShow = 'GoodsListShow';
 export const GoodsListShowMore = 'GoodsListShowMore';
 export const GoodsListSearch = 'GoodsListSearch';
+export const GoodsListReset = 'GoodsListReset';

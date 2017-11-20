@@ -69,6 +69,11 @@ export default function goodList(state = initialState, action) {
                 searchParam: Object.assign(state.searchParam, action.searchParam),
             }
             break;
+        case types.GoodsListReset:
+            return {
+                ...initialState
+            }
+            break;
         default:
             return state;
             break;

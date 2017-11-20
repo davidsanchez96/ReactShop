@@ -1,23 +1,23 @@
 import NetUtils from "../utils/NetUtils";
 import {SearchUrl} from "../utils/Constant";
 import {
-    NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore, GoodsListSearch
+    NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore, GoodsListSearch, GoodsListReset
 } from "../utils/actionTypes";
 
 const BASIC_PROP_NAMES = ['brands', 'added', 'thirdStatus', 'thirdShopId', 'showStock', 'freeShipment',
     'isCustomerDismount', 'districtId'];
 
-export function goodsList(pageNum, searchParam,viewOption) {
+export function goodsList(pageNum, searchParam, viewOption) {
     return (dispatch) => {
         if (pageNum > 0) {
             dispatch({type: GoodsListShowMore});
         } else {
             dispatch({type: GoodsListLoading});
         }
-
-        NetUtils.post(SearchUrl, _getPostBody(pageNum, searchParam,viewOption ),
+        console.log(_getPostBody(pageNum, searchParam, viewOption));
+        NetUtils.post(SearchUrl, _getPostBody(pageNum, searchParam, viewOption),
             (result) => {
-                console.log(result);
+                // console.log(result);
                 let hasMore = false;
                 if (result.data.length < 10) {
                     hasMore = false;
@@ -42,7 +42,13 @@ export function showBig() {
 export function searchPara(searchParam) {
     return {
         type: GoodsListSearch,
-        searchParam:searchParam,
+        searchParam: searchParam,
+    }
+}
+
+export function reset() {
+    return {
+        type: GoodsListReset,
     }
 }
 
@@ -50,7 +56,7 @@ export function searchPara(searchParam) {
  * 获取搜索POST请求Body
  * @private
  */
-function _getPostBody(pageNum, searchParam,viewOption ) {
+function _getPostBody(pageNum, searchParam, viewOption) {
 
     var postBody = {};
     postBody['pageNum'] = pageNum ? pageNum : 0;
@@ -88,7 +94,7 @@ function _getPostBody(pageNum, searchParam,viewOption ) {
         }
     }
     if (searchParam) {
-        for(let k in searchParam){
+        for (let k in searchParam) {
             if (BASIC_PROP_NAMES.indexOf(k) !== -1) {
                 postBody[k] = searchParam[k];
             }
