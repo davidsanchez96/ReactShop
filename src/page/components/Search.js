@@ -294,7 +294,7 @@ function deleteArrayByValue(array, value) {
 }
 
 const mapStateToProps = (state) => ({
-    searchReducer: state.searchReducer,
+    searchReducer: state.get('searchReducer').toJS(),
 
 });
 export default connect(mapStateToProps)(Search);

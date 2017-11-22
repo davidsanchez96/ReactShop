@@ -7,7 +7,7 @@ export function getMain() {
         dispatch({type: Loading});
         NetUtils.get(URL,
             (result) => {
-                console.log(result);
+                console.log(URL);
                 dispatch({type: Loaded, data: result});
             },
             (error) => {

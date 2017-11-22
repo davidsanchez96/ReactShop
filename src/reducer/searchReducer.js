@@ -1,10 +1,10 @@
 import * as types from '../utils/actionTypes';
-
-const initialState = {
+import Immutable from 'immutable';
+const initialState = Immutable.Map({
     loading: true,
     data: [],
 
-}
+});
 export default function suggestion(state = initialState, action) {
     switch (action.type) {
         case types.SuggestionLoading:

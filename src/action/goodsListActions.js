@@ -1,7 +1,8 @@
 import NetUtils from "../utils/NetUtils";
 import {SearchUrl} from "../utils/Constant";
 import {
-    NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore, GoodsListSearch, GoodsListReset
+    NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore, GoodsListSearch, GoodsListReset,
+    GoodsListDescending
 } from "../utils/actionTypes";
 
 const BASIC_PROP_NAMES = ['brands', 'added', 'thirdStatus', 'thirdShopId', 'showStock', 'freeShipment',
@@ -49,6 +50,12 @@ export function searchPara(searchParam) {
 export function reset() {
     return {
         type: GoodsListReset,
+    }
+}
+
+export function descending() {
+    return {
+        type: GoodsListDescending,
     }
 }
 

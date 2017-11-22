@@ -20,59 +20,57 @@ const initialState = {
 export default function goodList(state = initialState, action) {
     switch (action.type) {
         case types.GoodsListLoading:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 loading: true,
-            };
+            })
             break;
         case types.GoodsListLoaded:
             if (action.page == 0) {
-                return {
-                    ...state,
+                return Object.assign({}, state, {
                     loading: false,
                     data: action.data,
                     hasMore: action.hasMore,
                     loadingMore: false,
-                }
+                })
             } else {
-                return {
-                    ...state,
+                return Object.assign({}, state, {
                     loading: false,
                     data: state.data.concat(action.data),
                     hasMore: action.hasMore,
                     loadingMore: false,
-                }
+                })
             }
 
             break;
         case types.NetError:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 loading: false,
-            }
+            })
             break;
         case types.GoodsListShow:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 isTwo: !state.isTwo,
-            }
+            })
             break;
         case types.GoodsListShowMore:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 loadingMore: true,
-            }
+            })
             break;
         case types.GoodsListSearch:
+            const state1 = JSON.parse(JSON.stringify(state))
+            Object.assign(state1.searchParam, action.searchParam);
+            return state1;
+            break;
+        case types.GoodsListDescending:
+            state.viewOption.descending = true;
+            state.viewOption.selectedFilter = 'salesFilter';
             return {
                 ...state,
-                searchParam: Object.assign(state.searchParam, action.searchParam),
             }
             break;
         case types.GoodsListReset:
-            return {
-                ...initialState
-            }
+            return initialState;
             break;
         default:
             return state;

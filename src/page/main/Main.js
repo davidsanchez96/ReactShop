@@ -216,6 +216,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    mainReducer: state.mainReducer
+    mainReducer: state.get('mainReducer').toJS()
 });
 export default connect(mapStateToProps)(Main);

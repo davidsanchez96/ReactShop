@@ -7,7 +7,7 @@ export function get() {
         dispatch({type: CategoryLoading});
         NetUtils.get(CategoryUrl,
             (result) => {
-                console.log(result.data);
+                console.log(CategoryUrl);
                 dispatch({type: CategoryLoaded, data: result.data});
             },
             (error) => {

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import GoodsTop from "../components/GoodsTop";
-import {goodsList, searchPara, showBig, reset} from "../../action/goodsListActions";
+import {goodsList, searchPara, showBig, reset, descending} from "../../action/goodsListActions";
 import FilterBar from "../components/FilterBar";
 import NumberControl from "../components/NumberControl";
 
@@ -45,6 +45,7 @@ class GoodsList extends Component {
         });
         this.props.dispatch(searchPara(navigation.state.params.searchParam));
         let searchParam = goodsListReducer.searchParam;
+        page = 0;
         dispatch(goodsList(page, searchParam));
     }
 
@@ -59,6 +60,9 @@ class GoodsList extends Component {
         return (
             <View style={styles.container}>
                 <FilterBar
+                    salesFilter={()=>{
+                        this.props.dispatch(descending());
+                    }}
                     searchParam={goodsListReducer.searchParam}
                     viewOption={goodsListReducer.viewOption}/>
                 <FlatList

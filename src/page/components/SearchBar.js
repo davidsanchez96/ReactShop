@@ -9,7 +9,7 @@ export default class SearchBar extends Component {
 
     render() {
         if (__DEV__) {
-            console.log('******* SearchBar button render is called====>', JSON.stringify(this.props, null, 2));
+           // console.log('******* SearchBar button render is called====>', JSON.stringify(this.props, null, 2));
         }
 
         return (

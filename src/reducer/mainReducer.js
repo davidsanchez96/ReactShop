@@ -1,6 +1,6 @@
 import * as types from '../utils/actionTypes';
-
-const initialState = {
+import Immutable from 'immutable';
+const initialState = Immutable.Map({
     loading: true,
     data: {
         "sliders": [],
@@ -9,41 +9,56 @@ const initialState = {
     show: true,
     change: 'rgba(0,0,0,.3)',
 
-}
+});
 export default function main(state = initialState, action) {
     switch (action.type) {
         case types.Loading:
-            return {
-                ...state,
-                loading: true,
-            };
-            break;
+            return state.set('loading',true);
         case types.Loaded:
-            return {
-                ...state,
-                loading: false,
-                data: action.data,
-            }
-            break;
+            return state.set('loading',false).set('data',action.data);
         case types.NetError:
-            return {
-                ...state,
-                loading: false,
-            }
+            return state.set('loading',false);
         case  types.Show:
-            return {
-                ...state,
-                show: action.show,
-            }
-            break;
+            return state.set('show',action.show);
         case  types.Change:
-            return {
-                ...state,
-                change: action.change,
-            }
-            break;
+            return state.set('change',action.change);
         default:
             return state;
-            break;
-    }
-}
+    }}
+// export default function main(state = initialState, action) {
+//     switch (action.type) {
+//         case types.Loading:
+//             return {
+//                 ...state,
+//                 loading: true,
+//             };
+//             break;
+//         case types.Loaded:
+//             return {
+//                 ...state,
+//                 loading: false,
+//                 data: action.data,
+//             }
+//             break;
+//         case types.NetError:
+//             return {
+//                 ...state,
+//                 loading: false,
+//             }
+//         case  types.Show:
+//             return {
+//                 ...state,
+//                 show: action.show,
+//             }
+//             break;
+//         case  types.Change:
+//             return {
+//                 ...state,
+//                 change: action.change,
+//             }
+//             break;
+//         default:
+//             return state;
+//             break;
+//     }
+// }

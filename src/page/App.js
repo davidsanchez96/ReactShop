@@ -70,7 +70,7 @@ export const AppNavigator = StackNavigator({
     },
     GoodsList: {
         screen: GoodsList,
-    }
+    },
 });
 
 
@@ -103,7 +103,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    nav: state.nav
+    nav: state.get('nav').toJS()
 });
 
 export default connect(mapStateToProps)(App);
