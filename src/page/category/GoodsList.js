@@ -8,6 +8,7 @@ import {
     Dimensions,
     StyleSheet,
     ActivityIndicator,
+    InteractionManager,
 } from 'react-native';
 import {connect} from 'react-redux';
 import GoodsTop from "../components/GoodsTop";
@@ -39,7 +40,7 @@ class GoodsList extends Component {
             !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
     }
     componentDidMount() {
-        const {goodsListReducer, dispatch, navigation} = this.props;
+        let {goodsListReducer, dispatch, navigation} = this.props;
         let isTwo = goodsListReducer.isTwo;
         this.props.navigation.setParams({
             onBack: this._back,
@@ -48,10 +49,13 @@ class GoodsList extends Component {
             viewType: isTwo,
             navigation:navigation,
         });
-        this.props.dispatch(searchPara(navigation.state.params.searchParam));
-        let searchParam = goodsListReducer.searchParam;
-        page = 0;
-        dispatch(goodsList(page, searchParam));
+        dispatch(searchPara(navigation.state.params.searchParam));
+
+             goodsListReducer = this.props.goodsListReducer;
+            let searchParam = goodsListReducer.searchParam;
+            page = 0;
+            dispatch(goodsList(page, searchParam));
+
     }
 
     componentWillUnmount() {
@@ -339,8 +343,8 @@ class GoodsList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    goodsListReducer: state.goodsListReducer,
-    nav: state.nav,
+    goodsListReducer: state.get('goodsListReducer').toJS(),
+    nav: state.get('nav').toJS(),
 });
 export default connect(mapStateToProps)(GoodsList);
 

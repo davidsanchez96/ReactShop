@@ -17,53 +17,44 @@ const initialState = Immutable.Map({
         searchText: ''
     },
     isTwo: true,
-})
+});
 export default function goodList(state = initialState, action) {
     switch (action.type) {
         case types.GoodsListLoading:
             return state.set('loading',true);
         case types.GoodsListLoaded:
             if (action.page == 0) {
-                return Object.assign({}, state, {
-                    loading: false,
-                    data: action.data,
-                    hasMore: action.hasMore,
-                    loadingMore: false,
-                })
+                return state.set('loading',false).set('loadingMore',false)
+                    .set('hasMore',action.hasMore).set('data',action.data);
             } else {
-                return Object.assign({}, state, {
-                    loading: false,
-                    data: state.data.concat(action.data),
-                    hasMore: action.hasMore,
-                    loadingMore: false,
-                })
+                return state.set('loading',false).set('loadingMore',false)
+                    .set('hasMore',action.hasMore).set('data',state.get('data').concat((action.data)));
+                // return Object.assign({}, state, {
+                //     loading: false,
+                //     data: state.data.concat(action.data),
+                //     hasMore: action.hasMore,
+                //     loadingMore: false,
+                // })
             }
 
             break;
         case types.NetError:
             return state.set('loading',false);
         case types.GoodsListShow:
-            return Object.assign({}, state, {
-                isTwo: !state.isTwo,
-            })
-            break;
+            return state.set('isTwo',!state.get('isTwo'));
         case types.GoodsListShowMore:
-            return Object.assign({}, state, {
-                loadingMore: true,
-            })
-            break;
+            return state.set('loadingMore',true);
+
         case types.GoodsListSearch:
-            const state1 = JSON.parse(JSON.stringify(state))
-            Object.assign(state1.searchParam, action.searchParam);
+            let state1= state.set('searchParam',action.searchParam);
             return state1;
-            break;
-        case types.GoodsListDescending:
-            state.viewOption.descending = true;
-            state.viewOption.selectedFilter = 'salesFilter';
-            return {
-                ...state,
-            }
-            break;
+        // case types.GoodsListDescending:
+        //     state.viewOption.descending = true;
+        //     state.viewOption.selectedFilter = 'salesFilter';
+        //     return {
+        //         ...state,
+        //     }
+        //     break;
         case types.GoodsListReset:
             return initialState;
             break;

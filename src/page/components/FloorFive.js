@@ -9,7 +9,6 @@ import QMNumberControl from './NumberControl';
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 
-
 /**
  * 首页楼层模板组件, 此模板只允许展示(n*2+3,n>=0)件商品;
  * 其中前三件商品在顶部展示,剩下商品按每行两列展示
@@ -18,7 +17,7 @@ export default class FloorFive extends Component {
 
     render() {
         const floor = this.props.data;
-        if (!floor.adverts|| (floor.adverts.length - 3) < 0) {
+        if (!floor.adverts || (floor.adverts.length - 3) < 0) {
             return null;
         }
 
@@ -128,20 +127,22 @@ export default class FloorFive extends Component {
                         )
                     }
                 </View>
-                <Swiper
-                    style={styles.slide}
-                >
-                    {banners.map((slider, i) => {
-                        return (
-                            <TouchableOpacity
-                                activeOpacity={0.8}
-                                key={i}
-                            >
-                                <Image source={{uri: slider.img}} style={styles.slide}/>
-                            </TouchableOpacity>
-                        )
-                    })}
-                </Swiper>
+                {banners ?
+                    <Swiper
+                        style={styles.slide}
+                    >
+                        {banners.map((slider, i) => {
+                            return (
+                                <TouchableOpacity
+                                    activeOpacity={0.8}
+                                    key={i}
+                                >
+                                    <Image source={{uri: slider.img}} style={styles.slide}/>
+                                </TouchableOpacity>
+                            )
+                        })}
+                    </Swiper> : null
+                }
 
             </View>
         );
