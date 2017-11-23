@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 import Loading from "./Loading";
 import {suggestion} from "../../action/searchActions";
 import {NavigationActions} from 'react-navigation';
+import Immutable from 'immutable';
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
@@ -36,6 +37,12 @@ class Search extends Component {
                 ref={(searchBar) => inputText = searchBar}
             />)
         return {header};
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+
+        return !Immutable.is(Immutable.Map(this.props.searchReducer), Immutable.Map(nextProps.searchReducer)) ||
+            !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
     }
 
     constructor(props) {
@@ -64,7 +71,7 @@ class Search extends Component {
             searchBar: this.props._searchBar,
         })
 
-        if(searchText){
+        if (searchText) {
             this.props.dispatch(suggestion(searchText));
         }
     }

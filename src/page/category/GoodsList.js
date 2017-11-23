@@ -14,6 +14,7 @@ import GoodsTop from "../components/GoodsTop";
 import {goodsList, searchPara, showBig, reset, descending} from "../../action/goodsListActions";
 import FilterBar from "../components/FilterBar";
 import NumberControl from "../components/NumberControl";
+import Immutable from 'immutable';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 let page = 0;
@@ -32,7 +33,11 @@ class GoodsList extends Component {
             />)
         return {header};
     }
+    shouldComponentUpdate(nextProps, nextState) {
 
+        return !Immutable.is(Immutable.Map(this.props.goodsListReducer), Immutable.Map(nextProps.goodsListReducer)) ||
+            !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
+    }
     componentDidMount() {
         const {goodsListReducer, dispatch, navigation} = this.props;
         let isTwo = goodsListReducer.isTwo;

@@ -8,24 +8,11 @@ const initialState = Immutable.Map({
 export default function suggestion(state = initialState, action) {
     switch (action.type) {
         case types.SuggestionLoading:
-            return {
-                ...state,
-                loading: true,
-            };
-            break;
+            return state.set('loading',true);
         case types.SuggestionLoaded:
-            return {
-                ...state,
-                loading: false,
-                data: action.data,
-            }
-            break;
+            return state.set('loading',false).set('data',action.data);
         case types.NetError:
-            return {
-                ...state,
-                loading: false,
-            }
-            break;
+            return state.set('loading',false);
         default:
             return state;
             break;

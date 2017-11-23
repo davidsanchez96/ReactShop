@@ -1,6 +1,7 @@
 import * as types from '../utils/actionTypes';
+import Immutable from 'immutable';
 
-const initialState = {
+const initialState = Immutable.Map({
     loading: true,
     loadingMore: false,
     hasMore: false,
@@ -16,14 +17,11 @@ const initialState = {
         searchText: ''
     },
     isTwo: true,
-}
+})
 export default function goodList(state = initialState, action) {
     switch (action.type) {
         case types.GoodsListLoading:
-            return Object.assign({}, state, {
-                loading: true,
-            })
-            break;
+            return state.set('loading',true);
         case types.GoodsListLoaded:
             if (action.page == 0) {
                 return Object.assign({}, state, {
@@ -43,10 +41,7 @@ export default function goodList(state = initialState, action) {
 
             break;
         case types.NetError:
-            return Object.assign({}, state, {
-                loading: false,
-            })
-            break;
+            return state.set('loading',false);
         case types.GoodsListShow:
             return Object.assign({}, state, {
                 isTwo: !state.isTwo,

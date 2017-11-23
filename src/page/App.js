@@ -74,7 +74,7 @@ export const AppNavigator = StackNavigator({
 });
 
 
-class App extends React.Component {
+class App extends React.PureComponent {
     render() {
         return (
             <AppNavigator navigation={addNavigationHelpers({

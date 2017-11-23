@@ -193,6 +193,6 @@ const styles = StyleSheet.create({
     },
 });
 const mapStateToProps = (state) => ({
-    categoryReducer: state.get('categoryReducer')
+    categoryReducer: state.get('categoryReducer').toJS()
 });
 export default connect(mapStateToProps)(Category);
