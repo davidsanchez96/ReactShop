@@ -238,8 +238,13 @@ class Search extends Component {
         //     searchParam: {searchText: searchText || this.state.searchText}
         // }, nextSceneName);
 
-        const {navigate} = this.props.navigation;
-        navigate('GoodsList', {searchParam: {searchText: searchText || this.state.searchText}});
+        const {navigate, goBack, state} = this.props.navigation;
+        if (state.params.searchBack) {
+            state.params.searchBack( {searchText: searchText || this.state.searchText});
+            goBack();
+        } else {
+            navigate('GoodsList', {searchParam: {searchText: searchText || this.state.searchText}});
+        }
     }
 }
 

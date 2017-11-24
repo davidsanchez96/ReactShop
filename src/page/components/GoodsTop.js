@@ -49,7 +49,7 @@ export default class GoodsTop extends Component {
                     style={styles.searchBox}>
                     <Image
                         style={styles.searchIcon} source={require('./img/search.png')}/>
-                    <TouchableOpacity style={styles.button} onPress={this._showSearchPage}>
+                    <TouchableOpacity style={styles.button} onPress={()=>this.props.goSearch()}>
                         <TextInput
                             style={styles.input}
                             value={this.props.searchText}

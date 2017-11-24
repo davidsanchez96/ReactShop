@@ -16,9 +16,11 @@ import {goodsList, searchPara, showBig, reset, descending} from "../../action/go
 import FilterBar from "../components/FilterBar";
 import NumberControl from "../components/NumberControl";
 import Immutable from 'immutable';
+import {GoodsListLoaded, GoodsListLoading} from "../../utils/actionTypes";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 let page = 0;
+let searchParam;
 
 class GoodsList extends Component {
 
@@ -30,16 +32,23 @@ class GoodsList extends Component {
                 onBack={params.onBack}
                 show={params.show}
                 viewType={params.viewType}
-                navigation={params.navigation}
+                goSearch={params.goSearch}
             />)
         return {header};
     }
+
     shouldComponentUpdate(nextProps, nextState) {
 
         return !Immutable.is(Immutable.Map(this.props.goodsListReducer), Immutable.Map(nextProps.goodsListReducer)) ||
             !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
     }
+
+    componentWillMount() {
+        console.log('componentWillMount');
+    }
+
     componentDidMount() {
+        console.log('componentDidMount');
         let {goodsListReducer, dispatch, navigation} = this.props;
         let isTwo = goodsListReducer.isTwo;
         this.props.navigation.setParams({
@@ -47,19 +56,20 @@ class GoodsList extends Component {
             searchText: navigation.state.params.searchParam.searchText,
             show: this._show,
             viewType: isTwo,
-            navigation:navigation,
+            goSearch: this._goSearch,
         });
-        dispatch(searchPara(navigation.state.params.searchParam));
+        // dispatch(searchPara(navigation.state.params.searchParam));
 
-             goodsListReducer = this.props.goodsListReducer;
-            let searchParam = goodsListReducer.searchParam;
-            page = 0;
-            dispatch(goodsList(page, searchParam));
+        // goodsListReducer = this.props.goodsListReducer;
+        searchParam = navigation.state.params.searchParam;
+        page = 0;
+        dispatch(goodsList(page, searchParam));
 
     }
 
     componentWillUnmount() {
         this.props.dispatch(reset());
+        console.log('componentWillUnmount');
     }
 
     render() {
@@ -69,7 +79,7 @@ class GoodsList extends Component {
         return (
             <View style={styles.container}>
                 <FilterBar
-                    salesFilter={()=>{
+                    salesFilter={() => {
                         this.props.dispatch(descending());
                     }}
                     searchParam={goodsListReducer.searchParam}
@@ -85,7 +95,8 @@ class GoodsList extends Component {
                     removeClippedSubviews={false}
                     data={goodsListReducer.data}
                     onRefresh={() => {
-                        this.props.dispatch(goodsList(0, goodsListReducer.searchParam));
+                        page = 0;
+                        this.props.dispatch(goodsList(page, searchParam));
                     }}
                     refreshing={loading}
                     onEndReached={this._onEndReached.bind(this)}
@@ -100,7 +111,6 @@ class GoodsList extends Component {
         let hasMore = goodsListReducer.hasMore;
         let loading = goodsListReducer.loading;
         let loadingMore = goodsListReducer.loadingMore;
-        let searchParam = goodsListReducer.searchParam;
         if (hasMore && !loading && !loadingMore) {
             page++;
             dispatch(goodsList(page, searchParam));
@@ -111,7 +121,8 @@ class GoodsList extends Component {
     _empty = () => {
         const {goodsListReducer} = this.props;
         let loading = goodsListReducer.loading;
-        if (loading) {
+        let reloading = goodsListReducer.reloading;
+        if (loading||reloading) {
             return null;
         } else {
             return <Text>暂无数据</Text>
@@ -327,15 +338,33 @@ class GoodsList extends Component {
 
     _back = () => {
         const {goBack} = this.props.navigation;
-        const {nav} = this.props;
-        let key;
-        for (let i = 0; i < nav.routes.length; i++) {
-            if (nav.routes[i].routeName === 'Search') {
-                key = nav.routes[i].key;
-                break;
-            }
-        }
-        goBack(key);
+        // const {nav} = this.props;
+        // let key;
+        // for (let i = 0; i < nav.routes.length; i++) {
+        //     if (nav.routes[i].routeName === 'Search') {
+        //         key = nav.routes[i].key;
+        //         break;
+        //     }
+        // }
+        // goBack(key);
+
+        goBack();
+    }
+    _goSearch = () => {
+        InteractionManager.runAfterInteractions(() => {
+            this.props.navigation.navigate('Search', {
+                searchText: this.props.navigation.state.params.searchParam.searchText,
+                searchBack: (searchText) => {
+                    this.props.dispatch(reset());
+                    InteractionManager.runAfterInteractions(() => {
+                        searchParam = searchText;
+                        page = 0;
+                        this.props.dispatch(goodsList(page, searchParam));
+                    });
+
+                }
+            });
+        });
     }
     _show = () => {
         this.props.dispatch(showBig());

@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 
 const initialState = Immutable.Map({
     loading: true,
+    reloading: false,
     loadingMore: false,
     hasMore: false,
     data: [],
@@ -56,7 +57,7 @@ export default function goodList(state = initialState, action) {
         //     }
         //     break;
         case types.GoodsListReset:
-            return initialState;
+            return initialState.set('loading',false).set('reloading',true);
             break;
         default:
             return state;
