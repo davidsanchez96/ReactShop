@@ -122,7 +122,7 @@ class GoodsList extends Component {
         const {goodsListReducer} = this.props;
         let loading = goodsListReducer.loading;
         let reloading = goodsListReducer.reloading;
-        if (loading||reloading) {
+        if (loading || reloading) {
             return null;
         } else {
             return <Text>暂无数据</Text>
@@ -338,17 +338,16 @@ class GoodsList extends Component {
 
     _back = () => {
         const {goBack} = this.props.navigation;
-        // const {nav} = this.props;
-        // let key;
-        // for (let i = 0; i < nav.routes.length; i++) {
-        //     if (nav.routes[i].routeName === 'Search') {
-        //         key = nav.routes[i].key;
-        //         break;
-        //     }
-        // }
-        // goBack(key);
+        const {nav} = this.props;
+        let key;
+        for (let i = 0; i < nav.routes.length; i++) {
+            if (nav.routes[i].routeName === 'Search') {
+                key = nav.routes[i].key;
+                break;
+            }
+        }
+        goBack(key);
 
-        goBack();
     }
     _goSearch = () => {
         InteractionManager.runAfterInteractions(() => {
