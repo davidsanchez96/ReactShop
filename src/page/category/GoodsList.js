@@ -17,6 +17,7 @@ import FilterBar from "../components/FilterBar";
 import NumberControl from "../components/NumberControl";
 import Immutable from 'immutable';
 import {GoodsListLoaded, GoodsListLoading} from "../../utils/actionTypes";
+import FilterBox from "../components/FilterBox";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 let page = 0;
@@ -116,6 +117,8 @@ class GoodsList extends Component {
                     onEndReached={this._onEndReached.bind(this)}
                     onEndReachedThreshold={0}
                 />
+                <FilterBox
+                    filterOpen={true}/>
             </View>
         );
     }

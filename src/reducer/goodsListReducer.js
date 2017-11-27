@@ -12,7 +12,7 @@ const initialState = Immutable.Map({
         filterOpen: false,
         selectedFilter: 'typeFilter',
         filterChecked: '综合',
-        descending: false,
+        descending: true,
     },
     searchParam: {
         searchText: ''
