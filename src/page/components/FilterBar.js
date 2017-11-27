@@ -29,19 +29,28 @@ export default class FilterBar extends Component {
                 <TouchableOpacity
                     style={styles.filterItem}
                     activeOpacity={0.8}
-                    onPress={this.props.salesFilter}>
+                    onPress={()=>{
+                        if(viewOption.selectedFilter!=='salesFilter'){
+                            this.props.salesFilter(viewOption)
+                        }
+
+                    }}>
                     <Text style={[styles.filterText, selectedFilter === 'salesFilter' ? {color: '#e63a59'} : {}]}
                           allowFontScaling={false}>销量</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.filterItem}
                     activeOpacity={0.8}
-                    onPress={this.props.priceFilter}>
+                    onPress={()=>{
+                        const curDescending = viewOption.descending;
+                        const descending = viewOption.selectedFilter === 'priceFilter' ? !curDescending : curDescending;
+                        this.props.priceFilter(descending);
+                    }}>
                     <Text style={[styles.filterText, selectedFilter === 'priceFilter' ? {color: '#e63a59'} : {}]}
                           allowFontScaling={false}>价格</Text>
                     <Image
                         style={[styles.arrow, selectedFilter === 'priceFilter' ? {tintColor: '#e63a59'} : {}, viewOption.descending ? '' : styles.rotate]}
-                        source={viewOption.descending ? require('./img/down.png') : require('./img/angle.png')}/>
+                        source={require('./img/angle.png')}/>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.filterItem}

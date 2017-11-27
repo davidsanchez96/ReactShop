@@ -53,9 +53,10 @@ export function reset() {
     }
 }
 
-export function descending() {
-    return {
-        type: GoodsListDescending,
+export function descending(pageNum, searchParam,viewOption) {
+    return (dispatch) => {
+        dispatch({type: GoodsListDescending,viewOption:viewOption});
+        dispatch(goodsList(pageNum, searchParam, viewOption))
     }
 }
 
@@ -69,30 +70,30 @@ function _getPostBody(pageNum, searchParam, viewOption) {
     postBody['pageNum'] = pageNum ? pageNum : 0;
 
     if (viewOption) {
-        const selectedFilterName = viewOption.get('selectedFilter');
+        const selectedFilterName = viewOption.selectedFilter;
         var sorts = [];
         if (selectedFilterName == 'typeFilter') {
-            const filterSubName = viewOption.get('filterChecked');
+            const filterSubName = viewOption.filterChecked;
             if (filterSubName == '综合') {
                 //根据得分排序,不需要添加排序字段到服务端
             }
             else if (filterSubName == '新品') {
                 sorts.push({
                     field: 'goodsInfoCreateTime',
-                    order: viewOption.get('descending') ? 1 : 0,
+                    order: viewOption.descending ? 1 : 0,
                 });
             }
         }
         else if (selectedFilterName == 'salesFilter') {
             sorts.push({
                 field: 'saleCount',
-                order: viewOption.get('descending') ? 1 : 0,
+                order: viewOption.descending ? 1 : 0,
             });
         }
         else if (selectedFilterName == 'priceFilter') {
             sorts.push({
                 field: 'price',
-                order: viewOption.get('descending') ? 1 : 0,
+                order: viewOption.descending ? 1 : 0,
             });
         }
 

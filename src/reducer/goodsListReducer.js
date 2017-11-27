@@ -50,7 +50,7 @@ export default function goodList(state = initialState, action) {
             let state1= state.set('searchParam',action.searchParam);
             return state1;
         case types.GoodsListDescending:
-            return state.set('viewOption',Immutable.Map(state.get('viewOption')).merge({filterOpen: false,selectedFilter: 'salesFilter', descending:true}));
+            return state.set('viewOption',Immutable.Map(state.get('viewOption')).merge(action.viewOption));
         case types.GoodsListReset:
             return initialState.set('loading',false).set('reloading',true);
             break;

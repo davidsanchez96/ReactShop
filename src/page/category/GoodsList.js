@@ -76,11 +76,25 @@ class GoodsList extends Component {
         const {goodsListReducer} = this.props;
         let loading = goodsListReducer.loading;
         let isTwo = goodsListReducer.isTwo;
+        let viewOption = goodsListReducer.viewOption;
         return (
             <View style={styles.container}>
                 <FilterBar
                     salesFilter={() => {
-                        this.props.dispatch(descending());
+                        page = 0;
+                        this.props.dispatch(descending(page, searchParam, {
+                            filterOpen: false,
+                            selectedFilter: 'salesFilter',
+                            descending: true
+                        }));
+                    }}
+                    priceFilter={(desc) => {
+                        page = 0;
+                        this.props.dispatch(descending(page, searchParam, {
+                            filterOpen: false,
+                            selectedFilter: 'priceFilter',
+                            descending: desc
+                        }));
                     }}
                     searchParam={goodsListReducer.searchParam}
                     viewOption={goodsListReducer.viewOption}/>
@@ -96,7 +110,7 @@ class GoodsList extends Component {
                     data={goodsListReducer.data}
                     onRefresh={() => {
                         page = 0;
-                        this.props.dispatch(goodsList(page, searchParam));
+                        this.props.dispatch(goodsList(page, searchParam, viewOption));
                     }}
                     refreshing={loading}
                     onEndReached={this._onEndReached.bind(this)}
@@ -111,9 +125,10 @@ class GoodsList extends Component {
         let hasMore = goodsListReducer.hasMore;
         let loading = goodsListReducer.loading;
         let loadingMore = goodsListReducer.loadingMore;
+        let viewOption = goodsListReducer.viewOption;
         if (hasMore && !loading && !loadingMore) {
             page++;
-            dispatch(goodsList(page, searchParam));
+            dispatch(goodsList(page, searchParam, viewOption));
         }
 
     }
