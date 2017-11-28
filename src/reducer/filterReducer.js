@@ -22,10 +22,55 @@ export default function filter(state = initialState, action) {
         case types.FilterLoading:
             return state.set('loading', true);
         case types.FilterLoaded:
-            return state.set('loading', false).set('data', action.data);
+            for (aggKey in action.data) {
+                if (aggKey == 'params') {
+                    const formattedAggs = _formatParamAggregations(action.data[aggKey]);
+                    for (paramAggKey in formattedAggs) {
+                        state.setIn(['aggregations', paramAggKey], Immutable.fromJS(formattedAggs[paramAggKey]));
+                    }
+                }
+                else {
+                    state.setIn(['aggregations', aggKey], Immutable.fromJS(action.data[aggKey]));
+                }
+            }
+            return state.set('loading', false);
         case types.NetError:
             return state.set('loading', false);
         default:
             return state;
     }
+}
+
+/**
+ * 格式化数组
+ * @param paramAggregations
+ * @private
+ */
+function _formatParamAggregations(paramAggregations) {
+    var formattedAggs = {};
+    if (!paramAggregations) {
+        return formattedAggs;
+    }
+
+    paramAggregations.map((v)=> {
+        const key = v['key'];
+
+        if (key == '价格') {
+            return;
+        }
+
+        const children = v['childs'];
+        if (!children || children.length == 0) {
+            return;
+        }
+
+        var valueList = [];
+        children.map((child)=> {
+            valueList.push({'key': child['key'], 'count': child['count']});
+        });
+
+        formattedAggs[key] = valueList;
+    });
+
+    return formattedAggs;
 }

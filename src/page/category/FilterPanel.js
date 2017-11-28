@@ -13,6 +13,8 @@ import {
     Platform,
     Image,
 } from 'react-native';
+import FilterButton from "../components/FilterButton";
+import FilterList from "../components/FilterList";
 
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
@@ -36,7 +38,7 @@ class FilterPanel extends Component {
                 ),
             headerRight:
                 (
-                    <TouchableOpacity style={{padding: 10}} activeOpacity={0.8} onPress={}>
+                    <TouchableOpacity style={{padding: 10}} activeOpacity={0.8} >
                         <Text style={{color: '#999',}} allowFontScaling={false}>确定</Text>
                     </TouchableOpacity>
                 ),
@@ -50,7 +52,7 @@ class FilterPanel extends Component {
 
 
     render() {
-
+        const {filterReducer} = this.props;
 
         return (
             <View style={styles.flowLayerContainer}>
@@ -74,8 +76,11 @@ class FilterPanel extends Component {
                                            style={styles.rightImage}/>
                                 </View>
                             </TouchableOpacity>
-                            <View>
-                                <TouchableOpacity
+                            <FilterButton
+                                selectedValues={filterReducer.get('selectedValues')}/>
+                            <FilterList
+                                aggregations={filterReducer.get('aggregations')}/>
+                            <TouchableOpacity
                                     style={styles.btnBlock}
                                     activeOpacity={0.8}
                                     onPress={() => msg.emit('goodsFilterCondition:clearSelectedValue')}>
@@ -83,7 +88,7 @@ class FilterPanel extends Component {
                                         清除选项
                                     </Text>
                                 </TouchableOpacity>
-                            </View>
+
                         </ScrollView>
                     }
                 </View>
@@ -94,7 +99,7 @@ class FilterPanel extends Component {
 
 const
     mapStateToProps = (state) => ({
-        filterReducer: state.get('filterReducer').toJS(),
+        filterReducer: state.get('filterReducer'),
     });
 export default connect(mapStateToProps)
 
