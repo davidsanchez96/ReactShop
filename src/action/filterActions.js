@@ -1,5 +1,5 @@
 import NetUtils from "../utils/NetUtils";
-import {SearchUrl} from "../utils/Constant";
+import {FilterUrl} from "../utils/Constant";
 import {
     NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore, GoodsListSearch, GoodsListReset,
     GoodsListDescending, FilterLoading, FilterLoaded
@@ -11,10 +11,10 @@ export function filter(params) {
     return (dispatch) => {
         dispatch({type: FilterLoading});
         console.log(_getPostBody(params));
-        NetUtils.post(SearchUrl, _getPostBody(params),
+        NetUtils.post(FilterUrl, _getPostBody(params),
             (result) => {
                 // console.log(result);
-                dispatch({type: FilterLoaded, data: result.params});
+                dispatch({type: FilterLoaded, data: result.aggResultMap});
             },
             (error) => {
                 console.log(error);
@@ -31,15 +31,15 @@ export function filter(params) {
 function _getPostBody(params) {
 
     var postBody = {};
-    if (params['searchText']) {
-        postBody['queryString'] = params['searchText'];
+    if (params.searchText) {
+        postBody.queryString = params.searchText;
     }
 
-    if (params['cates'] && params['cates'].length > 0) {
-        postBody['cateName'] = params['cates'][0];
+    if (params.cates && params.cates.length > 0) {
+        postBody.cateName = params.cates[0];
     }
 
-    postBody['priceAutoSectionNum'] = 6;
+    postBody.priceAutoSectionNum = 6;
     return postBody;
 }
 

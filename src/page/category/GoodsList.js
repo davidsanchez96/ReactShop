@@ -101,7 +101,7 @@ class GoodsList extends Component {
                         this.props.dispatch({type: GoodsListDescending, viewOption: {filterOpen: open}})
                     }}
                     showFilterPanel={() => {
-                        this.props.navigation.navigate('FilterPanel')
+                        this.props.navigation.navigate('FilterPanel',{searchParam:searchParam})
                     }}
                     searchParam={goodsListReducer.searchParam}
                     viewOption={goodsListReducer.viewOption}/>

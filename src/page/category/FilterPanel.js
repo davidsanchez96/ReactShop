@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import FilterButton from "../components/FilterButton";
 import FilterList from "../components/FilterList";
+import Loading from "../components/Loading";
+import {filter} from "../../action/filterActions";
 
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
@@ -38,7 +40,7 @@ class FilterPanel extends Component {
                 ),
             headerRight:
                 (
-                    <TouchableOpacity style={{padding: 10}} activeOpacity={0.8} >
+                    <TouchableOpacity style={{padding: 10}} activeOpacity={0.8}>
                         <Text style={{color: '#999',}} allowFontScaling={false}>确定</Text>
                     </TouchableOpacity>
                 ),
@@ -47,17 +49,18 @@ class FilterPanel extends Component {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
+            this.props.dispatch(filter(this.props.navigation.state.params.searchParam));
         });
     }
 
 
     render() {
         const {filterReducer} = this.props;
-
+        const loading = filterReducer.get('loading');
         return (
             <View style={styles.flowLayerContainer}>
                 <View style={styles.flowLayerRight}>
-                    {
+                    {loading ? <Loading/> :
 
                         <ScrollView bounces={false}>
                             <TouchableOpacity
@@ -81,13 +84,13 @@ class FilterPanel extends Component {
                             <FilterList
                                 aggregations={filterReducer.get('aggregations')}/>
                             <TouchableOpacity
-                                    style={styles.btnBlock}
-                                    activeOpacity={0.8}
-                                    onPress={() => msg.emit('goodsFilterCondition:clearSelectedValue')}>
-                                    <Text style={styles.btnText} allowFontScaling={false}>
-                                        清除选项
-                                    </Text>
-                                </TouchableOpacity>
+                                style={styles.btnBlock}
+                                activeOpacity={0.8}
+                                onPress={() => msg.emit('goodsFilterCondition:clearSelectedValue')}>
+                                <Text style={styles.btnText} allowFontScaling={false}>
+                                    清除选项
+                                </Text>
+                            </TouchableOpacity>
 
                         </ScrollView>
                     }

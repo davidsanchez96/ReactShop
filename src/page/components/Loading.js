@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     },
 
     loadingTitle: {
-        marginTop: 10,
         fontSize: 12,
         color: '#CCCCCC'
     }
