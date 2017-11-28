@@ -14,6 +14,7 @@ import User from "./user/User";
 import Search from "./components/Search";
 import {BackHandler} from "react-native";
 import GoodsList from "./category/GoodsList";
+import FilterPanel from "./category/FilterPanel";
 
 
 const HomeNavigator = TabNavigator({
@@ -70,6 +71,9 @@ export const AppNavigator = StackNavigator({
     },
     GoodsList: {
         screen: GoodsList,
+    },
+    FilterPanel: {
+        screen: FilterPanel,
     },
 });
 

@@ -122,26 +122,6 @@ function _getPostBody(pageNum, searchParam, viewOption) {
                 postBody['paramMap'][k] = searchParam[k];
             }
         }
-        // searchParam.map((v, k) => {
-        //     if (BASIC_PROP_NAMES.indexOf(k) !== -1) {
-        //         postBody[k] = v;
-        //     }
-        //     else if (k === 'searchText') {
-        //
-        //     }
-        //     else if (k === 'cates') {
-        //         postBody['cateName'] = v.size > 0 ? v.get(0) : null;
-        //     }
-        //     else if (k === 'priceAutoSectionNum') {
-        //         return;
-        //     }
-        //     else if (k == 'prices') {
-        //         postBody['prices'] = _getPricePostData(v);
-        //     }
-        //     else {
-        //         postBody['paramMap'][k] = v;
-        //     }
-        // });
     }
 
     return postBody;

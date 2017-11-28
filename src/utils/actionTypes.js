@@ -25,3 +25,8 @@ export const GoodsListShowMore = 'GoodsListShowMore';
 export const GoodsListSearch = 'GoodsListSearch';
 export const GoodsListReset = 'GoodsListReset';
 export const GoodsListDescending = 'GoodsListDescending';
+/**
+ *filter
+ */
+export const FilterLoading = 'FilterLoading';
+export const FilterLoaded = 'FilterLoaded';

@@ -30,12 +30,6 @@ export default function goodList(state = initialState, action) {
             } else {
                 return state.set('loading',false).set('loadingMore',false)
                     .set('hasMore',action.hasMore).set('data',state.get('data').concat((action.data)));
-                // return Object.assign({}, state, {
-                //     loading: false,
-                //     data: state.data.concat(action.data),
-                //     hasMore: action.hasMore,
-                //     loadingMore: false,
-                // })
             }
 
             break;
@@ -45,7 +39,6 @@ export default function goodList(state = initialState, action) {
             return state.set('isTwo',!state.get('isTwo'));
         case types.GoodsListShowMore:
             return state.set('loadingMore',true);
-
         case types.GoodsListSearch:
             let state1= state.set('searchParam',action.searchParam);
             return state1;
