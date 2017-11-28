@@ -1,7 +1,17 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {View, ListView, Text, TextInput, Dimensions, StyleSheet, TouchableOpacity, Image, PixelRatio} from 'react-native';
+import {
+    View,
+    ListView,
+    Text,
+    TextInput,
+    Dimensions,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+    PixelRatio
+} from 'react-native';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -18,7 +28,10 @@ export default class FilterBar extends Component {
                 <TouchableOpacity
                     style={styles.filterItem}
                     activeOpacity={0.8}
-                    onPress={this.props.typeFilter}>
+                    onPress={() => {
+                        this.props.typeFilter(!viewOption.filterOpen)
+                    }
+                    }>
                     <Text
                         style={[styles.filterText, selectedFilter === 'typeFilter' ? {color: '#e63a59'} : {}]}
                         allowFontScaling={false}>{viewOption.filterChecked}</Text>
@@ -29,8 +42,8 @@ export default class FilterBar extends Component {
                 <TouchableOpacity
                     style={styles.filterItem}
                     activeOpacity={0.8}
-                    onPress={()=>{
-                        if(viewOption.selectedFilter!=='salesFilter'){
+                    onPress={() => {
+                        if (viewOption.selectedFilter !== 'salesFilter') {
                             this.props.salesFilter(viewOption)
                         }
 
@@ -41,7 +54,7 @@ export default class FilterBar extends Component {
                 <TouchableOpacity
                     style={styles.filterItem}
                     activeOpacity={0.8}
-                    onPress={()=>{
+                    onPress={() => {
                         const curDescending = viewOption.descending;
                         const descending = viewOption.selectedFilter === 'priceFilter' ? !curDescending : curDescending;
                         this.props.priceFilter(descending);
@@ -88,7 +101,7 @@ export default class FilterBar extends Component {
 
 var styles = StyleSheet.create({
     filter: {
-        width:SCREEN_WIDTH,
+        width: SCREEN_WIDTH,
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingLeft: 20,

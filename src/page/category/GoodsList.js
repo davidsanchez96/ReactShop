@@ -16,7 +16,7 @@ import {goodsList, searchPara, showBig, reset, descending} from "../../action/go
 import FilterBar from "../components/FilterBar";
 import NumberControl from "../components/NumberControl";
 import Immutable from 'immutable';
-import {GoodsListLoaded, GoodsListLoading} from "../../utils/actionTypes";
+import {GoodsListDescending, GoodsListLoaded, GoodsListLoading} from "../../utils/actionTypes";
 import FilterBox from "../components/FilterBox";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -97,6 +97,9 @@ class GoodsList extends Component {
                             descending: desc
                         }));
                     }}
+                    typeFilter={(open) => {
+                        this.props.dispatch({type: GoodsListDescending, viewOption: {filterOpen: open}})
+                    }}
                     searchParam={goodsListReducer.searchParam}
                     viewOption={goodsListReducer.viewOption}/>
                 <FlatList
@@ -118,7 +121,22 @@ class GoodsList extends Component {
                     onEndReachedThreshold={0}
                 />
                 <FilterBox
-                    filterOpen={true}/>
+                    filterClose={() => {
+                        this.props.dispatch({type: GoodsListDescending, viewOption: {filterOpen: false}});
+                    }}
+                    filterFir={()=>{
+                        page = 0;
+                        this.props.dispatch(descending(page, searchParam, {
+                            filterOpen: false,selectedFilter: 'typeFilter',filterChecked: '综合'
+                        }));
+                    }}
+                    filterSec={()=>{
+                        page = 0;
+                        this.props.dispatch(descending(page, searchParam, {
+                            filterOpen: false,selectedFilter: 'typeFilter',filterChecked: '新品',descending:true
+                        }));
+                    }}
+                    viewOption={goodsListReducer.viewOption}/>
             </View>
         );
     }
