@@ -16,7 +16,7 @@ const {width: WIDTH} = Dimensions.get('window');
 export default class FilterItem extends Component {
     render() {
         const displayName = this._getPropDisplayName(this.props.propName);
-        const selectedValue = this._renderSelectedValue();
+        const selectedValue = '全部';//this._renderSelectedValue();
 
         return (
             <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={this._showSelectPanel}>

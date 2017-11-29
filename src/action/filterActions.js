@@ -35,8 +35,8 @@ function _getPostBody(params) {
         postBody.queryString = params.searchText;
     }
 
-    if (params.cates && params.cates.length > 0) {
-        postBody.cateName = params.cates[0];
+    if (params.cates) {
+        postBody.cateName = params.cates;
     }
 
     postBody.priceAutoSectionNum = 6;

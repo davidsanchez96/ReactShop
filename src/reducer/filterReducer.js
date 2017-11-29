@@ -1,7 +1,7 @@
 import * as types from '../utils/actionTypes';
 import Immutable from 'immutable';
 
-const initialState = Immutable.Map({
+const initialState = Immutable.fromJS({
     aggregations: {
         cates: [],
         brands: [],
@@ -22,18 +22,21 @@ export default function filter(state = initialState, action) {
         case types.FilterLoading:
             return state.set('loading', true);
         case types.FilterLoaded:
+            let newState=state;
             for (aggKey in action.data) {
                 if (aggKey == 'params') {
                     const formattedAggs = _formatParamAggregations(action.data[aggKey]);
                     for (paramAggKey in formattedAggs) {
-                        state.setIn(['aggregations', paramAggKey], Immutable.fromJS(formattedAggs[paramAggKey]));
+                        newState=   newState.setIn(['aggregations', paramAggKey], Immutable.fromJS(formattedAggs[paramAggKey]));
                     }
                 }
                 else {
-                    state.setIn(['aggregations', aggKey], Immutable.fromJS(action.data[aggKey]));
+                    newState=   newState.setIn(['aggregations', aggKey], action.data[aggKey]);
                 }
             }
-            return state.set('loading', false);
+
+            console.log(newState);
+            return newState.set('loading', false);
         case types.NetError:
             return state.set('loading', false);
         default:

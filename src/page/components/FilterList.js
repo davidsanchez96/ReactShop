@@ -41,15 +41,16 @@ export default class FilterList extends Component {
             aggregations= Immutable.fromJS(aggregations);
         }
         var sortedAggregations = [];
-        if (aggregations.get('cates') && aggregations.get('cates').size > 0) {
+        console.log(aggregations.get('cates').length);
+        if (aggregations.get('cates') && aggregations.get('cates').length > 0) {
             sortedAggregations.push({propName: 'cates', 'valueList': aggregations.get('cates')})
         }
 
-        if (aggregations.get('brands') && aggregations.get('brands').size > 0) {
+        if (aggregations.get('brands') && aggregations.get('brands').length > 0) {
             sortedAggregations.push({propName: 'brands', 'valueList': aggregations.get('brands')})
         }
 
-        if (aggregations.get('prices') && aggregations.get('prices').size > 0) {
+        if (aggregations.get('prices') && aggregations.get('prices').length > 0) {
             sortedAggregations.push({propName: 'prices', 'valueList': aggregations.get('prices')})
         }
 

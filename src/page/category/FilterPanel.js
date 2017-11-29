@@ -4,13 +4,10 @@ import {connect} from 'react-redux';
 import {
     View,
     Text,
-    PixelRatio,
     StyleSheet,
     TouchableOpacity,
     ScrollView,
-    Dimensions,
     InteractionManager,
-    Platform,
     Image,
 } from 'react-native';
 import FilterButton from "../components/FilterButton";
@@ -19,8 +16,6 @@ import Loading from "../components/Loading";
 import {filter} from "../../action/filterActions";
 
 
-const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
-const isAndroid = Platform.OS === 'android';
 
 /**
  * 商品筛选条件面板
@@ -58,43 +53,40 @@ class FilterPanel extends Component {
         const {filterReducer} = this.props;
         const loading = filterReducer.get('loading');
         return (
-            <View style={styles.flowLayerContainer}>
-                <View style={styles.flowLayerRight}>
-                    {loading ? <Loading/> :
+            <View style={styles.flowLayerRight}>
+                {loading ? <Loading/> :
 
-                        <ScrollView bounces={false}>
-                            <TouchableOpacity
-                                style={styles.container}
-                                activeOpacity={0.8}
-                                onPress={() => msg.emit('route:goToNext', {sceneName: 'Region'})}
-                            >
-                                <Text style={styles.text} allowFontScaling={false}>配送至</Text>
-                                <View style={styles.btnBlock}>
-                                    <Text
-                                        style={styles.btnText}
-                                        allowFontScaling={false}
-                                        numberOfLines={1}>
-                                    </Text>
-                                    <Image source={require('../components/img/right.png')}
-                                           style={styles.rightImage}/>
-                                </View>
-                            </TouchableOpacity>
-                            <FilterButton
-                                selectedValues={filterReducer.get('selectedValues')}/>
-                            <FilterList
-                                aggregations={filterReducer.get('aggregations')}/>
-                            <TouchableOpacity
-                                style={styles.btnBlock}
-                                activeOpacity={0.8}
-                                onPress={() => msg.emit('goodsFilterCondition:clearSelectedValue')}>
-                                <Text style={styles.btnText} allowFontScaling={false}>
-                                    清除选项
-                                </Text>
-                            </TouchableOpacity>
+                    <ScrollView bounces={false}>
+                        <TouchableOpacity
+                            style={styles.container}
+                            activeOpacity={0.8}
+                            onPress={() => msg.emit('route:goToNext', {sceneName: 'Region'})}
+                        >
+                            <Text style={styles.text} allowFontScaling={false}>配送至</Text>
+                            <Text
+                                style={styles.btnText}
+                                allowFontScaling={false}
+                                numberOfLines={1}>
+                                {filterReducer.get('address').get('region')}
+                            </Text>
+                            <Image source={require('../components/img/right.png')}
+                                   style={styles.rightImage}/>
+                        </TouchableOpacity>
+                        <FilterButton
+                            selectedValues={filterReducer.get('selectedValues')}/>
+                        <FilterList
+                            aggregations={filterReducer.get('aggregations')}/>
+                        <TouchableOpacity
+                            style={styles.clean}
+                            activeOpacity={0.8}
+                            onPress={() => msg.emit('goodsFilterCondition:clearSelectedValue')}>
+                            <Text style={styles.cleanText} allowFontScaling={false}>
+                                清除选项
+                            </Text>
+                        </TouchableOpacity>
 
-                        </ScrollView>
-                    }
-                </View>
+                    </ScrollView>
+                }
             </View>
         );
     }
@@ -113,7 +105,7 @@ export default connect(mapStateToProps)
 
 const
     styles = StyleSheet.create({
-        btnBlock: {
+        clean: {
             backgroundColor: '#FFF',
             alignSelf: 'center',
             alignItems: 'center',
@@ -123,54 +115,26 @@ const
             marginTop: 20,
             marginBottom: 20
         },
-        flowLayerContainer: {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            height: HEIGHT,
-            width: WIDTH,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-            flex: 1,
-        },
-        flowLayerLeft: {
-            width: 35,
-            height: HEIGHT,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        },
+
         flowLayerRight: {
-            //width: WIDTH - 35,
-            height: HEIGHT,
             backgroundColor: '#eee',
             flex: 1,
-            marginTop: isAndroid ? 0 : 20,
             paddingBottom: 20,
         },
-        text: {
-            width: 100,
-            height: 100,
-        },
-        btnText: {
+
+        cleanText: {
             color: 'grey',
             fontSize: 14,
         },
-        loadingView: {
-            flex: 1,
-            alignItems: 'stretch',
-            height: HEIGHT / 2
-        },
         container: {
-            height: 50,
+            height:50,
             flexDirection: 'row',
-            flex: 1,
             justifyContent: 'space-between',
             alignItems: 'center',
             paddingLeft: 10,
             paddingRight: 10,
             backgroundColor: '#FFF',
-            marginBottom: 1 / PixelRatio.get(),
+            marginBottom: 1,
         },
         btnBlock: {
             flex: 1,
