@@ -22,21 +22,19 @@ export default function filterReducer(state = initialState, action) {
         case types.FilterLoading:
             return state.set('loading', true);
         case types.FilterLoaded:
-            let newState = state;
-            for (aggKey in action.data) {
-                if (aggKey == 'params') {
-                    const formattedAggs = _formatParamAggregations(action.data[aggKey]);
-                    for (paramAggKey in formattedAggs) {
-                        newState = newState.setIn(['aggregations', paramAggKey], Immutable.fromJS(formattedAggs[paramAggKey]));
+            return state.withMutations((state) => {
+                for (let aggKey in action.data) {
+                    if (aggKey == 'params') {
+                        const formattedAggs = _formatParamAggregations(action.data[aggKey]);
+                        for (let key in formattedAggs) {
+                            state.setIn(['aggregations', key], Immutable.fromJS(formattedAggs[key]));
+                        }
+                    }
+                    else {
+                        state.setIn(['aggregations', aggKey], action.data[aggKey]);
                     }
                 }
-                else {
-                    newState = newState.setIn(['aggregations', aggKey], action.data[aggKey]);
-                }
-            }
-
-
-            return newState.set('loading', false);
+            });
         case types.NetError:
             return state.set('loading', false);
         case types.FilterType:
@@ -48,29 +46,29 @@ export default function filterReducer(state = initialState, action) {
                 return state.setIn(['selectedValues', action.data], 1);
             }
 
-            // var selectedCates = state.get('selectedValues').get('cates');
-            //
-            // if (prop === 'cates' && value !== selectedCates) {
-            //     appStore.cursor().withMutations((cursor) => {
-            //         cursor.set('selectedValues', fromJS({}));
-            //         cursor.setIn(['selectedValues', prop], value)
-            //     });
-            //
-            //     InteractionManager.runAfterInteractions(() => {
-            //         _initStore(appStore.data().get('selectedValues').toJS());
-            //     });
-            // }
-            // else {
-            //     appStore.cursor().setIn(['selectedValues', prop], value);
-            // }
+        // var selectedCates = state.get('selectedValues').get('cates');
+        //
+        // if (prop === 'cates' && value !== selectedCates) {
+        //     appStore.cursor().withMutations((cursor) => {
+        //         cursor.set('selectedValues', fromJS({}));
+        //         cursor.setIn(['selectedValues', prop], value)
+        //     });
+        //
+        //     InteractionManager.runAfterInteractions(() => {
+        //         _initStore(appStore.data().get('selectedValues').toJS());
+        //     });
+        // }
+        // else {
+        //     appStore.cursor().setIn(['selectedValues', prop], value);
+        // }
 
-            // if (state.get('selectedValues').includes(action.data)) {
-            //     return state.update('selectedValues', list => list.delete(
-            //         state.get('selectedValues').findIndex((item) => item === action.data)
-            //     ));
-            // } else {
-            //     return state.update('selectedValues', list => list.push(action.data));
-            // }
+        // if (state.get('selectedValues').includes(action.data)) {
+        //     return state.update('selectedValues', list => list.delete(
+        //         state.get('selectedValues').findIndex((item) => item === action.data)
+        //     ));
+        // } else {
+        //     return state.update('selectedValues', list => list.push(action.data));
+        // }
 
         case types.FilterAddress:
             const {

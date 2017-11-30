@@ -70,7 +70,7 @@ export default class FilterButton extends Component {
           selectedValues= Immutable.fromJS(selectedValues);
       }
     var selectValue = selectedValues.get(propName);
-    return selectedValues.includes(propName);
+    return selectValue != null && selectValue != undefined;
   }
 
 
