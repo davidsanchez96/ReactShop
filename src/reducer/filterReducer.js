@@ -42,7 +42,7 @@ export default function filterReducer(state = initialState, action) {
         case types.FilterType:
             var selectValue = state.get('selectedValues').get(action.data);
             if (selectValue != null && selectValue != undefined) {
-                return state.setIn(['selectedValues', action.data], null); 
+                return state.setIn(['selectedValues', action.data], null);
             }
             else {
                 return state.setIn(['selectedValues', action.data], 1);
