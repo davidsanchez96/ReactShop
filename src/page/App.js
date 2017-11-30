@@ -15,6 +15,7 @@ import Search from "./components/Search";
 import {BackHandler} from "react-native";
 import GoodsList from "./category/GoodsList";
 import FilterPanel from "./category/FilterPanel";
+import Address from "./category/Address";
 
 
 const HomeNavigator = TabNavigator({
@@ -59,23 +60,32 @@ const HomeNavigator = TabNavigator({
     }
 );
 export const AppNavigator = StackNavigator({
-    Home: {
-        screen: HomeNavigator,
+        Home: {
+            screen: HomeNavigator,
 
+        },
+        GoodsDetail: {
+            screen: GoodsDetail,
+        },
+        Search: {
+            screen: Search,
+        },
+        GoodsList: {
+            screen: GoodsList,
+        },
+        FilterPanel: {
+            screen: FilterPanel,
+        },
+        Address: {
+            screen: Address,
+        },
     },
-    GoodsDetail: {
-        screen: GoodsDetail,
-    },
-    Search: {
-        screen: Search,
-    },
-    GoodsList: {
-        screen: GoodsList,
-    },
-    FilterPanel: {
-        screen: FilterPanel,
-    },
-});
+    {
+        navigationOptions: {
+            headerBackTitle: null,
+            headerTintColor:'gray',
+        }
+    });
 
 
 class App extends React.PureComponent {

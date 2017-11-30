@@ -41,7 +41,6 @@ export default class FilterList extends Component {
             aggregations= Immutable.fromJS(aggregations);
         }
         var sortedAggregations = [];
-        console.log(aggregations.get('cates').length);
         if (aggregations.get('cates') && aggregations.get('cates').length > 0) {
             sortedAggregations.push({propName: 'cates', 'valueList': aggregations.get('cates')})
         }
@@ -62,9 +61,9 @@ export default class FilterList extends Component {
             }
         }
 
-        if (__DEV__) {
-            console.log('GoodsList filter-item-list sortedAggregations=>', JSON.stringify(sortedAggregations, null, 2));
-        }
+        // if (__DEV__) {
+        //     console.log('GoodsList filter-item-list sortedAggregations=>', JSON.stringify(sortedAggregations, null, 2));
+        // }
         return sortedAggregations;
     }
 }

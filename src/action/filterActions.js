@@ -1,10 +1,8 @@
 import NetUtils from "../utils/NetUtils";
 import {FilterUrl} from "../utils/Constant";
 import {
-    NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore, GoodsListSearch, GoodsListReset,
-    GoodsListDescending, FilterLoading, FilterLoaded
+    NetError, FilterLoading, FilterLoaded
 } from "../utils/actionTypes";
-
 
 
 export function filter(params) {

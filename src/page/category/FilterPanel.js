@@ -14,6 +14,7 @@ import FilterButton from "../components/FilterButton";
 import FilterList from "../components/FilterList";
 import Loading from "../components/Loading";
 import {filter} from "../../action/filterActions";
+import {FilterAddress} from "../../utils/actionTypes";
 
 
 
@@ -50,7 +51,7 @@ class FilterPanel extends Component {
 
 
     render() {
-        const {filterReducer} = this.props;
+        const {filterReducer,navigation,dispatch} = this.props;
         const loading = filterReducer.get('loading');
         return (
             <View style={styles.flowLayerRight}>
@@ -60,7 +61,12 @@ class FilterPanel extends Component {
                         <TouchableOpacity
                             style={styles.container}
                             activeOpacity={0.8}
-                            onPress={() => msg.emit('route:goToNext', {sceneName: 'Region'})}
+                            onPress={() => {navigation.navigate('Address',{
+                                selectBack:(select)=>{
+                                    console.log(select)
+                                    dispatch({type: FilterAddress,data:select});
+                                }
+                            })}}
                         >
                             <Text style={styles.text} allowFontScaling={false}>配送至</Text>
                             <Text
@@ -96,12 +102,7 @@ const
     mapStateToProps = (state) => ({
         filterReducer: state.get('filterReducer'),
     });
-export default connect(mapStateToProps)
-
-(
-    FilterPanel
-)
-;
+export default connect(mapStateToProps)(FilterPanel);
 
 const
     styles = StyleSheet.create({

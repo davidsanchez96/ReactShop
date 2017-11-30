@@ -30,3 +30,10 @@ export const GoodsListDescending = 'GoodsListDescending';
  */
 export const FilterLoading = 'FilterLoading';
 export const FilterLoaded = 'FilterLoaded';
+export const FilterAddress = 'FilterAddress';
+/**
+ *address
+ */
+export const AddressLoading = 'AddressLoading';
+export const AddressLoaded = 'AddressLoaded';
+export const AddressSelect = 'AddressSelect';

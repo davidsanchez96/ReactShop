@@ -3,3 +3,4 @@ export const CategoryUrl=URL+'/goods/mobcates';
 export const SuggestionUrl=URL+'/suggestions/completion?size=10&queryString=';
 export const SearchUrl=URL+'/search/goods';
 export const FilterUrl=URL+'/search/goods/aggregations';
+export const AddressUrl=URL+'/area/all';

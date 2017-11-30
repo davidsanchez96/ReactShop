@@ -17,7 +17,7 @@ const initialState = Immutable.fromJS({
     loading: true,
 });
 
-export default function filter(state = initialState, action) {
+export default function filterReducer(state = initialState, action) {
     switch (action.type) {
         case types.FilterLoading:
             return state.set('loading', true);
@@ -39,6 +39,23 @@ export default function filter(state = initialState, action) {
             return newState.set('loading', false);
         case types.NetError:
             return state.set('loading', false);
+        case types.FilterAddress:
+            const {
+                provinceId,
+                provinceName,
+                cityId,
+                cityName,
+                districtId,
+                districtName
+            } = action.data;
+
+           return state.withMutations((state) => {
+                state
+                    .setIn(['address', 'province'], provinceId + '')
+                    .setIn(['address', 'city'], cityId + '')
+                    .setIn(['address', 'country'], districtId + '')
+                    .setIn(['address', 'region'], provinceName + cityName + districtName);
+            });
         default:
             return state;
     }
