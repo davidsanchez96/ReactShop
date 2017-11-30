@@ -23,7 +23,8 @@ export default class FilterList extends Component {
                 contentContainerStyle={styles.container}>
                 {aggregations.map(
                     (v) =>
-                        <FilterItem propName={v.propName}/>
+                        <FilterItem propName={v.propName}
+                                    filterReducer={this.props.filterReducer}/>
                 )}
             </ScrollView>
         );
@@ -36,7 +37,7 @@ export default class FilterList extends Component {
      * @private
      */
     _sortAggregations() {
-        let aggregations = this.props.aggregations;
+        let aggregations = this.props.filterReducer.get('aggregations');
         if(!Immutable.is(aggregations)){
             aggregations= Immutable.fromJS(aggregations);
         }

@@ -1,7 +1,3 @@
-/**
- * Created by liuzhaoming on 15/12/15.
- */
-
 import React, {Component} from 'react';
 
 import {View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, PixelRatio} from 'react-native';
@@ -42,14 +38,14 @@ export default class FilterItem extends Component {
      */
     _renderSelectedValue() {
         const name = this.props.propName;
-        const allSelectedValueMap = appStore.data().get('selectedValues');
+        const allSelectedValueMap = this.props.filterReducer.get('selectedValues');
         var text = null;
 
         if (__DEV__) {
             console.log('GoodsFilterValue filter item _renderSelectedValue =>', JSON.stringify(allSelectedValueMap, null, 2));
         }
 
-        if (allSelectedValueMap && allSelectedValueMap.get(name)) {
+        if (allSelectedValueMap && allSelectedValueMap.includes(name)) {
             text = allSelectedValueMap.get(name).join('、');
         }
 

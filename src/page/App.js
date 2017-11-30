@@ -16,6 +16,7 @@ import {BackHandler} from "react-native";
 import GoodsList from "./category/GoodsList";
 import FilterPanel from "./category/FilterPanel";
 import Address from "./category/Address";
+import FilterSelect from "./category/FilterSelect";
 
 
 const HomeNavigator = TabNavigator({
@@ -79,11 +80,14 @@ export const AppNavigator = StackNavigator({
         Address: {
             screen: Address,
         },
+        FilterSelect: {
+            screen: FilterSelect,
+        },
     },
     {
         navigationOptions: {
             headerBackTitle: null,
-            headerTintColor:'gray',
+            headerTintColor: 'gray',
         }
     });
 

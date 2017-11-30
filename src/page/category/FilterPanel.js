@@ -85,7 +85,7 @@ class FilterPanel extends Component {
                                 dispatch({type: FilterType, data: propName});
                             }}/>
                         <FilterList
-                            aggregations={filterReducer.get('aggregations')}/>
+                            filterReducer={filterReducer}/>
                         <TouchableOpacity
                             style={styles.clean}
                             activeOpacity={0.8}

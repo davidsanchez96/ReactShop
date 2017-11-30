@@ -38,3 +38,8 @@ export const FilterType = 'FilterType';
 export const AddressLoading = 'AddressLoading';
 export const AddressLoaded = 'AddressLoaded';
 export const AddressSelect = 'AddressSelect';
+/**
+ *select
+ */
+export const SelectLoading = 'SelectLoading';
+export const SelectLoaded = 'SelectLoaded';
