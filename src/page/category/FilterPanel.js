@@ -14,8 +14,7 @@ import FilterButton from "../components/FilterButton";
 import FilterList from "../components/FilterList";
 import Loading from "../components/Loading";
 import {filter} from "../../action/filterActions";
-import {FilterAddress} from "../../utils/actionTypes";
-
+import {FilterAddress, FilterType} from "../../utils/actionTypes";
 
 
 /**
@@ -51,7 +50,7 @@ class FilterPanel extends Component {
 
 
     render() {
-        const {filterReducer,navigation,dispatch} = this.props;
+        const {filterReducer, navigation, dispatch} = this.props;
         const loading = filterReducer.get('loading');
         return (
             <View style={styles.flowLayerRight}>
@@ -61,12 +60,14 @@ class FilterPanel extends Component {
                         <TouchableOpacity
                             style={styles.container}
                             activeOpacity={0.8}
-                            onPress={() => {navigation.navigate('Address',{
-                                selectBack:(select)=>{
-                                    console.log(select)
-                                    dispatch({type: FilterAddress,data:select});
-                                }
-                            })}}
+                            onPress={() => {
+                                navigation.navigate('Address', {
+                                    selectBack: (select) => {
+                                        console.log(select)
+                                        dispatch({type: FilterAddress, data: select});
+                                    }
+                                })
+                            }}
                         >
                             <Text style={styles.text} allowFontScaling={false}>配送至</Text>
                             <Text
@@ -79,7 +80,10 @@ class FilterPanel extends Component {
                                    style={styles.rightImage}/>
                         </TouchableOpacity>
                         <FilterButton
-                            selectedValues={filterReducer.get('selectedValues')}/>
+                            selectedValues={filterReducer.get('selectedValues')}
+                            setSelect={(propName) => {
+                                dispatch({type: FilterType, data: propName});
+                            }}/>
                         <FilterList
                             aggregations={filterReducer.get('aggregations')}/>
                         <TouchableOpacity
@@ -128,7 +132,7 @@ const
             fontSize: 14,
         },
         container: {
-            height:50,
+            height: 50,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',

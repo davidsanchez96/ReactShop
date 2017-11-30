@@ -31,6 +31,7 @@ export const GoodsListDescending = 'GoodsListDescending';
 export const FilterLoading = 'FilterLoading';
 export const FilterLoaded = 'FilterLoaded';
 export const FilterAddress = 'FilterAddress';
+export const FilterType = 'FilterType';
 /**
  *address
  */

@@ -18,7 +18,7 @@ export default class FilterButton extends Component {
         <TouchableOpacity
           style={this._isSelected('showStock') ? styles.selectedBtn :styles.btnBlock}
           activeOpacity={0.8}
-          onPress={()=>this._setSelected('showStock')}>
+          onPress={()=>this.props.setSelect('showStock')}>
           {
             this._isSelected('showStock') ?
               <Image source={require('./img/filter_checked.png')} style={styles.selectedImage}/> :
@@ -31,7 +31,7 @@ export default class FilterButton extends Component {
         <TouchableOpacity
           style={this._isSelected('isCustomerDismount') ? styles.selectedBtn :styles.btnBlock}
           activeOpacity={0.8}
-          onPress={()=>this._setSelected('isCustomerDismount')}>
+          onPress={()=>this.props.setSelect('isCustomerDismount')}>
           {
             this._isSelected('isCustomerDismount') ?
               <Image source={require('./img/filter_checked.png')} style={styles.selectedImage}/> :
@@ -44,7 +44,7 @@ export default class FilterButton extends Component {
         <TouchableOpacity
           style={this._isSelected('freeShipment') ? styles.selectedBtn :styles.btnBlock}
           activeOpacity={0.8}
-          onPress={()=>this._setSelected('freeShipment')}>
+          onPress={()=>this.props.setSelect('freeShipment')}>
           {
             this._isSelected('freeShipment') ?
               <Image source={require('./img/filter_checked.png')} style={styles.selectedImage}/> :
@@ -70,25 +70,10 @@ export default class FilterButton extends Component {
           selectedValues= Immutable.fromJS(selectedValues);
       }
     var selectValue = selectedValues.get(propName);
-    return selectValue != null && selectValue != undefined;
+    return selectedValues.includes(propName);
   }
 
 
-  /**
-   * 设置按钮选中状态
-   * @param propName
-   * @private
-   */
-  _setSelected(propName){
-    // var selectValue = appStore.data().get('selectedValues').get(propName);
-    // if (selectValue != null && selectValue != undefined) {
-    //   msg.emit('goodsFilterCondition:setSelectedValue', propName, null);
-    // }
-    // else {
-    //   msg.emit('goodsFilterCondition:setSelectedValue', propName, 1);
-    // }
-
-  }
 }
 
 

@@ -7,7 +7,7 @@ const initialState = Immutable.fromJS({
         brands: [],
         prices: [],
     },
-    selectedValues: {},
+    selectedValues: [],
     address: {
         province: '10',
         city: '74',
@@ -22,23 +22,32 @@ export default function filterReducer(state = initialState, action) {
         case types.FilterLoading:
             return state.set('loading', true);
         case types.FilterLoaded:
-            let newState=state;
+            let newState = state;
             for (aggKey in action.data) {
                 if (aggKey == 'params') {
                     const formattedAggs = _formatParamAggregations(action.data[aggKey]);
                     for (paramAggKey in formattedAggs) {
-                        newState=   newState.setIn(['aggregations', paramAggKey], Immutable.fromJS(formattedAggs[paramAggKey]));
+                        newState = newState.setIn(['aggregations', paramAggKey], Immutable.fromJS(formattedAggs[paramAggKey]));
                     }
                 }
                 else {
-                    newState=   newState.setIn(['aggregations', aggKey], action.data[aggKey]);
+                    newState = newState.setIn(['aggregations', aggKey], action.data[aggKey]);
                 }
             }
 
-            console.log(newState);
+
             return newState.set('loading', false);
         case types.NetError:
             return state.set('loading', false);
+        case types.FilterType:
+            if (state.get('selectedValues').includes(action.data)) {
+                return state.update('selectedValues', list => list.delete(
+                    state.get('selectedValues').findIndex((item) => item === action.data)
+                ));
+            } else {
+                return state.update('selectedValues', list => list.push(action.data));
+            }
+
         case types.FilterAddress:
             const {
                 provinceId,
@@ -49,7 +58,7 @@ export default function filterReducer(state = initialState, action) {
                 districtName
             } = action.data;
 
-           return state.withMutations((state) => {
+            return state.withMutations((state) => {
                 state
                     .setIn(['address', 'province'], provinceId + '')
                     .setIn(['address', 'city'], cityId + '')
@@ -72,7 +81,7 @@ function _formatParamAggregations(paramAggregations) {
         return formattedAggs;
     }
 
-    paramAggregations.map((v)=> {
+    paramAggregations.map((v) => {
         const key = v['key'];
 
         if (key == '价格') {
@@ -85,7 +94,7 @@ function _formatParamAggregations(paramAggregations) {
         }
 
         var valueList = [];
-        children.map((child)=> {
+        children.map((child) => {
             valueList.push({'key': child['key'], 'count': child['count']});
         });
 
