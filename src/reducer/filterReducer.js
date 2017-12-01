@@ -23,7 +23,7 @@ export default function filterReducer(state = initialState, action) {
             return state.set('loading', true);
         case types.FilterLoaded:
             return state.withMutations((state) => {
-                for (let aggKey in action.data) {
+               for (let aggKey in action.data) {
                     if (aggKey == 'params') {
                         const formattedAggs = _formatParamAggregations(action.data[aggKey]);
                         for (let key in formattedAggs) {
@@ -34,6 +34,7 @@ export default function filterReducer(state = initialState, action) {
                         state.setIn(['aggregations', aggKey], action.data[aggKey]);
                     }
                 }
+                state.set('loading', false);
             });
         case types.NetError:
             return state.set('loading', false);
@@ -87,6 +88,8 @@ export default function filterReducer(state = initialState, action) {
                     .setIn(['address', 'country'], districtId + '')
                     .setIn(['address', 'region'], provinceName + cityName + districtName);
             });
+        // case types.FilterSearch:
+            // return state.set('selectedValues',action.data);
         default:
             return state;
     }

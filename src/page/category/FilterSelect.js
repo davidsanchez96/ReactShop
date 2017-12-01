@@ -13,9 +13,6 @@ import {
     Platform
 } from 'react-native';
 
-import ValueTopBar from './component/value-toolbar';
-import FilterValueItemList from './component/value-list';
-import BrandValueItemList from './component/brand-value-list';
 import Loading from "../components/Loading";
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');

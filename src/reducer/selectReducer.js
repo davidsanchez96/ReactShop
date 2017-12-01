@@ -12,9 +12,9 @@ const initialState = Immutable.fromJS({
 });
 export default function selectReducer(state = initialState, action) {
     switch (action.type) {
-        case types.SuggestionLoading:
+        case types.SelectLoading:
             return state.set('loading',true);
-        case types.SuggestionLoaded:
+        case types.SelectLoaded:
             return state.set('loading',false).set('data',action.data);
         case types.NetError:
             return state.set('loading',false);

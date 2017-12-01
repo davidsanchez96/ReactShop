@@ -14,7 +14,7 @@ import FilterButton from "../components/FilterButton";
 import FilterList from "../components/FilterList";
 import Loading from "../components/Loading";
 import {filter} from "../../action/filterActions";
-import {FilterAddress, FilterType} from "../../utils/actionTypes";
+import {FilterAddress, FilterSearch, FilterType} from "../../utils/actionTypes";
 
 
 /**
@@ -45,6 +45,7 @@ class FilterPanel extends Component {
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             this.props.dispatch(filter(this.props.navigation.state.params.searchParam));
+            this.props.dispatch({type:FilterSearch,data:this.props.navigation.state.params.searchParam});
         });
     }
 

@@ -32,6 +32,7 @@ export const FilterLoading = 'FilterLoading';
 export const FilterLoaded = 'FilterLoaded';
 export const FilterAddress = 'FilterAddress';
 export const FilterType = 'FilterType';
+export const FilterSearch = 'FilterSearch';
 /**
  *address
  */

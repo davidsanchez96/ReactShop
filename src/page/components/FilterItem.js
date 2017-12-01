@@ -12,7 +12,7 @@ const {width: WIDTH} = Dimensions.get('window');
 export default class FilterItem extends Component {
     render() {
         const displayName = this._getPropDisplayName(this.props.propName);
-        const selectedValue = '全部';//this._renderSelectedValue();
+        const selectedValue = this._renderSelectedValue();
 
         return (
             <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={this._showSelectPanel}>
@@ -62,7 +62,7 @@ export default class FilterItem extends Component {
      * @private
      */
     _showSelectPanel() {
-        const store = appStore.data();
+        const store = this.props.filterReducer;
         const propName = this.props.propName;
         var sceneParam = {propName: propName, displayPropName: this._getPropDisplayName(propName)};
         if (store.get('selectedValues') && store.get('selectedValues').get(propName)) {
@@ -77,10 +77,10 @@ export default class FilterItem extends Component {
             console.log('GoodsFilter filter-item _showSelectPanel is called', JSON.stringify(sceneParam, null, 2));
         }
 
-        msg.emit('route:goToNext', {
-            sceneName: 'GoodsFilterValue',
-            ...sceneParam,
-        });
+        // msg.emit('route:goToNext', {
+        //     sceneName: 'GoodsFilterValue',
+        //     ...sceneParam,
+        // });
     }
 
 
