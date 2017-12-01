@@ -15,7 +15,7 @@ export default class FilterItem extends Component {
         const selectedValue = this._renderSelectedValue();
 
         return (
-            <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={this._showSelectPanel}>
+            <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={()=>this._showSelectPanel()}>
                 <Text style={styles.keyText} allowFontScaling={false}>{displayName}</Text>
                 <View style={styles.rightView}>
                     <Text
@@ -76,7 +76,7 @@ export default class FilterItem extends Component {
         if (__DEV__) {
             console.log('GoodsFilter filter-item _showSelectPanel is called', JSON.stringify(sceneParam, null, 2));
         }
-
+        this.props.navigation.navigate('FilterSelect',sceneParam);
         // msg.emit('route:goToNext', {
         //     sceneName: 'GoodsFilterValue',
         //     ...sceneParam,

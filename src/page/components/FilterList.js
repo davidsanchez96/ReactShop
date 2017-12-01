@@ -24,6 +24,7 @@ export default class FilterList extends Component {
                 {aggregations.map(
                     (v) =>
                         <FilterItem propName={v.propName}
+                                    navigation={this.props.navigation}
                                     filterReducer={this.props.filterReducer}/>
                 )}
             </ScrollView>

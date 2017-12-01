@@ -86,6 +86,7 @@ class FilterPanel extends Component {
                                 dispatch({type: FilterType, data: propName});
                             }}/>
                         <FilterList
+                            navigation={navigation}
                             filterReducer={filterReducer}/>
                         <TouchableOpacity
                             style={styles.clean}

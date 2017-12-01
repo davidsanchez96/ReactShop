@@ -4,18 +4,18 @@ import {View, Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native
 
 import {fromJS} from 'immutable';
 import FilterValueItem from './value-item';
-import appStore from '../store';
 import BrandViewTypeBar from './brand-view-type';
 import SortBrandValueItemList from './brand-sort-list';
+import FilterBrandBar from "./BrandBar";
 
 
 /**
  * 商品筛选条件列表
  */
-export default class BrandList extends Component {
+export default class FilterBrandList extends Component {
 
   render() {
-    const store = appStore.data();
+    const store = this.props.selectReducer;
     const propName = store.get('propName');
     const valueList = store.get('valueList');
 
@@ -25,7 +25,7 @@ export default class BrandList extends Component {
 
     return (
       <View style={styles.container}>
-        <BrandViewTypeBar/>
+        <FilterBrandBar/>
         {
           store.get('brandViewType') === 'sort'
             ?
@@ -43,7 +43,7 @@ export default class BrandList extends Component {
                     propName={propName}
                   />
                 </View>
-                {valueList.toJS().map(v =>
+                {valueList.map(v =>
                   <View style={{ backgroundColor: '#eee'}}>
                     <FilterValueItem
                       value={v['key']}

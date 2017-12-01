@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {
     View,
     Text,
-    PixelRatio,
     StyleSheet,
     TouchableOpacity,
     ScrollView,
@@ -14,6 +13,8 @@ import {
 } from 'react-native';
 
 import Loading from "../components/Loading";
+import {SelectLoaded} from "../../utils/actionTypes";
+import FilterSelectList from "../components/FilterSelectList";
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 const isAndroid = Platform.OS === 'android';
@@ -43,7 +44,7 @@ class FilterSelect extends Component {
             valueList: this.props.valueList,
         };
         InteractionManager.runAfterInteractions(() => {
-            msg.emit("goodsFilterConditionValue:initStore", receivedProps)
+           this.props.dispatch({type:SelectLoaded,data:this.props.navigation.state.params})
         });
     }
 
@@ -53,7 +54,7 @@ class FilterSelect extends Component {
         const propName = selectReducer.get('propName');
         const displayPropName = selectReducer.get('displayPropName');
 
-        if (selectReducer.get('isLoading')) {
+        if (selectReducer.get('loading')) {
             return <Loading/>
         }
 
@@ -66,7 +67,8 @@ class FilterSelect extends Component {
                             <BrandValueItemList/>
                             :
                             <ScrollView bounces={false}>
-                                <FilterValueItemList/>
+                                <FilterSelectList
+                                    selectReducer={selectReducer}/>
                             </ScrollView>
                     }
                 </View>
@@ -85,7 +87,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#EEE',
-        marginTop: isAndroid ? 0 : 20,
     },
     flowLayerContainer: {
         position: 'absolute',
