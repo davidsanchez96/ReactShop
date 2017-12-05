@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 
 import {View, Text, StyleSheet, TouchableOpacity, PixelRatio} from 'react-native';
+import {SelectType} from "../../utils/actionTypes";
 
 
-import appStore from '../store'
 
 
 /**
  * 品牌视图选择工具条
  */
-export default class BrandBar extends Component {
+export default class FilterBrandBar extends Component {
   render(){
-    var isSortSelected = appStore.data().get('brandViewType') === 'sort';
+    var isSortSelected = this.props.selectReducer.get('brandViewType') === 'sort';
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.btnBlock} activeOpacity={0.8} onPress={()=>this._onClickItem('recommend')}>
@@ -34,7 +34,8 @@ export default class BrandBar extends Component {
    * @private
    */
   _onClickItem(type) {
-    msg.emit('goodsFilterConditionValue:setBrandViewType', type);
+    this.props.dispatch({type:SelectType,data:type});
+    // msg.emit('goodsFilterConditionValue:setBrandViewType', type);
   }
 }
 

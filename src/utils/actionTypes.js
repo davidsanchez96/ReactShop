@@ -44,3 +44,4 @@ export const AddressSelect = 'AddressSelect';
  */
 export const SelectLoading = 'SelectLoading';
 export const SelectLoaded = 'SelectLoaded';
+export const SelectType = 'SelectType';

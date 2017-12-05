@@ -15,6 +15,8 @@ export default function selectReducer(state = initialState, action) {
     switch (action.type) {
         case types.SelectLoading:
             return state.set('loading', true);
+        case types.SelectType:
+            return state.set('brandViewType', action.data);
         case types.SelectLoaded:
             return state.withMutations((state) => {
                 state

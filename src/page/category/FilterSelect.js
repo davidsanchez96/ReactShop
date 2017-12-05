@@ -15,6 +15,7 @@ import {
 import Loading from "../components/Loading";
 import {SelectLoaded} from "../../utils/actionTypes";
 import FilterSelectList from "../components/FilterSelectList";
+import FilterBrandList from "../components/FilterBrandList";
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 const isAndroid = Platform.OS === 'android';
@@ -50,7 +51,7 @@ class FilterSelect extends Component {
 
 
     render() {
-        const {selectReducer} = this.props;
+        const {selectReducer,dispatch} = this.props;
         const propName = selectReducer.get('propName');
         const displayPropName = selectReducer.get('displayPropName');
 
@@ -64,7 +65,9 @@ class FilterSelect extends Component {
                     {
                         propName === 'brands'
                             ?
-                            <BrandValueItemList/>
+                            <FilterBrandList
+                                dispatch={dispatch}
+                                selectReducer={selectReducer}/>
                             :
                             <ScrollView bounces={false}>
                                 <FilterSelectList
