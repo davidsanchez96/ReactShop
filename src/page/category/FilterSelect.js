@@ -27,12 +27,17 @@ class FilterSelect extends Component {
 
     static navigationOptions = ({navigation}) => {
         return {
-            title: navigation.state.params.title,
+            title: navigation.state.params.displayPropName,
+
             headerRight:
                 (
-                    <TouchableOpacity style={{padding: 10}} activeOpacity={0.8}>
-                        <Text style={{color: '#999',}} allowFontScaling={false}>确定</Text>
-                    </TouchableOpacity>
+                    navigation.state.params.propName === 'cates' || navigation.state.params.propName === 'prices'
+                        ?
+                        null
+                        :
+                        <TouchableOpacity style={{padding: 10}} activeOpacity={0.8}>
+                            <Text style={{color: '#999',}} allowFontScaling={false}>确定</Text>
+                        </TouchableOpacity>
                 ),
         };
     };
@@ -45,13 +50,13 @@ class FilterSelect extends Component {
             valueList: this.props.valueList,
         };
         InteractionManager.runAfterInteractions(() => {
-           this.props.dispatch({type:SelectLoaded,data:this.props.navigation.state.params})
+            this.props.dispatch({type: SelectLoaded, data: this.props.navigation.state.params})
         });
     }
 
 
     render() {
-        const {selectReducer,dispatch} = this.props;
+        const {selectReducer, dispatch} = this.props;
         const propName = selectReducer.get('propName');
         const displayPropName = selectReducer.get('displayPropName');
 
@@ -71,6 +76,7 @@ class FilterSelect extends Component {
                             :
                             <ScrollView bounces={false}>
                                 <FilterSelectList
+                                    dispatch={dispatch}
                                     selectReducer={selectReducer}/>
                             </ScrollView>
                     }

@@ -16,7 +16,7 @@ export default class FilterBrandList extends Component {
         const store = this.props.selectReducer;
         const propName = store.get('propName');
         const valueList = store.get('valueList');
-
+const dispatch=this.props.dispatch;
         if (__DEV__) {
             console.log('brand-filter-value-list-panel render store=>', JSON.stringify(store, null, 2));
         }
@@ -24,7 +24,7 @@ export default class FilterBrandList extends Component {
         return (
             <View style={styles.container}>
                 <FilterBrandBar
-                    dispatch={this.props.dispatch}
+                    dispatch={dispatch}
                     selectReducer={store}/>
                 {
                     store.get('brandViewType') === 'sort'
@@ -47,6 +47,7 @@ export default class FilterBrandList extends Component {
                                 {valueList.map(v =>
                                     <View style={{backgroundColor: '#eee'}}>
                                         <FilterSelectItem
+                                            dispatch={dispatch}
                                             value={v['key']}
                                             propName={propName}
                                             isSelected={this._isSelected(v['key'], 'recommend')}

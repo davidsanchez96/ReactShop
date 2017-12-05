@@ -17,6 +17,17 @@ export default function selectReducer(state = initialState, action) {
             return state.set('loading', true);
         case types.SelectType:
             return state.set('brandViewType', action.data);
+        case types.SelectSingle:
+            if (action.data == undefined || action.data == null) {
+                return state.update('selectedValue', (selectedValue) => {
+                    return selectedValue.clear();
+                });
+
+            }
+
+            return state.update('selectedValue', (selectedValue) => {
+                return  selectedValue.clear().add(action.data);
+            });
         case types.SelectLoaded:
             return state.withMutations((state) => {
                 state

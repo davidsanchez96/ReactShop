@@ -4,9 +4,7 @@ import {View, Text, StyleSheet, TouchableOpacity, Image, PixelRatio, ListView} f
 
 
 import Immutable, {OrderedMap} from 'immutable';
-
 import han from 'han';
-
 const bandLetterHeaderHeight = 30;
 const bandRowHeight = 50;
 const borderHeight = 1 / PixelRatio.get();
@@ -271,7 +269,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     separatorLine: {
-        height: 1 / PixelRatio.get(),
+        height: 1 ,
         backgroundColor: '#EEE',
     },
 });

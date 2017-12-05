@@ -10,77 +10,79 @@ import FilterSelectItem from "./FilterSelectItem";
  */
 export default class FilterSelectList extends Component {
 
-  render() {
-    const store = this.props.selectReducer;
-    const propName = store.get('propName');
-    const valueList = store.get('valueList');
+    render() {
+        const store = this.props.selectReducer;
+        const propName = store.get('propName');
+        const valueList = store.get('valueList');
 
-    if (__DEV__) {
-      console.log('filter-value-list-panel render store=>', JSON.stringify(store, null, 2));
-    }
-
-    return (
-      <ScrollView
-        bounces={false}
-        showsVerticalScrollIndicator={true}
-        automaticallyAdjustContentInsets={false}
-        contentContainerStyle={styles.container}>
-        <FilterSelectItem
-          displayValue='全部'
-          isSelected={this._isSelected('全部')}
-          propName={propName}
-        />
-        {valueList.map(v =>
-          <FilterSelectItem
-            value={v['key']}
-            propName={propName}
-            isSelected={ this._isSelected(v['key'])}
-          />)
+        if (__DEV__) {
+            console.log('filter-value-list-panel render store=>', JSON.stringify(store, null, 2));
         }
-      </ScrollView>
-    );
-  }
 
-
-  /**
-   * 判断选项是否选中
-   * @private
-   */
-  _isSelected(value) {
-    const store = this.props.selectReducer;
-    const selectedValueSet = store.get('selectedValue');
-
-    if (!selectedValueSet || selectedValueSet.isEmpty()) {
-      return value == '全部';
-    }
-    else {
-      return selectedValueSet.includes(value);
-    }
-  }
-
-
-  /**
-   * 获取选项显示值
-   * @param propName
-   * @param propValue
-   * @private
-   */
-  _getPropDisplayValue(propName, propValueObj){
-    if (propName === 'prices') {
-      if (propValueObj['to'] <= 0) {
-        return propValueObj['from'] + '以上';
-      }
+        return (
+            <ScrollView
+                bounces={false}
+                showsVerticalScrollIndicator={true}
+                automaticallyAdjustContentInsets={false}
+                contentContainerStyle={styles.container}>
+                <FilterSelectItem
+                    dispatch={this.props.dispatch}
+                    displayValue='全部'
+                    isSelected={this._isSelected('全部')}
+                    propName={propName}
+                />
+                {valueList.map(v =>
+                    <FilterSelectItem
+                        dispatch={this.props.dispatch}
+                        value={v['key']}
+                        propName={propName}
+                        isSelected={this._isSelected(v['key'])}
+                    />)
+                }
+            </ScrollView>
+        );
     }
 
-    return propValueObj['key'];
-  }
+
+    /**
+     * 判断选项是否选中
+     * @private
+     */
+    _isSelected(value) {
+        const store = this.props.selectReducer;
+        const selectedValueSet = store.get('selectedValue');
+
+        if (!selectedValueSet || selectedValueSet.isEmpty()) {
+            return value == '全部';
+        }
+        else {
+            return selectedValueSet.includes(value);
+        }
+    }
+
+
+    /**
+     * 获取选项显示值
+     * @param propName
+     * @param propValue
+     * @private
+     */
+    _getPropDisplayValue(propName, propValueObj) {
+        if (propName === 'prices') {
+            if (propValueObj['to'] <= 0) {
+                return propValueObj['from'] + '以上';
+            }
+        }
+
+        return propValueObj['key'];
+    }
 }
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF',
-    paddingBottom: 30
-  }
+    container: {
+        flex: 1,
+        backgroundColor: '#FFF',
+        paddingBottom: 30
+    }
 });

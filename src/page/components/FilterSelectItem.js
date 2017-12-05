@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import {View, Text, Image, StyleSheet, TouchableOpacity, PixelRatio} from 'react-native';
+import {SelectSingle} from "../../utils/actionTypes";
 
 
 /**
@@ -16,7 +17,7 @@ export default class FilterSelectItem extends Component {
     const isSelected = this.props.isSelected;
 
     return (
-      <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={this._onClickItem}>
+      <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={()=>this._onClickItem()}>
         <Text style={isSelected?styles.selectedValueText:styles.valueText} allowFontScaling={false}> {displayValue} </Text>
         {isSelected ?
           <Image source={require('./img/filter_checked.png')} style={styles.selectedImage}/>
@@ -38,11 +39,10 @@ export default class FilterSelectItem extends Component {
 
     //如果是分类和价格,只能单选,点击元素即返回
     if (this.props.propName === 'cates' || this.props.propName === 'prices') {
-      msg.emit('goodsFilterConditionValue:setOneSelectedValue', value);
-      msg.emit('goodsFilterConditionValue:submitSelectedValue');
-      msg.emit('route:backToLast');
-    }
-    else {
+      this.props.dispatch({type:SelectSingle,data:value})
+      // msg.emit('goodsFilterConditionValue:submitSelectedValue');
+      // msg.emit('route:backToLast');
+    } else {
       if (isSelected) {
         msg.emit('goodsFilterConditionValue:delSelectedValue', value);
       } else {
