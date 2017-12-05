@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 
-import {View, Text, StyleSheet, TouchableOpacity, Image, Dimensions,
+import {
+    View, Text, StyleSheet, TouchableOpacity, Image, Dimensions,
     InteractionManager,
-    PixelRatio} from 'react-native';
+    PixelRatio
+} from 'react-native';
 import {FilterCategory, FilterClean} from "../../utils/actionTypes";
 import {filter} from "../../action/filterActions";
 
@@ -73,18 +75,18 @@ export default class FilterItem extends Component {
         }
 
         sceneParam['callBack'] = (name, value) => {
-            this.props.dispatch({type: FilterCategory, key: name, value: value});
-            InteractionManager.runAfterInteractions(() => {
-                this.props.dispatch(filter(this.props.filterReducer.get('selectedValues').toJS()));
-            });
-
+            const selectedCates = store.get('selectedValues').get('cates');
+            if (name === 'cates' && value !== selectedCates) {
+                this.props.dispatch({type: FilterCategory, key: name, value: value});
+                InteractionManager.runAfterInteractions(() => {
+                    this.props.dispatch(filter(this.props.filterReducer.get('selectedValues').toJS()));
+                });
+            }else {
+                this.props.dispatch({type: FilterCategory, key: name, value: value});
+            }
         }
         this.props.navigation.navigate('FilterSelect', sceneParam);
-        console.log('-----',sceneParam);
-        // msg.emit('route:goToNext', {
-        //     sceneName: 'GoodsFilterValue',
-        //     ...sceneParam,
-        // });
+        console.log('-----', sceneParam);
     }
 
 
