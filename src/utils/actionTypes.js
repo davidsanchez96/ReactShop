@@ -48,4 +48,5 @@ export const SelectLoading = 'SelectLoading';
 export const SelectLoaded = 'SelectLoaded';
 export const SelectType = 'SelectType';
 export const SelectSingle = 'SelectSingle';
+export const SelectMultiple = 'SelectMultiple';
 export const SelectClean = 'SelectClean';

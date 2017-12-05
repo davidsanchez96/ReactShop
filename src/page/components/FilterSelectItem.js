@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {View, Text, Image, StyleSheet, TouchableOpacity, PixelRatio} from 'react-native';
-import {SelectSingle} from "../../utils/actionTypes";
+import {SelectMultiple, SelectSingle} from "../../utils/actionTypes";
 
 
 /**
@@ -40,14 +40,13 @@ export default class FilterSelectItem extends Component {
             this.props.dispatch({type: SelectSingle, data: value})
             this.props.navigation.state.params.callBack(this.props.propName,value);
             this.props.navigation.goBack()
-            // msg.emit('goodsFilterConditionValue:submitSelectedValue');
-            // msg.emit('route:backToLast');
         } else {
-            if (isSelected) {
-                msg.emit('goodsFilterConditionValue:delSelectedValue', value);
-            } else {
-                msg.emit('goodsFilterConditionValue:addSelectedValue', value);
-            }
+            this.props.dispatch({type: SelectMultiple, data: value,has:isSelected});
+            // if (isSelected) {
+            //     msg.emit('goodsFilterConditionValue:delSelectedValue', value);
+            // } else {
+            //     msg.emit('goodsFilterConditionValue:addSelectedValue', value);
+            // }
 
             //如果是品牌,需要清除掉排序品牌选择列表
             if (this.props.propName == 'brands') {

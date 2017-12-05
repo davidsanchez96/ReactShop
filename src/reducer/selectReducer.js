@@ -29,6 +29,17 @@ export default function selectReducer(state = initialState, action) {
             return state.update('selectedValue', (selectedValue) => {
                 return selectedValue.clear().set(action.data, 1);
             });
+        case types.SelectMultiple:
+            if(action.has){
+                return state.update('selectedValue', (selectedValue) => {
+                    return selectedValue.delete(action.data);
+                });
+            }else {
+                return state.update('selectedValue', (selectedValue) => {
+                    return selectedValue.set(action.data, 1);
+                });
+            }
+
 
         case types.SelectLoaded:
             return state.withMutations((state) => {

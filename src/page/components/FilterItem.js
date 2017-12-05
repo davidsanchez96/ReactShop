@@ -81,7 +81,7 @@ export default class FilterItem extends Component {
                 InteractionManager.runAfterInteractions(() => {
                     this.props.dispatch(filter(this.props.filterReducer.get('selectedValues').toJS()));
                 });
-            }else {
+            } else {
                 this.props.dispatch({type: FilterCategory, key: name, value: value});
             }
         }
