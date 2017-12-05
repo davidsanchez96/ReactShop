@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import Loading from "../components/Loading";
-import {SelectLoaded} from "../../utils/actionTypes";
+import {SelectClean, SelectLoaded} from "../../utils/actionTypes";
 import FilterSelectList from "../components/FilterSelectList";
 import FilterBrandList from "../components/FilterBrandList";
 
@@ -53,10 +53,12 @@ class FilterSelect extends Component {
             this.props.dispatch({type: SelectLoaded, data: this.props.navigation.state.params})
         });
     }
-
+    componentWillUnmount() {
+        this.props.dispatch({type:SelectClean});
+    }
 
     render() {
-        const {selectReducer, dispatch} = this.props;
+        const {selectReducer, dispatch,navigation} = this.props;
         const propName = selectReducer.get('propName');
         const displayPropName = selectReducer.get('displayPropName');
 
@@ -71,11 +73,13 @@ class FilterSelect extends Component {
                         propName === 'brands'
                             ?
                             <FilterBrandList
+                                navigation={navigation}
                                 dispatch={dispatch}
                                 selectReducer={selectReducer}/>
                             :
                             <ScrollView bounces={false}>
                                 <FilterSelectList
+                                    navigation={navigation}
                                     dispatch={dispatch}
                                     selectReducer={selectReducer}/>
                             </ScrollView>

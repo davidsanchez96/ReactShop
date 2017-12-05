@@ -6,7 +6,8 @@ const initialState = Immutable.fromJS({
     data: [],
     propName: null,
     displayPropName: null,
-    selectedValue: OrderedSet(),
+    singleSelect: '',
+    selectedValue: {},
     valueList: [],
     brandViewType: 'recommend',
     sortBrandSelected: OrderedSet(),
@@ -26,20 +27,25 @@ export default function selectReducer(state = initialState, action) {
             }
 
             return state.update('selectedValue', (selectedValue) => {
-                return  selectedValue.clear().add(action.data);
+                return selectedValue.clear().set(action.data, 1);
             });
+
         case types.SelectLoaded:
             return state.withMutations((state) => {
+                if (action.data.selectedValue) {
+                    state.setIn(['selectedValue', action.data.selectedValue], 1)
+                }
                 state
                     .set('propName', action.data.propName)
                     .set('displayPropName', action.data.displayPropName)
-                    .set('selectedValue', OrderedSet(action.data.selectedValue))
                     .set('valueList', action.data.valueList)
                     .set('loading', false);
             });
 
         case types.NetError:
             return state.set('loading', false);
+        case types.SelectClean:
+            return initialState;
         default:
             return state;
             break;

@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 
-import {View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, PixelRatio} from 'react-native';
-
+import {View, Text, StyleSheet, TouchableOpacity, Image, Dimensions,
+    InteractionManager,
+    PixelRatio} from 'react-native';
+import {FilterCategory, FilterClean} from "../../utils/actionTypes";
+import {filter} from "../../action/filterActions";
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -15,7 +18,7 @@ export default class FilterItem extends Component {
         const selectedValue = this._renderSelectedValue();
 
         return (
-            <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={()=>this._showSelectPanel()}>
+            <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={() => this._showSelectPanel()}>
                 <Text style={styles.keyText} allowFontScaling={false}>{displayName}</Text>
                 <View style={styles.rightView}>
                     <Text
@@ -38,15 +41,11 @@ export default class FilterItem extends Component {
      */
     _renderSelectedValue() {
         const name = this.props.propName;
-        const allSelectedValueMap = this.props.filterReducer.get('selectedValues');
+        let allSelectedValueMap = this.props.filterReducer.get('selectedValues');
         var text = null;
 
-        if (__DEV__) {
-            console.log('GoodsFilterValue filter item _renderSelectedValue =>', JSON.stringify(allSelectedValueMap, null, 2));
-        }
-
-        if (allSelectedValueMap && allSelectedValueMap.includes(name)) {
-            text = allSelectedValueMap.get(name).join('、');
+        if (allSelectedValueMap && allSelectedValueMap.get(name)) {
+            text = allSelectedValueMap.get(name);
         }
 
         if (!text) {
@@ -73,10 +72,15 @@ export default class FilterItem extends Component {
             sceneParam['valueList'] = store.get('aggregations').get(propName);
         }
 
-        if (__DEV__) {
-            console.log('GoodsFilter filter-item _showSelectPanel is called', JSON.stringify(sceneParam, null, 2));
+        sceneParam['callBack'] = (name, value) => {
+            this.props.dispatch({type: FilterCategory, key: name, value: value});
+            InteractionManager.runAfterInteractions(() => {
+                this.props.dispatch(filter(this.props.filterReducer.get('selectedValues').toJS()));
+            });
+
         }
-        this.props.navigation.navigate('FilterSelect',sceneParam);
+        this.props.navigation.navigate('FilterSelect', sceneParam);
+        console.log('-----',sceneParam);
         // msg.emit('route:goToNext', {
         //     sceneName: 'GoodsFilterValue',
         //     ...sceneParam,

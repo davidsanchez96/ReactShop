@@ -23,9 +23,11 @@ export default class FilterList extends Component {
                 contentContainerStyle={styles.container}>
                 {aggregations.map(
                     (v) =>
-                        <FilterItem propName={v.propName}
-                                    navigation={this.props.navigation}
-                                    filterReducer={this.props.filterReducer}/>
+                        <FilterItem
+                            propName={v.propName}
+                            dispatch={this.props.dispatch}
+                            navigation={this.props.navigation}
+                            filterReducer={this.props.filterReducer}/>
                 )}
             </ScrollView>
         );
@@ -39,8 +41,8 @@ export default class FilterList extends Component {
      */
     _sortAggregations() {
         let aggregations = this.props.filterReducer.get('aggregations');
-        if(!Immutable.is(aggregations)){
-            aggregations= Immutable.fromJS(aggregations);
+        if (!Immutable.is(aggregations)) {
+            aggregations = Immutable.fromJS(aggregations);
         }
         var sortedAggregations = [];
         if (aggregations.get('cates') && aggregations.get('cates').length > 0) {

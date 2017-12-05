@@ -16,10 +16,7 @@ export default class FilterBrandList extends Component {
         const store = this.props.selectReducer;
         const propName = store.get('propName');
         const valueList = store.get('valueList');
-const dispatch=this.props.dispatch;
-        if (__DEV__) {
-            console.log('brand-filter-value-list-panel render store=>', JSON.stringify(store, null, 2));
-        }
+        const dispatch = this.props.dispatch;
 
         return (
             <View style={styles.container}>

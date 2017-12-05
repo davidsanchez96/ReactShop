@@ -15,9 +15,7 @@ export default class FilterSelectList extends Component {
         const propName = store.get('propName');
         const valueList = store.get('valueList');
 
-        if (__DEV__) {
-            console.log('filter-value-list-panel render store=>', JSON.stringify(store, null, 2));
-        }
+
 
         return (
             <ScrollView
@@ -27,12 +25,14 @@ export default class FilterSelectList extends Component {
                 contentContainerStyle={styles.container}>
                 <FilterSelectItem
                     dispatch={this.props.dispatch}
+                    navigation={this.props.navigation}
                     displayValue='全部'
                     isSelected={this._isSelected('全部')}
                     propName={propName}
                 />
                 {valueList.map(v =>
                     <FilterSelectItem
+                        navigation={this.props.navigation}
                         dispatch={this.props.dispatch}
                         value={v['key']}
                         propName={propName}
@@ -56,7 +56,7 @@ export default class FilterSelectList extends Component {
             return value == '全部';
         }
         else {
-            return selectedValueSet.includes(value);
+            return selectedValueSet.get(value)===1;
         }
     }
 

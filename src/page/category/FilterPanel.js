@@ -14,7 +14,7 @@ import FilterButton from "../components/FilterButton";
 import FilterList from "../components/FilterList";
 import Loading from "../components/Loading";
 import {filter} from "../../action/filterActions";
-import {FilterAddress, FilterSearch, FilterType} from "../../utils/actionTypes";
+import {FilterAddress, FilterCategory, FilterClean, FilterSearch, FilterType} from "../../utils/actionTypes";
 
 
 /**
@@ -43,12 +43,18 @@ class FilterPanel extends Component {
     };
 
     componentDidMount() {
+        const para=this.props.navigation.state.params.searchParam;
         InteractionManager.runAfterInteractions(() => {
-            this.props.dispatch(filter(this.props.navigation.state.params.searchParam));
-            this.props.dispatch({type:FilterSearch,data:this.props.navigation.state.params.searchParam});
+            if(para.cates){
+                this.props.dispatch({type: FilterCategory, key: 'cates', value: para.cates});
+            }
+            this.props.dispatch(filter(para));
         });
     }
 
+    componentWillUnmount() {
+        this.props.dispatch({type: FilterClean});
+    }
 
     render() {
         const {filterReducer, navigation, dispatch} = this.props;
@@ -86,6 +92,7 @@ class FilterPanel extends Component {
                                 dispatch({type: FilterType, data: propName});
                             }}/>
                         <FilterList
+                            dispatch={dispatch}
                             navigation={navigation}
                             filterReducer={filterReducer}/>
                         <TouchableOpacity

@@ -33,6 +33,8 @@ export const FilterLoaded = 'FilterLoaded';
 export const FilterAddress = 'FilterAddress';
 export const FilterType = 'FilterType';
 export const FilterSearch = 'FilterSearch';
+export const FilterCategory = 'FilterCategory';
+export const FilterClean = 'FilterClean';
 /**
  *address
  */
@@ -46,3 +48,4 @@ export const SelectLoading = 'SelectLoading';
 export const SelectLoaded = 'SelectLoaded';
 export const SelectType = 'SelectType';
 export const SelectSingle = 'SelectSingle';
+export const SelectClean = 'SelectClean';
