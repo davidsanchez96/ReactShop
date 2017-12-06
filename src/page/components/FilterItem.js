@@ -44,7 +44,7 @@ export default class FilterItem extends Component {
     _renderSelectedValue() {
         const name = this.props.propName;
         let allSelectedValueMap = this.props.filterReducer.get('selectedValues');
-        var text = null;
+        let text = null;
 
         if (allSelectedValueMap && allSelectedValueMap.get(name)) {
             text = allSelectedValueMap.get(name).join('、');
@@ -66,7 +66,7 @@ export default class FilterItem extends Component {
         const store = this.props.filterReducer;
         const propName = this.props.propName;
         var sceneParam = {propName: propName, displayPropName: this._getPropDisplayName(propName)};
-        if (store.get('selectedValues') && store.get('selectedValues').get(propName)) {
+        if (store.get('selectedValues') &&store.get('selectedValues').get(propName)&& store.get('selectedValues').get(propName).length>0) {
             sceneParam['selectedValue'] = store.get('selectedValues').get(propName);
         }
 
@@ -76,6 +76,7 @@ export default class FilterItem extends Component {
 
         sceneParam['callBack'] = (name, value) => {
             const selectedCates = store.get('selectedValues').get('cates');
+            console.log('>>>>>',value);
             if (name === 'cates' && value !== selectedCates) {
                 this.props.dispatch({type: FilterCategory, key: name, value: value});
                 InteractionManager.runAfterInteractions(() => {

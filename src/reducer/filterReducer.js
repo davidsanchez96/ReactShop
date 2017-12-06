@@ -52,6 +52,8 @@ export default function filterReducer(state = initialState, action) {
         case types.FilterCategory:
             if (action.value == null || action.value == undefined) {
                 return state.setIn(['selectedValues', action.key], []);
+            } else if (Object.prototype.toString.call(action.value) == '[object Array]') {
+                return state.setIn(['selectedValues', action.key], action.value);
             } else {
                 return state.setIn(['selectedValues', action.key], [action.value]);
             }

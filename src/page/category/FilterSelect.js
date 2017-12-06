@@ -56,7 +56,7 @@ class FilterSelect extends Component {
         this.props.navigation.setParams({
                 onPress: () => {
                     const {selectReducer} = this.props;
-                    this.props.navigation.state.params.callBack(selectReducer.get('propName'), selectReducer.get('selectedValue').keySeq());
+                    this.props.navigation.state.params.callBack(selectReducer.get('propName'), selectReducer.get('selectedValue').keySeq().toJS());
                     this.props.navigation.goBack();
                 },
             }
