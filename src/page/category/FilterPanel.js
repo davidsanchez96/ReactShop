@@ -48,7 +48,7 @@ class FilterPanel extends Component {
             if(para.cates){
                 this.props.dispatch({type: FilterCategory, key: 'cates', value: para.cates});
             }
-            this.props.dispatch(filter(para));
+            this.props.dispatch(filter(para,para.cates));
         });
     }
 

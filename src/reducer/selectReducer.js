@@ -1,5 +1,7 @@
 import * as types from '../utils/actionTypes';
 import Immutable, {OrderedSet} from 'immutable';
+import Toast from 'react-native-root-toast';
+
 
 const initialState = Immutable.fromJS({
     loading: true,
@@ -19,28 +21,28 @@ export default function selectReducer(state = initialState, action) {
         case types.SelectType:
             return state.set('brandViewType', action.data);
         case types.SelectSingle:
-            if (action.data == undefined || action.data == null) {
+            if (action.data === undefined || action.data === null) {
                 return state.update('selectedValue', (selectedValue) => {
                     return selectedValue.clear();
                 });
-
             }
-
             return state.update('selectedValue', (selectedValue) => {
                 return selectedValue.clear().set(action.data, 1);
             });
         case types.SelectMultiple:
-            if (action.data == undefined || action.data == null) {
+            if (action.data === undefined || action.data === null) {
                 return state.update('selectedValue', (selectedValue) => {
                     return selectedValue.clear();
                 });
-
             }
-            if(action.has){
+            if (state.get('selectedValue').size >= 5) {
+                Toast.show('最多选择5个哦~');
+                return state;
+            } else if (action.has) {
                 return state.update('selectedValue', (selectedValue) => {
                     return selectedValue.delete(action.data);
                 });
-            }else {
+            } else {
                 return state.update('selectedValue', (selectedValue) => {
                     return selectedValue.set(action.data, 1);
                 });
@@ -50,7 +52,10 @@ export default function selectReducer(state = initialState, action) {
         case types.SelectLoaded:
             return state.withMutations((state) => {
                 if (action.data.selectedValue) {
-                    state.setIn(['selectedValue', action.data.selectedValue], 1)
+                    for (let i = 0; i < action.data.selectedValue.length; i++) {
+                        state.setIn(['selectedValue', action.data.selectedValue[i]], 1)
+                    }
+
                 }
                 state
                     .set('propName', action.data.propName)

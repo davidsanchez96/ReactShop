@@ -23,11 +23,16 @@ export default function filterReducer(state = initialState, action) {
             return state.set('loading', true);
         case types.FilterLoaded:
             return state.withMutations((state) => {
+                if(!action.value){
+                    state.update('selectedValues', (selectedValue) => {
+                        return selectedValue.clear();
+                    });
+                }
                 state.update('aggregations', (selectedValue) => {
                     return selectedValue.clear();
                 });
                 for (let aggKey in action.data) {
-                    if (aggKey == 'params') {
+                    if (aggKey === 'params') {
                         const formattedAggs = _formatParamAggregations(action.data[aggKey]);
                         for (let key in formattedAggs) {
                             state.setIn(['aggregations', key], Immutable.fromJS(formattedAggs[key]));
@@ -43,16 +48,16 @@ export default function filterReducer(state = initialState, action) {
             return state.set('loading', false);
         case types.FilterType:
             var selectValue = state.get('selectedValues').get(action.data);
-            if (selectValue != null && selectValue != undefined) {
+            if (selectValue !== null && selectValue !== undefined) {
                 return state.setIn(['selectedValues', action.data], null);
             }
             else {
                 return state.setIn(['selectedValues', action.data], 1);
             }
         case types.FilterCategory:
-            if (action.value == null || action.value == undefined) {
+            if (action.value === null || action.value === undefined) {
                 return state.setIn(['selectedValues', action.key], []);
-            } else if (Object.prototype.toString.call(action.value) == '[object Array]') {
+            } else if (Object.prototype.toString.call(action.value) === '[object Array]') {
                 return state.setIn(['selectedValues', action.key], action.value);
             } else {
                 return state.setIn(['selectedValues', action.key], [action.value]);
