@@ -34,7 +34,14 @@ function _getPostBody(params) {
     }
 
     if (params.cates) {
-        postBody.cateName = params.cates;
+        if (Object.prototype.toString.call(params.cates) == '[object Array]') {
+            if (params.cates.length > 0) {
+                postBody.cateName = params.cates[0];
+            }
+        } else {
+            postBody.cateName = params.cates;
+        }
+
     }
 
     postBody.priceAutoSectionNum = 6;

@@ -30,6 +30,12 @@ export default function selectReducer(state = initialState, action) {
                 return selectedValue.clear().set(action.data, 1);
             });
         case types.SelectMultiple:
+            if (action.data == undefined || action.data == null) {
+                return state.update('selectedValue', (selectedValue) => {
+                    return selectedValue.clear();
+                });
+
+            }
             if(action.has){
                 return state.update('selectedValue', (selectedValue) => {
                     return selectedValue.delete(action.data);

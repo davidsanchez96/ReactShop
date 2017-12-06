@@ -50,7 +50,12 @@ export default function filterReducer(state = initialState, action) {
                 return state.setIn(['selectedValues', action.data], 1);
             }
         case types.FilterCategory:
-            return state.setIn(['selectedValues', action.key], action.value);
+            if (action.value == null || action.value == undefined) {
+                return state.setIn(['selectedValues', action.key], []);
+            } else {
+                return state.setIn(['selectedValues', action.key], [action.value]);
+            }
+
         case types.FilterClean:
             return initialState;
 

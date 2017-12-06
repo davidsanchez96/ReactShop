@@ -52,7 +52,7 @@ class GoodsList extends Component {
         console.log('componentDidMount');
         let {goodsListReducer, dispatch, navigation} = this.props;
         let isTwo = goodsListReducer.isTwo;
-        this.props.navigation.setParams({
+        navigation.setParams({
             onBack: this._back,
             searchText: navigation.state.params.searchParam.searchText,
             show: this._show,

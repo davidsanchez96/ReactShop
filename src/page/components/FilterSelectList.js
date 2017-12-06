@@ -56,7 +56,7 @@ export default class FilterSelectList extends Component {
             return value == '全部';
         }
         else {
-            return selectedValueSet.get(value)===1;
+            return selectedValueSet.get(value);
         }
     }
 

@@ -5,9 +5,9 @@ import {
     InteractionManager,
     PixelRatio
 } from 'react-native';
-import {FilterCategory, FilterClean} from "../../utils/actionTypes";
+import {FilterCategory} from "../../utils/actionTypes";
 import {filter} from "../../action/filterActions";
-
+import Immutable from 'immutable';
 const {width: WIDTH} = Dimensions.get('window');
 
 
@@ -47,7 +47,7 @@ export default class FilterItem extends Component {
         var text = null;
 
         if (allSelectedValueMap && allSelectedValueMap.get(name)) {
-            text = allSelectedValueMap.get(name);
+            text = allSelectedValueMap.get(name).join('、');
         }
 
         if (!text) {

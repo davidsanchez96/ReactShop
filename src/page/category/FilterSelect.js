@@ -35,7 +35,10 @@ class FilterSelect extends Component {
                         ?
                         null
                         :
-                        <TouchableOpacity style={{padding: 10}} activeOpacity={0.8}>
+                        <TouchableOpacity
+                            style={{padding: 10}}
+                            activeOpacity={0.8}
+                            onPress={navigation.state.params.onPress}>
                             <Text style={{color: '#999',}} allowFontScaling={false}>确定</Text>
                         </TouchableOpacity>
                 ),
@@ -43,22 +46,32 @@ class FilterSelect extends Component {
     };
 
     componentDidMount() {
+
         var receivedProps = {
             propName: this.props.propName,
             displayPropName: this.props.displayPropName,
             selectedValue: this.props.selectedValue,
             valueList: this.props.valueList,
         };
+        this.props.navigation.setParams({
+                onPress: () => {
+                    const {selectReducer} = this.props;
+                    this.props.navigation.state.params.callBack(selectReducer.get('propName'), selectReducer.get('selectedValue').keySeq());
+                    this.props.navigation.goBack();
+                },
+            }
+        );
         InteractionManager.runAfterInteractions(() => {
             this.props.dispatch({type: SelectLoaded, data: this.props.navigation.state.params})
         });
     }
+
     componentWillUnmount() {
-        this.props.dispatch({type:SelectClean});
+        this.props.dispatch({type: SelectClean});
     }
 
     render() {
-        const {selectReducer, dispatch,navigation} = this.props;
+        const {selectReducer, dispatch, navigation} = this.props;
         const propName = selectReducer.get('propName');
         const displayPropName = selectReducer.get('displayPropName');
 
