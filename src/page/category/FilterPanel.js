@@ -15,7 +15,7 @@ import FilterList from "../components/FilterList";
 import Loading from "../components/Loading";
 import {filter} from "../../action/filterActions";
 import {FilterAddress, FilterCategory, FilterClean, FilterSearch, FilterType} from "../../utils/actionTypes";
-
+import Immutable from 'immutable';
 
 /**
  * 商品筛选条件面板
@@ -42,13 +42,19 @@ class FilterPanel extends Component {
         };
     };
 
+    shouldComponentUpdate(nextProps, nextState) {
+
+        return !Immutable.is(this.props.filterReducer, nextProps.filterReducer) ||
+            !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
+    }
+
     componentDidMount() {
-        const para=this.props.navigation.state.params.searchParam;
+        const para = this.props.navigation.state.params.searchParam;
         InteractionManager.runAfterInteractions(() => {
-            if(para.cates){
+            if (para.cates) {
                 this.props.dispatch({type: FilterCategory, key: 'cates', value: para.cates});
             }
-            this.props.dispatch(filter(para,para.cates));
+            this.props.dispatch(filter(para, para.cates));
         });
     }
 

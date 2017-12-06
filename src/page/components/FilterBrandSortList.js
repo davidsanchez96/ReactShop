@@ -164,6 +164,7 @@ export default class FilterBrandSortList extends Component {
         }
 
         var firstLetterGroups = OrderedMap();
+        data=[];
         pinyinGroups.map((v) => {
             var firstLetter = v['pinyin'][0];
 
@@ -187,8 +188,6 @@ export default class FilterBrandSortList extends Component {
     _onClickItem(value,isSelected) {
         this.props.dispatch({type: SelectBrand, data: value,has:isSelected});
         this.props.dispatch({type: SelectMultiple, data: value,has:isSelected});
-        // msg.emit('goodsFilterConditionValue:setSortBrandSelected', value);
-        // msg.emit('goodsFilterConditionValue:initSelectedValue', value);
     }
 
 

@@ -18,7 +18,7 @@ import FilterSelectList from "../components/FilterSelectList";
 import FilterBrandList from "../components/FilterBrandList";
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
-const isAndroid = Platform.OS === 'android';
+import Immutable from 'immutable';
 
 /**
  * 商品筛选条件值选择面板
@@ -45,14 +45,14 @@ class FilterSelect extends Component {
         };
     };
 
+    shouldComponentUpdate(nextProps, nextState) {
+
+        return !Immutable.is(this.props.selectReducer, nextProps.selectReducer) ||
+            !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
+    }
+
     componentDidMount() {
 
-        var receivedProps = {
-            propName: this.props.propName,
-            displayPropName: this.props.displayPropName,
-            selectedValue: this.props.selectedValue,
-            valueList: this.props.valueList,
-        };
         this.props.navigation.setParams({
                 onPress: () => {
                     const {selectReducer} = this.props;
