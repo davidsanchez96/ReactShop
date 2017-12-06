@@ -50,7 +50,7 @@ export default class FilterSelectItem extends Component {
 
             //如果是品牌,需要清除掉排序品牌选择列表
             if (this.props.propName == 'brands') {
-                msg.emit('goodsFilterConditionValue:initSortBrandSelected');
+                // msg.emit('goodsFilterConditionValue:initSortBrandSelected');
             }
         }
     }

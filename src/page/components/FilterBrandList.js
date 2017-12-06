@@ -36,6 +36,7 @@ export default class FilterBrandList extends Component {
                                 automaticallyAdjustContentInsets={false}>
                                 <View style={{backgroundColor: '#eee'}}>
                                     <FilterSelectItem
+                                        dispatch={dispatch}
                                         displayValue='全部'
                                         isSelected={this._isSelected('全部', 'recommend')}
                                         propName={propName}
@@ -72,7 +73,7 @@ export default class FilterBrandList extends Component {
                 return value == '全部';
             }
             else {
-                return selectedValueSet.includes(value);
+                return selectedValueSet.get(value);
             }
         }
         else {

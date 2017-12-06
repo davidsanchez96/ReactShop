@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import {FilterCategory} from "../../utils/actionTypes";
 import {filter} from "../../action/filterActions";
-import Immutable from 'immutable';
 const {width: WIDTH} = Dimensions.get('window');
 
 
@@ -24,7 +23,7 @@ export default class FilterItem extends Component {
                 <Text style={styles.keyText} allowFontScaling={false}>{displayName}</Text>
                 <View style={styles.rightView}>
                     <Text
-                        style={!selectedValue || selectedValue == '全部' ? styles.valueText : styles.selectedValueText}
+                        style={!selectedValue || selectedValue === '全部' ? styles.valueText : styles.selectedValueText}
                         numberOfLines={1}
                         textAlign={'right'}
                         allowFontScaling={false}>
