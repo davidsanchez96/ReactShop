@@ -57,7 +57,7 @@ class Category extends Component {
             <TouchableOpacity style={styles.rightItem}
                               activeOpacity={0.8}
                               onPress={() => {
-                                  this.props.navigation.navigate('GoodsList', { searchParam: {cates:item.name} })
+                                  this.props.navigation.navigate('GoodsList', { searchParam: {cates:[item.name]} })
                               }}>
                 <Image style={styles.rightImage}
                        source={{uri: item.imgSrc || 'http://172.19.23.210/Hkshop_app/pro01.jpg'}}/>

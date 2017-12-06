@@ -74,7 +74,7 @@ class GoodsList extends Component {
     }
 
     render() {
-        const {goodsListReducer} = this.props;
+        const {goodsListReducer,dispatch} = this.props;
         let loading = goodsListReducer.loading;
         let isTwo = goodsListReducer.isTwo;
         let viewOption = goodsListReducer.viewOption;
@@ -101,7 +101,15 @@ class GoodsList extends Component {
                         this.props.dispatch({type: GoodsListDescending, viewOption: {filterOpen: open}})
                     }}
                     showFilterPanel={() => {
-                        this.props.navigation.navigate('FilterPanel',{searchParam:searchParam})
+                        this.props.navigation.navigate('FilterPanel', {
+                            searchParam:searchParam,
+                        callBack:(para)=>{
+                            InteractionManager.runAfterInteractions(()=>{
+                                searchParam = para;
+                                page = 0;
+                                dispatch(goodsList(page, searchParam));
+                            });
+                        }},)
                     }}
                     searchParam={goodsListReducer.searchParam}
                     viewOption={goodsListReducer.viewOption}/>

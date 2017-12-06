@@ -110,7 +110,7 @@ function _getPostBody(pageNum, searchParam, viewOption) {
                 postBody['queryString'] = searchParam[k];
             }
             else if (k === 'cates') {
-                postBody['cateName'] = searchParam[k];//.size > 0 ? searchParam[k].get(0) : null;
+                postBody['cateName'] = searchParam[k][0];//.size > 0 ? searchParam[k].get(0) : null;
             }
             else if (k === 'priceAutoSectionNum') {
                 return;

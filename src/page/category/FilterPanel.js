@@ -35,7 +35,8 @@ class FilterPanel extends Component {
                 ),
             headerRight:
                 (
-                    <TouchableOpacity style={{padding: 10}} activeOpacity={0.8}>
+                    <TouchableOpacity style={{padding: 10}} activeOpacity={0.8}
+                                      onPress={navigation.state.params.onPress}>
                         <Text style={{color: '#999',}} allowFontScaling={false}>确定</Text>
                     </TouchableOpacity>
                 ),
@@ -49,6 +50,38 @@ class FilterPanel extends Component {
     }
 
     componentDidMount() {
+        this.props.navigation.setParams({
+                onPress: () => {
+                    const {filterReducer} = this.props;
+
+
+                    var selectedValues = filterReducer.get('selectedValues').toJS();
+
+                    var formattedSelectedValue = {};
+                    for (var key in selectedValues) {
+                        var value = selectedValues[key];
+                        if (value == null || value == undefined) {
+                            continue;
+                        }
+
+                        if (Array.isArray(value) && value.length == 0) {
+                            continue;
+                        }
+
+                        formattedSelectedValue[key] = value;
+                    }
+
+                    if (filterReducer.get('address')) {
+                        formattedSelectedValue['districtId'] = filterReducer.get('address').get('country');
+                    }
+
+                    console.log('>>>>>>>>>>>>>', formattedSelectedValue);
+
+                    this.props.navigation.state.params.callBack(formattedSelectedValue);
+                    this.props.navigation.goBack();
+                },
+            }
+        );
         const para = this.props.navigation.state.params.searchParam;
         InteractionManager.runAfterInteractions(() => {
             if (para.cates) {
