@@ -23,7 +23,7 @@ export default function filterReducer(state = initialState, action) {
             return state.set('loading', true);
         case types.FilterLoaded:
             return state.withMutations((state) => {
-                if(!action.value){
+                if (!action.value) {
                     state.update('selectedValues', (selectedValue) => {
                         return selectedValue.clear();
                     });
@@ -44,8 +44,7 @@ export default function filterReducer(state = initialState, action) {
                 }
                 state.set('loading', false);
             });
-        case types.NetError:
-            return state.set('loading', false);
+
         case types.FilterType:
             var selectValue = state.get('selectedValues').get(action.data);
             if (selectValue !== null && selectValue !== undefined) {
@@ -62,7 +61,8 @@ export default function filterReducer(state = initialState, action) {
             } else {
                 return state.setIn(['selectedValues', action.key], [action.value]);
             }
-
+        case types.NetError:
+            return state.set('loading', false);
         case types.FilterClean:
             return initialState;
 

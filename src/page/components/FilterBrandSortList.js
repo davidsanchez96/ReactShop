@@ -5,6 +5,7 @@ import {View, Text, StyleSheet, TouchableOpacity, Image, PixelRatio, ListView} f
 
 import Immutable, {OrderedMap} from 'immutable';
 import han from 'han';
+import {SelectBrand, SelectMultiple} from "../../utils/actionTypes";
 const bandLetterHeaderHeight = 30;
 const bandRowHeight = 50;
 const borderHeight = 1 / PixelRatio.get();
@@ -122,7 +123,7 @@ export default class FilterBrandSortList extends Component {
             <TouchableOpacity
                 style={styles.itemContainer}
                 activeOpacity={0.8}
-                onPress={() => this._onClickItem(row)}>
+                onPress={() => this._onClickItem(row,isSelected)}>
                 <Text style={isSelected ? styles.selectedValueText : styles.valueText}
                       allowFontScaling={false}> {row} </Text>
                 {
@@ -183,7 +184,9 @@ export default class FilterBrandSortList extends Component {
      * 点击元素
      * @private
      */
-    _onClickItem(value) {
+    _onClickItem(value,isSelected) {
+        this.props.dispatch({type: SelectBrand, data: value,has:isSelected});
+        this.props.dispatch({type: SelectMultiple, data: value,has:isSelected});
         // msg.emit('goodsFilterConditionValue:setSortBrandSelected', value);
         // msg.emit('goodsFilterConditionValue:initSelectedValue', value);
     }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {View, Text, Image, StyleSheet, TouchableOpacity, PixelRatio} from 'react-native';
-import {SelectMultiple, SelectSingle} from "../../utils/actionTypes";
+import {SelectBrand, SelectMultiple, SelectSingle} from "../../utils/actionTypes";
 
 
 /**
@@ -50,6 +50,7 @@ export default class FilterSelectItem extends Component {
 
             //如果是品牌,需要清除掉排序品牌选择列表
             if (this.props.propName == 'brands') {
+                this.props.dispatch({type: SelectBrand, data: value,has:isSelected});
                 // msg.emit('goodsFilterConditionValue:initSortBrandSelected');
             }
         }

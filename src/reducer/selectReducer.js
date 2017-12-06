@@ -35,16 +35,34 @@ export default function selectReducer(state = initialState, action) {
                     return selectedValue.clear();
                 });
             }
-            if (state.get('selectedValue').size >= 5) {
-                Toast.show('最多选择5个哦~');
-                return state;
-            } else if (action.has) {
+            if (action.has) {
                 return state.update('selectedValue', (selectedValue) => {
                     return selectedValue.delete(action.data);
                 });
+            } else if (state.get('selectedValue').size >= 5) {
+                Toast.show('最多选择5个哦~');
+                return state;
             } else {
                 return state.update('selectedValue', (selectedValue) => {
                     return selectedValue.set(action.data, 1);
+                });
+            }
+        case types.SelectBrand:
+            if (action.data === undefined || action.data === null) {
+                return state.update('sortBrandSelected', (selectedValue) => {
+                    return selectedValue.clear();
+                });
+            }
+            if (action.has) {
+                return state.update('sortBrandSelected', (selectedValue) => {
+                    return selectedValue.delete(action.data);
+                });
+            } else if (state.get('sortBrandSelected').size >= 5) {
+                Toast.show('最多选择5个哦~');
+                return state;
+            } else {
+                return state.update('sortBrandSelected', (selectedValue) => {
+                    return selectedValue.add(action.data);
                 });
             }
 
@@ -53,7 +71,10 @@ export default function selectReducer(state = initialState, action) {
             return state.withMutations((state) => {
                 if (action.data.selectedValue) {
                     for (let i = 0; i < action.data.selectedValue.length; i++) {
-                        state.setIn(['selectedValue', action.data.selectedValue[i]], 1)
+                        state.setIn(['selectedValue', action.data.selectedValue[i]], 1);
+                        state.update('sortBrandSelected', (selectedValue) => {
+                            return selectedValue.add(action.data.selectedValue[i]);
+                        });
                     }
 
                 }

@@ -27,6 +27,7 @@ export default class FilterBrandList extends Component {
                     store.get('brandViewType') === 'sort'
                         ?
                         <FilterBrandSortList
+                            dispatch={dispatch}
                             selectReducer={store}/>
                         :
                         <View style={{flex: 1}}>
