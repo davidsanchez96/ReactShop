@@ -77,9 +77,7 @@ class FilterPanel extends Component {
         const para = this.props.navigation.state.params.searchParam;
         console.log(para);
         InteractionManager.runAfterInteractions(() => {
-            if (para.cates) {
-                this.props.dispatch({type: FilterSelect, data: para});
-            }
+            this.props.dispatch({type: FilterSelect, data: para});
             this.props.dispatch(filter(para));
         });
     }
@@ -131,7 +129,7 @@ class FilterPanel extends Component {
                             style={styles.clean}
                             activeOpacity={0.8}
                             onPress={() => {
-                                if (!filterReducer.get('selectedValues').get('cates')||
+                                if (!filterReducer.get('selectedValues').get('cates') ||
                                     undefined === filterReducer.get('selectedValues').get('cates').get(0)) {
                                     dispatch({type: FilterReset});
                                 } else {
