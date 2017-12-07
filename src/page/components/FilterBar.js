@@ -12,7 +12,7 @@ import {
     Image,
     PixelRatio
 } from 'react-native';
-
+import Immutable from 'immutable';
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export default class FilterBar extends Component {
@@ -88,12 +88,12 @@ export default class FilterBar extends Component {
      */
     _isFilterSelected() {
         var isSelected = false;
-        const searchParam = this.props.searchParam;
-        // searchParam.map((v, k) => {
-        //     if (k != 'searchText' && k != 'districtId' && v) {
-        //         isSelected = true;
-        //     }
-        // });
+        const searchParam = Immutable.fromJS(this.props.searchParam);
+        searchParam.map((v, k) => {
+            if (k != 'searchText' && k != 'districtId' && v) {
+                isSelected = true;
+            }
+        });
 
         return isSelected;
     }

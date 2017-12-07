@@ -1,22 +1,22 @@
 import React, {Component} from 'react';
 import {
-    View,
-    Text,
-    FlatList,
-    TouchableOpacity,
-    Image,
-    Dimensions,
-    StyleSheet,
     ActivityIndicator,
+    Dimensions,
+    FlatList,
+    Image,
     InteractionManager,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import {connect} from 'react-redux';
 import GoodsTop from "../components/GoodsTop";
-import {goodsList, searchPara, showBig, reset, descending} from "../../action/goodsListActions";
+import {descending, goodsList, reset, searchPara, showBig} from "../../action/goodsListActions";
 import FilterBar from "../components/FilterBar";
 import NumberControl from "../components/NumberControl";
 import Immutable from 'immutable';
-import {GoodsListDescending, GoodsListLoaded, GoodsListLoading} from "../../utils/actionTypes";
+import {GoodsListDescending} from "../../utils/actionTypes";
 import FilterBox from "../components/FilterBox";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -59,7 +59,7 @@ class GoodsList extends Component {
             viewType: isTwo,
             goSearch: this._goSearch,
         });
-        // dispatch(searchPara(navigation.state.params.searchParam));
+        dispatch(searchPara(navigation.state.params.searchParam));
 
         // goodsListReducer = this.props.goodsListReducer;
         searchParam = navigation.state.params.searchParam;
@@ -108,6 +108,7 @@ class GoodsList extends Component {
                                 searchParam = para;
                                 page = 0;
                                 dispatch(goodsList(page, searchParam));
+                                dispatch(searchPara(searchParam));
                             });
                         }},)
                     }}

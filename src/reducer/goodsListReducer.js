@@ -22,30 +22,29 @@ const initialState = Immutable.Map({
 export default function goodList(state = initialState, action) {
     switch (action.type) {
         case types.GoodsListLoading:
-            return state.set('loading',true);
+            return state.set('loading', true);
         case types.GoodsListLoaded:
             if (action.page == 0) {
-                return state.set('loading',false).set('loadingMore',false)
-                    .set('hasMore',action.hasMore).set('data',action.data);
+                return state.set('loading', false).set('loadingMore', false)
+                    .set('hasMore', action.hasMore).set('data', action.data);
             } else {
-                return state.set('loading',false).set('loadingMore',false)
-                    .set('hasMore',action.hasMore).set('data',state.get('data').concat((action.data)));
+                return state.set('loading', false).set('loadingMore', false)
+                    .set('hasMore', action.hasMore).set('data', state.get('data').concat((action.data)));
             }
 
             break;
         case types.NetError:
-            return state.set('loading',false);
+            return state.set('loading', false);
         case types.GoodsListShow:
-            return state.set('isTwo',!state.get('isTwo'));
+            return state.set('isTwo', !state.get('isTwo'));
         case types.GoodsListShowMore:
-            return state.set('loadingMore',true);
+            return state.set('loadingMore', true);
         case types.GoodsListSearch:
-            let state1= state.set('searchParam',action.searchParam);
-            return state1;
+            return state.set('searchParam', action.searchParam);
         case types.GoodsListDescending:
-            return state.set('viewOption',Immutable.Map(state.get('viewOption')).merge(action.viewOption));
+            return state.set('viewOption', Immutable.Map(state.get('viewOption')).merge(action.viewOption));
         case types.GoodsListReset:
-            return initialState.set('loading',false).set('reloading',true);
+            return initialState.set('loading', false).set('reloading', true);
             break;
         default:
             return state;
