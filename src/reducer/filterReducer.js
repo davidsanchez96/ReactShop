@@ -23,11 +23,6 @@ export default function filterReducer(state = initialState, action) {
             return state.set('loading', true);
         case types.FilterLoaded:
             return state.withMutations((state) => {
-                if (!action.value) {
-                    state.update('selectedValues', (selectedValue) => {
-                        return selectedValue.clear();
-                    });
-                }
                 state.update('aggregations', (selectedValue) => {
                     return selectedValue.clear();
                 });
@@ -57,10 +52,19 @@ export default function filterReducer(state = initialState, action) {
             if (action.value === null || action.value === undefined) {
                 return state.setIn(['selectedValues', action.key], []);
             } else if (Object.prototype.toString.call(action.value) === '[object Array]') {
-                return state.setIn(['selectedValues', action.key], action.value);
+                return state.setIn(['selectedValues', action.key], Immutable.fromJS(action.value));
             } else {
-                return state.setIn(['selectedValues', action.key], [action.value]);
+                return state.setIn(['selectedValues', action.key], Immutable.fromJS([action.value]));
             }
+        case types.FilterCate:
+            return state.withMutations((state) => {
+                state.update('selectedValues', (selectedValue) => {
+                    return selectedValue.clear();
+                });
+                state.setIn(['selectedValues', action.key], Immutable.fromJS([action.value]));
+            });
+        case types.FilterSelect:
+            return state.set('selectedValues', Immutable.fromJS(action.data));
         case types.NetError:
             return state.set('loading', false);
         case types.FilterClean:

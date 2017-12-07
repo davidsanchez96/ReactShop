@@ -14,7 +14,10 @@ import FilterButton from "../components/FilterButton";
 import FilterList from "../components/FilterList";
 import Loading from "../components/Loading";
 import {filter} from "../../action/filterActions";
-import {FilterAddress, FilterCategory, FilterClean, FilterSearch, FilterType} from "../../utils/actionTypes";
+import {
+    FilterAddress, FilterCategory, FilterClean, FilterSearch, FilterSelect,
+    FilterType
+} from "../../utils/actionTypes";
 import Immutable from 'immutable';
 
 /**
@@ -83,11 +86,12 @@ class FilterPanel extends Component {
             }
         );
         const para = this.props.navigation.state.params.searchParam;
+        console.log(para);
         InteractionManager.runAfterInteractions(() => {
             if (para.cates) {
-                this.props.dispatch({type: FilterCategory, key: 'cates', value: para.cates});
+                this.props.dispatch({type: FilterSelect, data: para});
             }
-            this.props.dispatch(filter(para, para.cates));
+            this.props.dispatch(filter(para));
         });
     }
 

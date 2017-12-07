@@ -66,7 +66,7 @@ export function descending(pageNum, searchParam,viewOption) {
  */
 function _getPostBody(pageNum, searchParam, viewOption) {
 
-    var postBody = {};
+    var postBody = {paramMap: {}};
     postBody['pageNum'] = pageNum ? pageNum : 0;
 
     if (viewOption) {
@@ -134,7 +134,7 @@ function _getPostBody(pageNum, searchParam, viewOption) {
  */
 function _getPricePostData(priceStrArray) {
     var rangeArray = [];
-    priceStrArray.toJS().map((priceStr) => {
+    priceStrArray.map((priceStr) => {
         const numArray = priceStr.split('-');
         if (numArray.length == 2) {
             rangeArray.push({max: parseInt(numArray[1]), min: parseInt(numArray[0])});

@@ -5,7 +5,7 @@ import {
     InteractionManager,
     PixelRatio
 } from 'react-native';
-import {FilterCategory} from "../../utils/actionTypes";
+import {FilterCate, FilterCategory} from "../../utils/actionTypes";
 import {filter} from "../../action/filterActions";
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -65,7 +65,7 @@ export default class FilterItem extends Component {
         const store = this.props.filterReducer;
         const propName = this.props.propName;
         var sceneParam = {propName: propName, displayPropName: this._getPropDisplayName(propName)};
-        if (store.get('selectedValues') &&store.get('selectedValues').get(propName)&& store.get('selectedValues').get(propName).length>0) {
+        if (store.get('selectedValues') &&store.get('selectedValues').get(propName)&& store.get('selectedValues').get(propName).size>0) {
             sceneParam['selectedValue'] = store.get('selectedValues').get(propName);
         }
 
@@ -77,7 +77,7 @@ export default class FilterItem extends Component {
             const selectedCates = store.get('selectedValues').get('cates');
             console.log('>>>>>',value);
             if (name === 'cates' && value !== selectedCates) {
-                this.props.dispatch({type: FilterCategory, key: name, value: value});
+                this.props.dispatch({type: FilterCate, key: name, value: value});
                 InteractionManager.runAfterInteractions(() => {
                     this.props.dispatch(filter(this.props.filterReducer.get('selectedValues').toJS()));
                 });
@@ -86,7 +86,7 @@ export default class FilterItem extends Component {
             }
         }
         this.props.navigation.navigate('FilterSelect', sceneParam);
-        console.log('-----', sceneParam);
+        console.log('select', sceneParam);
     }
 
 

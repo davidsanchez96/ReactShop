@@ -34,6 +34,8 @@ export const FilterAddress = 'FilterAddress';
 export const FilterType = 'FilterType';
 export const FilterSearch = 'FilterSearch';
 export const FilterCategory = 'FilterCategory';
+export const FilterCate = 'FilterCate';
+export const FilterSelect = 'FilterSelect';
 export const FilterClean = 'FilterClean';
 /**
  *address
