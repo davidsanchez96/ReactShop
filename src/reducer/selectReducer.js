@@ -71,10 +71,12 @@ export default function selectReducer(state = initialState, action) {
             return state.withMutations((state) => {
                 if (action.data.selectedValue) {
                     for (let i = 0; i < action.data.selectedValue.length; i++) {
-                        state.setIn(['selectedValue', action.data.selectedValue[i]], 1);
-                        state.update('sortBrandSelected', (selectedValue) => {
-                            return selectedValue.add(action.data.selectedValue[i]);
-                        });
+                        if(action.data.selectedValue[i]){
+                            state.setIn(['selectedValue', action.data.selectedValue[i]], 1);
+                            state.update('sortBrandSelected', (selectedValue) => {
+                                return selectedValue.add(action.data.selectedValue[i]);
+                            });
+                        }
                     }
 
                 }
@@ -91,6 +93,5 @@ export default function selectReducer(state = initialState, action) {
             return initialState;
         default:
             return state;
-            break;
     }
 }

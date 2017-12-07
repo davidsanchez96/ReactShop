@@ -1,23 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    ScrollView,
-    InteractionManager,
-    Image,
-} from 'react-native';
+import {Image, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 import FilterButton from "../components/FilterButton";
 import FilterList from "../components/FilterList";
 import Loading from "../components/Loading";
 import {filter} from "../../action/filterActions";
-import {
-    FilterAddress, FilterCategory, FilterClean, FilterSearch, FilterSelect,
-    FilterType
-} from "../../utils/actionTypes";
+import {FilterAddress, FilterClean, FilterReset, FilterSelect, FilterType} from "../../utils/actionTypes";
 import Immutable from 'immutable';
 
 /**
@@ -141,7 +130,18 @@ class FilterPanel extends Component {
                         <TouchableOpacity
                             style={styles.clean}
                             activeOpacity={0.8}
-                            onPress={() => msg.emit('goodsFilterCondition:clearSelectedValue')}>
+                            onPress={() => {
+                                if (!filterReducer.get('selectedValues').get('cates')||
+                                    undefined === filterReducer.get('selectedValues').get('cates').get(0)) {
+                                    dispatch({type: FilterReset});
+                                } else {
+                                    InteractionManager.runAfterInteractions(() => {
+                                        dispatch({type: FilterReset});
+                                        dispatch(filter({}));
+                                    });
+
+                                }
+                            }}>
                             <Text style={styles.cleanText} allowFontScaling={false}>
                                 清除选项
                             </Text>

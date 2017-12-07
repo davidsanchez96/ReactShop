@@ -65,6 +65,12 @@ export default function filterReducer(state = initialState, action) {
             });
         case types.FilterSelect:
             return state.set('selectedValues', Immutable.fromJS(action.data));
+        case types.FilterReset:
+            return state.withMutations((state) => {
+                state.update('selectedValues', (selectedValue) => {
+                    return selectedValue.clear();
+                });
+            });
         case types.NetError:
             return state.set('loading', false);
         case types.FilterClean:

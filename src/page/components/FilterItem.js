@@ -74,7 +74,7 @@ export default class FilterItem extends Component {
         }
 
         sceneParam['callBack'] = (name, value) => {
-            const selectedCates = store.get('selectedValues').get('cates');
+            const selectedCates = store.get('selectedValues').get('cates')?store.get('selectedValues').get('cates').get(0):undefined;
             console.log('>>>>>',value);
             if (name === 'cates' && value !== selectedCates) {
                 this.props.dispatch({type: FilterCate, key: name, value: value});
