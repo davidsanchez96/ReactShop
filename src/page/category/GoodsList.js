@@ -16,7 +16,7 @@ import {descending, goodsList, reset, searchPara, showBig} from "../../action/go
 import FilterBar from "../components/FilterBar";
 import NumberControl from "../components/NumberControl";
 import Immutable from 'immutable';
-import {GoodsListDescending} from "../../utils/actionTypes";
+import {GoodsListDescending, GoodsListNumber} from "../../utils/actionTypes";
 import FilterBox from "../components/FilterBox";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -74,7 +74,7 @@ class GoodsList extends Component {
     }
 
     render() {
-        const {goodsListReducer,dispatch} = this.props;
+        const {goodsListReducer, dispatch} = this.props;
         let loading = goodsListReducer.loading;
         let isTwo = goodsListReducer.isTwo;
         let viewOption = goodsListReducer.viewOption;
@@ -102,15 +102,16 @@ class GoodsList extends Component {
                     }}
                     showFilterPanel={() => {
                         this.props.navigation.navigate('FilterPanel', {
-                            searchParam:searchParam,
-                        callBack:(para)=>{
-                            InteractionManager.runAfterInteractions(()=>{
-                                searchParam = para;
-                                page = 0;
-                                dispatch(goodsList(page, searchParam));
-                                dispatch(searchPara(searchParam));
-                            });
-                        }},)
+                            searchParam: searchParam,
+                            callBack: (para) => {
+                                InteractionManager.runAfterInteractions(() => {
+                                    searchParam = para;
+                                    page = 0;
+                                    dispatch(goodsList(page, searchParam));
+                                    dispatch(searchPara(searchParam));
+                                });
+                            }
+                        },)
                     }}
                     searchParam={goodsListReducer.searchParam}
                     viewOption={goodsListReducer.viewOption}/>
@@ -136,16 +137,16 @@ class GoodsList extends Component {
                     filterClose={() => {
                         this.props.dispatch({type: GoodsListDescending, viewOption: {filterOpen: false}});
                     }}
-                    filterFir={()=>{
+                    filterFir={() => {
                         page = 0;
                         this.props.dispatch(descending(page, searchParam, {
-                            filterOpen: false,selectedFilter: 'typeFilter',filterChecked: '综合'
+                            filterOpen: false, selectedFilter: 'typeFilter', filterChecked: '综合'
                         }));
                     }}
-                    filterSec={()=>{
+                    filterSec={() => {
                         page = 0;
                         this.props.dispatch(descending(page, searchParam, {
-                            filterOpen: false,selectedFilter: 'typeFilter',filterChecked: '新品',descending:true
+                            filterOpen: false, selectedFilter: 'typeFilter', filterChecked: '新品', descending: true
                         }));
                     }}
                     viewOption={goodsListReducer.viewOption}/>
@@ -259,7 +260,7 @@ class GoodsList extends Component {
                             height={20}
                             callbackParent={(number) => {
                                 item.clientCartNo = number;
-                                this.refs.list.change(index, item);
+                                this.props.dispatch({type: GoodsListNumber, index: index, item: item});
                             }}
                         />
                         <TouchableOpacity

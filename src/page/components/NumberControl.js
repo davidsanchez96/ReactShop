@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import {View, addons, Text, TextInput, StyleSheet, TouchableOpacity, Image, PixelRatio} from 'react-native';
+import Toast from 'react-native-root-toast';
 
 
 export default class NumberControl extends Component {
@@ -185,7 +186,7 @@ export default class NumberControl extends Component {
             num = nextNum;
         } else {
             num = this.props.maxNum;
-            msg.emit('app:tip', '最多可选' + this.props.maxNum + '件商品');
+            Toast.show('最多可选' + this.props.maxNum + '件商品');
         }
         ;
         if (inTemp) {

@@ -26,7 +26,7 @@ export default function goodList(state = initialState, action) {
         case types.GoodsListLoaded:
             if (action.page == 0) {
                 return state.set('loading', false).set('loadingMore', false)
-                    .set('hasMore', action.hasMore).set('data', action.data);
+                    .set('hasMore', action.hasMore).set('data', Immutable.fromJS(action.data));
             } else {
                 return state.set('loading', false).set('loadingMore', false)
                     .set('hasMore', action.hasMore).set('data', state.get('data').concat((action.data)));
@@ -37,6 +37,8 @@ export default function goodList(state = initialState, action) {
             return state.set('loading', false);
         case types.GoodsListShow:
             return state.set('isTwo', !state.get('isTwo'));
+        case types.GoodsListNumber:
+            return state.updateIn(['data'], list => list.update(action.index,()=> action.item));
         case types.GoodsListShowMore:
             return state.set('loadingMore', true);
         case types.GoodsListSearch:
@@ -45,9 +47,7 @@ export default function goodList(state = initialState, action) {
             return state.set('viewOption', Immutable.Map(state.get('viewOption')).merge(action.viewOption));
         case types.GoodsListReset:
             return initialState.set('loading', false).set('reloading', true);
-            break;
         default:
             return state;
-            break;
     }
 }
