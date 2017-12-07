@@ -35,6 +35,7 @@ export default class FilterSelectList extends Component {
                         navigation={this.props.navigation}
                         dispatch={this.props.dispatch}
                         value={v['key']}
+                        key={v['key']}
                         propName={propName}
                         isSelected={this._isSelected(v['key'])}
                     />)

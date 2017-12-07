@@ -24,6 +24,7 @@ export default class FilterList extends Component {
                 {aggregations.map(
                     (v) =>
                         <FilterItem
+                            key={v.propName}
                             propName={v.propName}
                             dispatch={this.props.dispatch}
                             navigation={this.props.navigation}

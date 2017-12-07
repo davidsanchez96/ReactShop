@@ -56,7 +56,9 @@ export default class FilterBrandSortList extends Component {
                 <View style={styles.rightContainer}>
                 {
                     data.map((item) => {
-                            return <TouchableOpacity style={styles.rightBtn} activeOpacity={0.8}
+                            return <TouchableOpacity
+                                key={item}
+                                style={styles.rightBtn} activeOpacity={0.8}
                                                      onPress={() => {
                                                          var xPos = this._caculateY(item, firstLetterGroups);
                                                          this.listView.getScrollResponder().scrollWithoutAnimationTo(xPos, 0);

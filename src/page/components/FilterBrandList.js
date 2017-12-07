@@ -44,7 +44,9 @@ export default class FilterBrandList extends Component {
                                     />
                                 </View>
                                 {valueList.map(v =>
-                                    <View style={{backgroundColor: '#eee'}}>
+                                    <View
+                                        key={v['key']}
+                                        style={{backgroundColor: '#eee'}}>
                                         <FilterSelectItem
                                             dispatch={dispatch}
                                             value={v['key']}
