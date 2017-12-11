@@ -120,8 +120,18 @@ export default function detailReducer(state = initialState, action) {
                 //查询优惠券
 
             });
+        case types.ImageDetailLoaded:
+            //图文详情
+            return state.withMutations((cursor) => {
+                const resMap = fromJS(action.data);
+                cursor.set('goodsImages', resMap.getIn(['spuDesc', 'imageList']) || new List);
+                //图文下详情
+                cursor.set('goodsDesc', resMap.getIn(['spuDesc', 'desc']));
+            });
         case types.NetError:
             return state.set('loading', false);
+         case types.DetailTab:
+            return state.merge(action.data);
         case types.Address:
             return state.withMutations((cursor) => {
                 cursor

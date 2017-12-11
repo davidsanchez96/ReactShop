@@ -22,6 +22,8 @@ import {connect} from "react-redux";
 import ReactScroll from "../components/ReactScroll";
 import SlideMenu from "../components/SlideMenu";
 import {getAddress} from "../../action/mainActions";
+import {imageDetail} from "../../action/detailActions";
+import {DetailTab} from "../../utils/actionTypes";
 
 const isAndroid = Platform.OS === 'android';
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -36,6 +38,7 @@ class GoodsDetail extends Component {
         InteractionManager.runAfterInteractions(() => {
 
             this.props.dispatch(getAddress(this.props.navigation.state.params.goodsInfoId));
+            this.props.dispatch(imageDetail(this.props.navigation.state.params.goodsInfoId));
             //查看商品详情
             // msg.emit('goods:detail', this.props.goodsInfoId);
             //
@@ -53,7 +56,8 @@ class GoodsDetail extends Component {
 
 
     render() {
-        const store = this.props.detailReducer;
+        const {dispatch,detailReducer} =this.props;
+        const store = detailReducer;
         this._specVisible = store.get('specVisible');
         this._goodsInfo = store.get('goodsInfo');
         //规格列表
@@ -125,11 +129,12 @@ class GoodsDetail extends Component {
                         stickyHeaderIndices={[0]}
                         style={[styles.animateBox]}>
                         <View style={styles.detailTabs}>
+                            <View style={{flexDirection:'row'}}>
                             <TouchableOpacity
                                 style={styles.tabItem}
                                 activeOpacity={0.8}
                                 onPressIn={() => {
-                                    msg.emit('goods:chosenTab', {chosenTab: 'goodIntro'})
+                                    dispatch({type:DetailTab,data:{chosenTab: 'goodIntro'}});
                                 }}>
                                 <Text
                                     style={[styles.tabText, this._chosenTab === 'goodIntro' ? {color: '#e63a59'} : {}]}
@@ -139,11 +144,12 @@ class GoodsDetail extends Component {
                                 style={styles.tabItem}
                                 activeOpacity={0.8}
                                 onPressIn={() => {
-                                    msg.emit('goods:chosenTab', {chosenTab: 'specPara'})
+                                    dispatch({type:DetailTab,data:{chosenTab: 'specPara'}});
                                 }}>
                                 <Text style={[styles.tabText, this._chosenTab === 'specPara' ? {color: '#e63a59'} : {}]}
                                       allowFontScaling={false}>规格参数</Text>
                             </TouchableOpacity>
+                        </View>
                         </View>
                         <TouchableOpacity
                             activeOpacity={0.8}
