@@ -18,6 +18,7 @@ import NumberControl from "../components/NumberControl";
 import Immutable from 'immutable';
 import {GoodsListDescending, GoodsListNumber} from "../../utils/actionTypes";
 import FilterBox from "../components/FilterBox";
+import GoodsDetail from "./GoodsDetail";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 let page = 0;
@@ -225,11 +226,13 @@ class GoodsList extends Component {
                 <TouchableOpacity
                     style={{flex: 1, alignItems: 'center'}}
                     activeOpacity={0.8}
-                    onPress={() => msg.emit('route:goToNext', {
-                        sceneName: 'GoodsDetail',
-                        goodsInfoId: item.id,
-                        goodsInfo: item
-                    })}>
+                    onPress={() => {
+                        this.props.navigation.navigate('GoodsDetail', {
+                            goodsInfoId: item.id,
+                            goodsInfo: item
+                        })
+
+                    }}>
 
                     <Image style={styles.proImg}
                            source={{uri: item.image}}/>

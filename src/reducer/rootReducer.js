@@ -7,6 +7,7 @@ import goodsListReducer from './goodsListReducer';
 import filterReducer from './filterReducer';
 import addressReducer from './addressReducer';
 import selectReducer from './selectReducer';
+import detailReducer from './detailReducer';
 export default combineReducers({
     nav,
     categoryReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
     filterReducer,
     addressReducer,
     selectReducer,
+    detailReducer,
 });

@@ -13,48 +13,47 @@ import {
     AsyncStorage,
     Platform
 } from 'react-native';
-import {msg, mixins} from 'iflux-native';
 
-import {
-    QMHeader,
-    QMSlideMenu,
-    QMScrollView
-} from 'hk0472kit';
-import DetailIntro from './components/detail-intro';
-import DetailContent from './components/detail-content';
-import BottomBar from './components/bottom-bar';
-import SpecContent from './components/spec-content';
-import appStore from './store';
+import DetailIntro from '../components/DetailIntro';
+import DetailContent from '../components/DetailContent';
+import BottomBar from '../components/BottomBar';
+import SpecContent from '../components/SpecContent';
 import {connect} from "react-redux";
+import ReactScroll from "../components/ReactScroll";
+import SlideMenu from "../components/SlideMenu";
+import {getAddress} from "../../action/mainActions";
 
-const StoreMixin = mixins.StoreMixin;
 const isAndroid = Platform.OS === 'android';
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 let scrolly = 0;
 
 class GoodsDetail extends Component {
-
+    static navigationOptions = {
+        title: '商品详情',
+    };
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            //查看商品详情
-            msg.emit('goods:detail', this.props.goodsInfoId);
 
-            msg.emit('browserecord:saveStore', this.props.goodsInfoId);
-            //查询商品图文详情
-            msg.emit("goods:goodsImageDetail", this.props.goodsInfoId);
-            //登录后执行
-            if (window.token) {
-                msg.emit('goods:followerState', this.props.goodsInfoId);
-                //购车统计
-                msg.emit('goods:countShoppingCart');
-            }
+            this.props.dispatch(getAddress(this.props.navigation.state.params.goodsInfoId));
+            //查看商品详情
+            // msg.emit('goods:detail', this.props.goodsInfoId);
+            //
+            // msg.emit('browserecord:saveStore', this.props.goodsInfoId);
+            // //查询商品图文详情
+            // msg.emit("goods:goodsImageDetail", this.props.goodsInfoId);
+            // //登录后执行
+            // if (window.token) {
+            //     msg.emit('goods:followerState', this.props.goodsInfoId);
+            //     //购车统计
+            //     msg.emit('goods:countShoppingCart');
+            // }
         });
     }
 
 
     render() {
-        const store = appStore.data();
+        const store = this.props.detailReducer;
         this._specVisible = store.get('specVisible');
         this._goodsInfo = store.get('goodsInfo');
         //规格列表
@@ -89,15 +88,10 @@ class GoodsDetail extends Component {
 
         return (
             <View style={{flex: 1}}>
-                <QMHeader
-                    title='商品详情'
-                    onLeftMenuPress={() => {
-                        msg.emit('route:backToLast');
-                        msg.emit('app:setShoppingCartCount')
-                    }}/>
+
 
                 <ScrollView ref="scrollView" keyboardShouldPersistTaps={true} scrollEnabled={false}>
-                    <QMScrollView
+                    <ReactScroll
                         ref="internalScrollView1"
                         onBottomHeight={50}
                         onBottomPush={() => this._handleToggleButton(true)}
@@ -120,9 +114,9 @@ class GoodsDetail extends Component {
                                 allowFontScaling={false}
                                 style={styles.btnText}>{isAndroid ? '点击查看图文详情' : '上拉查看图文详情'}</Text>
                         </TouchableOpacity>
-                    </QMScrollView>
+                    </ReactScroll>
 
-                    <QMScrollView
+                    <ReactScroll
                         onTopHeight={50}
                         //android下图片详情可滑动
                         //scrollEnabled={isAndroid ? true : false}
@@ -165,7 +159,7 @@ class GoodsDetail extends Component {
                             spuParams={this._spuParamItems}
                             goodsImages={this._goodsImages}
                             goodsDesc={this._goodsDesc}/>
-                    </QMScrollView>
+                    </ReactScroll>
                 </ScrollView>
 
                 <BottomBar
@@ -178,7 +172,7 @@ class GoodsDetail extends Component {
                     region={this._region}
                     goodsInfoExist={this._goodsInfoExist}
                 />
-                <QMSlideMenu
+                <SlideMenu
                     visible={this._specVisible}
                     closeMenu={() => msg.emit('goods:hideSpec')}>
                     {
@@ -191,7 +185,7 @@ class GoodsDetail extends Component {
                             specStatusArray={this._specStatusArray}
                             addStatus={this._addStatus}/>
                     }
-                </QMSlideMenu>
+                </SlideMenu>
             </View>
         )
     }
@@ -266,6 +260,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    searchReducer: state.searchReducer
+    detailReducer: state.get('detailReducer')
 });
 export default connect(mapStateToProps)(GoodsDetail);

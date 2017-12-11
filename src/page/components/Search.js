@@ -1,18 +1,13 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {
-    View, StyleSheet, AsyncStorage, Dimensions, Text,
-    FlatList,
-} from 'react-native';
+import {AsyncStorage, Dimensions, FlatList, StyleSheet, Text, View,} from 'react-native';
 
 import SearchTop from "./SearchTop";
 import SearchHistory from "./SearchHistory";
-import SearchSuggest from "./SearchSuggest";
 import {connect} from 'react-redux';
 import Loading from "./Loading";
 import {suggestion} from "../../action/searchActions";
-import {NavigationActions} from 'react-navigation';
 import Immutable from 'immutable';
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');

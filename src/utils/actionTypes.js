@@ -4,6 +4,7 @@
 export const Loading = 'loading';
 export const Loaded = 'loaded';
 export const NetError = 'netError';
+export const Address = 'Address';
 export const Show = 'show';
 export const Change = 'change';
 /**
@@ -55,3 +56,8 @@ export const SelectSingle = 'SelectSingle';
 export const SelectMultiple = 'SelectMultiple';
 export const SelectBrand = 'SelectBrand';
 export const SelectClean = 'SelectClean';
+/**
+ *detail
+ */
+export const DetailLoading = 'DetailLoading';
+export const DetailLoaded = 'DetailLoaded';
