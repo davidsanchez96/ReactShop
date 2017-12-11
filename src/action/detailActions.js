@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
 import {DetailUrl} from "../utils/Constant";
-import {DetailLoaded, DetailLoading, ImageDetailLoaded, NetError} from "../utils/actionTypes";
+import {DetailLoaded, DetailLoading, ImageDetailLoaded, NetError, SpecsDetailLoaded} from "../utils/actionTypes";
 
 export function detail(districtId, goodsInfoId) {
     return (dispatch) => {
@@ -25,6 +25,20 @@ export function imageDetail(goodsInfoId) {
             (result) => {
                 console.log(url + result.data);
                 dispatch({type: ImageDetailLoaded, data: result});
+            },
+            (error) => {
+                console.log(error);
+                dispatch({type: NetError});
+            });
+    }
+}
+export function specsDetail(goodsInfoId) {
+    return (dispatch) => {
+        let url = DetailUrl + `${goodsInfoId}/specs`;
+        NetUtils.get(url,
+            (result) => {
+                console.log(url + result.data);
+                dispatch({type: SpecsDetailLoaded, data: result});
             },
             (error) => {
                 console.log(error);

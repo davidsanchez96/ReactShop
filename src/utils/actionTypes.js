@@ -62,4 +62,5 @@ export const SelectClean = 'SelectClean';
 export const DetailLoading = 'DetailLoading';
 export const DetailLoaded = 'DetailLoaded';
 export const ImageDetailLoaded = 'ImageDetailLoaded';
+export const SpecsDetailLoaded = 'SpecsDetailLoaded';
 export const DetailTab = 'DetailTab';

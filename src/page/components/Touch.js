@@ -40,7 +40,7 @@ export default class Touch extends Component {
             <TouchableHighlight
                 underlayColor={this.props.underlayColor}
                 activeOpacity={(this.state.disabled || this.props.disabled) ? 1 : 0.8}
-                onPress={this._handlePress}
+                onPress={()=>this._handlePress()}
                 style={[this.props.style, this.state.disabled && this.props.disStyle]}>
                 <View style={this.props.contentStyle}>
                     {this.props.children}
