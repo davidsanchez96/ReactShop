@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {Image, PixelRatio, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FilterAddress} from "../../utils/actionTypes";
 
 export default class Delivery extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            stockVisiable: true
+            stockVisible: true
         };
     }
 
@@ -18,7 +19,7 @@ export default class Delivery extends Component {
 
         return (
             <View style={styles.box}>
-                <TouchableOpacity style={styles.rowItem} activeOpacity={1} onPress={this._handleToRegion}>
+                <TouchableOpacity style={styles.rowItem} activeOpacity={1} onPress={() => this._handleToRegion()}>
                     <Text style={styles.label}>送至</Text>
                     <View style={styles.rowCont}>
                         <View style={{flexDirection: 'row', marginBottom: 10, alignItems: 'center'}}>
@@ -66,7 +67,11 @@ export default class Delivery extends Component {
      * 地址选择
      */
     _handleToRegion() {
-        msg.emit('route:goToNext', {sceneName: 'Region'});
+        this.props.navigation.navigate('Address', {
+            selectBack: (select) => {
+                // this.props.dispatch({type: FilterAddress, data: select});
+            }
+        })
     }
 }
 

@@ -62,7 +62,7 @@ class GoodsDetail extends Component {
     }
 
     render() {
-        const {dispatch, detailReducer} = this.props;
+        const {dispatch, detailReducer,navigation} = this.props;
         const store = detailReducer;
         this._specVisible = store.get('specVisible');
         this._goodsInfo = store.get('goodsInfo');
@@ -107,6 +107,8 @@ class GoodsDetail extends Component {
                         onBottomPush={() => this._handleToggleButton(true)}
                         style={[styles.animateBox]}>
                         <DetailIntro
+                            dispatch={dispatch}
+                            navigation={navigation}
                             chosenNum={1}
                             store={store}
                             goodsInfo={this.props.goodsInfo}

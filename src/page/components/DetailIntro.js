@@ -141,6 +141,8 @@ export default class DetailIntro extends Component {
 
                     {/*地址服务*/}
                     <Delivery
+                        dispatch={this.props.dispatch}
+                        navigation={this.props.navigation}
                         region={this._region}
                         product={this._product}
                         storeInfo={this._storeInfo}
