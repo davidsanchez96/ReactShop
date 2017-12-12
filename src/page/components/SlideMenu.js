@@ -90,7 +90,7 @@ export default class SlideMenu extends Component {
                       {...this._panResponder.panHandlers}
                 >
                     <TouchableOpacity
-                        style={[styles.mask, {opacity: this.state.mask}]}
+                        style={[styles.mask, {opacity: 1}]}
                         onPressIn={() => this._handleOnPress()}/>
                     <Animated.View style={this.getStyle()}>
                         {this.props.children}
@@ -127,7 +127,7 @@ export default class SlideMenu extends Component {
             this.setState({
                 disabled: true
             }, () => {
-                this.setTimeout(() => {
+                this.timer = setTimeout(() => {
                     this.setState({
                         disabled: false
                     });
@@ -135,6 +135,12 @@ export default class SlideMenu extends Component {
                 this.props.closeMenu();
             });
         }
+    }
+
+    componentWillUnmount() {
+        // 如果存在this.timer，则使用clearTimeout清空。
+        // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
+        this.timer && clearTimeout(this.timer);
     }
 }
 

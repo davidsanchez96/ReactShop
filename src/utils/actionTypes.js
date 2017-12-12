@@ -63,4 +63,5 @@ export const DetailLoading = 'DetailLoading';
 export const DetailLoaded = 'DetailLoaded';
 export const ImageDetailLoaded = 'ImageDetailLoaded';
 export const SpecsDetailLoaded = 'SpecsDetailLoaded';
+export const SpecsDetailVisible = 'SpecsDetailVisible';
 export const DetailTab = 'DetailTab';

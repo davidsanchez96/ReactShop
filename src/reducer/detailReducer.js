@@ -1,5 +1,6 @@
 import * as types from '../utils/actionTypes';
 import Immutable, {fromJS, List, Map} from 'immutable';
+import PathFinder from "../utils/PathFinder";
 
 const initialState = Immutable.fromJS({
     //是否loading完成
@@ -130,8 +131,56 @@ export default function detailReducer(state = initialState, action) {
             });
         case types.NetError:
             return state.set('loading', false);
-         case types.DetailTab:
+        case types.SpecsDetailLoaded:
+            //规格最大规格值的大小(specId:[specValueId1, specValueId2])取最大规格长度
+            const data1 = fromJS(action.data1);
+            let maxSpec = data1.reduce((val1, val2) => {
+                if (val1.get('specValueList').count() > val2.get('specValueList').count()) {
+                    return val1;
+                } else {
+                    return val2;
+                }
+            });
+
+            //规格数组
+            var specsArray = [];
+            for (var x = 0; x < data1.count(); x++) {
+                specsArray[x] = [];
+                for (var y = 0; y < maxSpec.get('specValueList').count(); y++) {
+                    try {
+                        specsArray[x][y] = data1.get(x).get('specValueList').get(y).get('specValueId');
+                    } catch (err) {
+                        specsArray[x][y] = null;
+                    }
+                }
+            }
+
+            //sku 规格数组
+            var skuArray = [];
+            const data2 = fromJS(action.data2);
+            for (var x = 0; x < data2.count(); x++) {
+                skuArray[x] = [];
+                for (var y = 0; y < data2.get(0).get('spuSpecValues').count(); y++) {
+                    skuArray[x][y] = data2.get(x).get('spuSpecValues').get(y).get('specValueId');
+                }
+            }
+
+            //计算可选规格方法
+            let finder = new PathFinder(specsArray, skuArray);
+            const chooseSpecs = state.getIn(['spec', 'specInfos']);
+            const addStatus = state.getIn(['goodsInfo', 'addedStatus']);
+            if (addStatus === 1) {
+                chooseSpecs.map(val => finder.add(val.get('specValueId')));
+            }
+            return state.withMutations((cursor) => {
+                cursor.set('specs', data1);
+                cursor.set('specStatusArray', finder.light);
+                cursor.set('skuSpecs', data2);
+            });
+        case types.DetailTab:
             return state.merge(action.data);
+        case types.SpecsDetailVisible:
+            return state.set('specVisible', action.data);
         case types.Address:
             return state.withMutations((cursor) => {
                 cursor

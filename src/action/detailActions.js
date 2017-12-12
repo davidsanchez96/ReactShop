@@ -36,9 +36,17 @@ export function specsDetail(goodsInfoId) {
     return (dispatch) => {
         let url = DetailUrl + `${goodsInfoId}/specs`;
         NetUtils.get(url,
-            (result) => {
-                console.log(url + result.data);
-                dispatch({type: SpecsDetailLoaded, data: result});
+            (result1) => {
+                console.log(url + result1);
+                NetUtils.get( DetailUrl + `${goodsInfoId}/skuSpecs`,
+                    (result) => {
+                        dispatch({type: SpecsDetailLoaded, data1: result1,data2:result});
+                    },
+                    (error) => {
+                        console.log(error);
+                        dispatch({type: NetError});
+                    });
+
             },
             (error) => {
                 console.log(error);

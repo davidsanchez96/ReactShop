@@ -22,8 +22,8 @@ import {connect} from "react-redux";
 import ReactScroll from "../components/ReactScroll";
 import SlideMenu from "../components/SlideMenu";
 import {getAddress} from "../../action/mainActions";
-import {imageDetail} from "../../action/detailActions";
-import {DetailTab} from "../../utils/actionTypes";
+import {imageDetail, specsDetail} from "../../action/detailActions";
+import {DetailTab, SpecsDetailVisible} from "../../utils/actionTypes";
 
 const isAndroid = Platform.OS === 'android';
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -39,6 +39,7 @@ class GoodsDetail extends Component {
 
             this.props.dispatch(getAddress(this.props.navigation.state.params.goodsInfoId));
             this.props.dispatch(imageDetail(this.props.navigation.state.params.goodsInfoId));
+            this.props.dispatch(specsDetail(this.props.navigation.state.params.goodsInfoId));
             //查看商品详情
             // msg.emit('goods:detail', this.props.goodsInfoId);
             //
@@ -105,7 +106,9 @@ class GoodsDetail extends Component {
                             store={store}
                             goodsInfo={this.props.goodsInfo}
                             goodsInfoId={this.props.goodsInfoId}
-                            setChoose={() => this._handleChooseSpec()}
+                            setChoose={() => {
+                                dispatch({type:SpecsDetailVisible,data:true})
+                            }}
                             callbackParent={(newState) => {
                                 scrolly = newState
                             }}/>
@@ -180,7 +183,9 @@ class GoodsDetail extends Component {
                 />
                 <SlideMenu
                     visible={this._specVisible}
-                    closeMenu={() => msg.emit('goods:hideSpec')}>
+                    closeMenu={() =>{
+                        dispatch({type:SpecsDetailVisible,data:false});
+                    }}>
                     {
                         <SpecContent
                             specs={this._specs}
