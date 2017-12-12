@@ -65,3 +65,6 @@ export const ImageDetailLoaded = 'ImageDetailLoaded';
 export const SpecsDetailLoaded = 'SpecsDetailLoaded';
 export const SpecsDetailVisible = 'SpecsDetailVisible';
 export const DetailTab = 'DetailTab';
+export const DetailNumber = 'DetailNumber';
+export const SelectSpec = 'SelectSpec';
+export const DetailClean = 'DetailClean';

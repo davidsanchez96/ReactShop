@@ -1,17 +1,8 @@
 import React, {Component} from 'react';
-import {
-    View,
-    ScrollView,
-    Text,
-    TextInput,
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-    PixelRatio,
-    Platform
-} from 'react-native';
+import {Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import NumberControl from "./NumberControl";
+import {DetailNumber, SelectSpec} from "../../utils/actionTypes";
 
 const isAndroid = Platform.OS === 'android';
 
@@ -103,7 +94,7 @@ export default class SpecContent extends Component {
      *  改变选中数量
      */
     _handleNumber(number) {
-        msg.emit('goods:changeNumber', number);
+       this.props.dispatch({type:DetailNumber,data:number});
     }
 
 
@@ -112,9 +103,9 @@ export default class SpecContent extends Component {
      */
     _handleChooseSpec(specValueId, specStatus) {
         if (specStatus == 1) {
-            msg.emit('goods:selectSpec', specValueId);
+            this.props.dispatch({type:SelectSpec,add:true,data:specValueId});
         } else if (specStatus == 2) {
-            msg.emit('goods:unSelectSpec', specValueId);
+            this.props.dispatch({type:SelectSpec,add:false,data:specValueId});
         }
     }
 
@@ -124,15 +115,14 @@ export default class SpecContent extends Component {
 const styles = StyleSheet.create({
     specHeader: {
         padding: 20,
-        paddingTop: isAndroid ? 20 : 40,
-        borderBottomWidth: 1 / PixelRatio.get(),
+        borderBottomWidth: 1 ,
         borderBottomColor: '#f2f2f2',
         flexDirection: 'row'
     },
     goodImg: {
         width: 80,
         height: 80,
-        borderWidth: 1 / PixelRatio.get(),
+        borderWidth: 1 ,
         borderColor: '#ddd',
         borderRadius: 5
     },
@@ -148,6 +138,7 @@ const styles = StyleSheet.create({
     },
     addCart: {
         flex: 1,
+        height: 60,
         backgroundColor: '#e63a59',
         alignItems: 'center',
         justifyContent: 'center'
@@ -167,7 +158,7 @@ const styles = StyleSheet.create({
     },
     specBtn: {
         height: 30,
-        borderWidth: 1 / PixelRatio.get(),
+        borderWidth: 1 ,
         borderColor: '#ddd',
         borderRadius: 3,
         marginRight: 20,

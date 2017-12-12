@@ -157,13 +157,13 @@ const styles = StyleSheet.create({
         left: 0,
         backgroundColor: 'rgba(0,0,0,.5)',
         width: SCREEN_WIDTH,
-        height: isAndroid ? SCREEN_HEIGHT - 25 : SCREEN_HEIGHT
+        height: isAndroid ? SCREEN_HEIGHT - 25 : SCREEN_HEIGHT- 64
     },
     menuContainer: {
         position: 'absolute',
         top: 0,
         width: 300,
-        height: isAndroid ? SCREEN_HEIGHT - 25 : SCREEN_HEIGHT,
+        height: isAndroid ? SCREEN_HEIGHT - 25 : SCREEN_HEIGHT- 64,
         backgroundColor: '#fff'
     }
 });

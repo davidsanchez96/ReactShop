@@ -23,7 +23,8 @@ import ReactScroll from "../components/ReactScroll";
 import SlideMenu from "../components/SlideMenu";
 import {getAddress} from "../../action/mainActions";
 import {imageDetail, specsDetail} from "../../action/detailActions";
-import {DetailTab, SpecsDetailVisible} from "../../utils/actionTypes";
+import {DetailClean, DetailTab, SpecsDetailVisible} from "../../utils/actionTypes";
+import {reset} from "../../action/goodsListActions";
 
 const isAndroid = Platform.OS === 'android';
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -34,6 +35,7 @@ class GoodsDetail extends Component {
     static navigationOptions = {
         title: '商品详情',
     };
+
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
 
@@ -55,9 +57,12 @@ class GoodsDetail extends Component {
         });
     }
 
+    componentWillUnmount() {
+        this.props.dispatch({type: DetailClean});
+    }
 
     render() {
-        const {dispatch,detailReducer} =this.props;
+        const {dispatch, detailReducer} = this.props;
         const store = detailReducer;
         this._specVisible = store.get('specVisible');
         this._goodsInfo = store.get('goodsInfo');
@@ -107,7 +112,7 @@ class GoodsDetail extends Component {
                             goodsInfo={this.props.goodsInfo}
                             goodsInfoId={this.props.goodsInfoId}
                             setChoose={() => {
-                                dispatch({type:SpecsDetailVisible,data:true})
+                                dispatch({type: SpecsDetailVisible, data: true})
                             }}
                             callbackParent={(newState) => {
                                 scrolly = newState
@@ -132,27 +137,28 @@ class GoodsDetail extends Component {
                         stickyHeaderIndices={[0]}
                         style={[styles.animateBox]}>
                         <View style={styles.detailTabs}>
-                            <View style={{flexDirection:'row'}}>
-                            <TouchableOpacity
-                                style={styles.tabItem}
-                                activeOpacity={0.8}
-                                onPressIn={() => {
-                                    dispatch({type:DetailTab,data:{chosenTab: 'goodIntro'}});
-                                }}>
-                                <Text
-                                    style={[styles.tabText, this._chosenTab === 'goodIntro' ? {color: '#e63a59'} : {}]}
-                                    allowFontScaling={false}>商品介绍</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.tabItem}
-                                activeOpacity={0.8}
-                                onPressIn={() => {
-                                    dispatch({type:DetailTab,data:{chosenTab: 'specPara'}});
-                                }}>
-                                <Text style={[styles.tabText, this._chosenTab === 'specPara' ? {color: '#e63a59'} : {}]}
-                                      allowFontScaling={false}>规格参数</Text>
-                            </TouchableOpacity>
-                        </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <TouchableOpacity
+                                    style={styles.tabItem}
+                                    activeOpacity={0.8}
+                                    onPressIn={() => {
+                                        dispatch({type: DetailTab, data: {chosenTab: 'goodIntro'}});
+                                    }}>
+                                    <Text
+                                        style={[styles.tabText, this._chosenTab === 'goodIntro' ? {color: '#e63a59'} : {}]}
+                                        allowFontScaling={false}>商品介绍</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.tabItem}
+                                    activeOpacity={0.8}
+                                    onPressIn={() => {
+                                        dispatch({type: DetailTab, data: {chosenTab: 'specPara'}});
+                                    }}>
+                                    <Text
+                                        style={[styles.tabText, this._chosenTab === 'specPara' ? {color: '#e63a59'} : {}]}
+                                        allowFontScaling={false}>规格参数</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                         <TouchableOpacity
                             activeOpacity={0.8}
@@ -183,11 +189,12 @@ class GoodsDetail extends Component {
                 />
                 <SlideMenu
                     visible={this._specVisible}
-                    closeMenu={() =>{
-                        dispatch({type:SpecsDetailVisible,data:false});
+                    closeMenu={() => {
+                        dispatch({type: SpecsDetailVisible, data: false});
                     }}>
                     {
                         <SpecContent
+                            dispatch={dispatch}
                             specs={this._specs}
                             goodsInfo={this._goodsInfo}
                             chooseNum={this._chooseNum}

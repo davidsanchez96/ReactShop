@@ -1,5 +1,5 @@
 import * as types from '../utils/actionTypes';
-import Immutable, {fromJS, List, Map} from 'immutable';
+import Immutable, {fromJS, List, Map, Set} from 'immutable';
 import PathFinder from "../utils/PathFinder";
 
 const initialState = Immutable.fromJS({
@@ -74,7 +74,8 @@ const initialState = Immutable.fromJS({
     guessProductLikeBarVisible: false,
     //优惠券
     coupons: [],
-    bounces: true
+    bounces: true,
+    finder: null,
 
 });
 
@@ -169,18 +170,55 @@ export default function detailReducer(state = initialState, action) {
             let finder = new PathFinder(specsArray, skuArray);
             const chooseSpecs = state.getIn(['spec', 'specInfos']);
             const addStatus = state.getIn(['goodsInfo', 'addedStatus']);
-            if (addStatus === 1) {
+            if (addStatus === '1') {
                 chooseSpecs.map(val => finder.add(val.get('specValueId')));
             }
             return state.withMutations((cursor) => {
                 cursor.set('specs', data1);
                 cursor.set('specStatusArray', finder.light);
                 cursor.set('skuSpecs', data2);
+                cursor.set('finder', finder);
             });
+        case types.SelectSpec:
+            let finder1 = state.get('finder');
+            if (action.add) {
+                finder1.add(action.data);
+                return state.withMutations((cursor) => {
+                    cursor.set('addStatus', true);
+                    cursor.set('finder', finder1);
+                    cursor.set('specStatusArray', finder1.light);
+                });
+                // if(finder.getCheckedAttr().length === state.get('specs').count()){
+                //     state.set('addStatus', true);
+                //     //通过选择的规格数组去查询skuId
+                //     try{
+                //         const skuSpecs = state.get('skuSpecs');
+                //         skuSpecs.map(sku =>{
+                //             let skuSpeValueSet = new Set();
+                //             sku.get('spuSpecValues').map(spec => {
+                //                 skuSpeValueSet = skuSpeValueSet.add(spec.get('specValueId'))
+                //             });
+                //             if(Set.of(...finder.getCheckedAttr()).equals(skuSpeValueSet)){
+                //                 //查询货品
+                //                 // goodsDetail(sku.get('skuId'));
+                //             }
+                //         });
+                //     }catch (err){}
+                // }
+            } else {
+                finder1.remove(action.data);
+                return state.withMutations((cursor) => {
+                    cursor.set('addStatus', false);
+                    cursor.set('finder', finder1);
+                    cursor.set('specStatusArray', finder1.light);
+                });
+            }
         case types.DetailTab:
             return state.merge(action.data);
         case types.SpecsDetailVisible:
             return state.set('specVisible', action.data);
+        case types.DetailNumber:
+            return state.setIn(['spec', 'chosenNum'], action.data);
         case types.Address:
             return state.withMutations((cursor) => {
                 cursor
@@ -189,6 +227,8 @@ export default function detailReducer(state = initialState, action) {
                     .setIn(['region', 'district'], action.data.districtName)
                     .setIn(['region', 'districtId'], action.data.districtId);
             });
+        case types.DetailClean:
+            return initialState;
         default:
             return state;
             break;
