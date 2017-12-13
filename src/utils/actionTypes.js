@@ -69,3 +69,9 @@ export const DetailNumber = 'DetailNumber';
 export const SelectSpec = 'SelectSpec';
 export const DetailClean = 'DetailClean';
 export const DetailStock = 'DetailStock';
+/**
+ *comment
+ **/
+export const CommentLoading = 'CommentLoading';
+export const CommentLoaded = 'CommentLoaded';
+export const CommentClean = 'CommentClean';

@@ -17,6 +17,7 @@ import GoodsList from "./category/GoodsList";
 import FilterPanel from "./category/FilterPanel";
 import Address from "./category/Address";
 import FilterSelect from "./category/FilterSelect";
+import Comment from "./category/Comment";
 
 
 const HomeNavigator = TabNavigator({
@@ -82,6 +83,9 @@ export const AppNavigator = StackNavigator({
         },
         FilterSelect: {
             screen: FilterSelect,
+        },
+        Comment: {
+            screen: Comment,
         },
     },
     {

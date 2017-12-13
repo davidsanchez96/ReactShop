@@ -131,7 +131,7 @@ class GoodsList extends Component {
                         this.props.dispatch(goodsList(page, searchParam, viewOption));
                     }}
                     refreshing={loading}
-                    onEndReached={this._onEndReached.bind(this)}
+                    onEndReached={()=>this._onEndReached()}
                     onEndReachedThreshold={0}
                 />
                 <FilterBox

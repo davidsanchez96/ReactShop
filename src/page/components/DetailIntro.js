@@ -151,7 +151,9 @@ export default class DetailIntro extends Component {
                     />
 
                     {/*商品评价*/}
-                    <Comments product={this._product}
+                    <Comments
+                        navigation={this.props.navigation}
+                        product={this._product}
                               comments={this._commentList}/>
                     {/*店铺信息*/}
                     {
