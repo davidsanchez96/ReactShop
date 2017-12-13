@@ -29,7 +29,7 @@ export default function goodList(state = initialState, action) {
                     .set('hasMore', action.hasMore).set('data', Immutable.fromJS(action.data));
             } else {
                 return state.set('loading', false).set('loadingMore', false)
-                    .set('hasMore', action.hasMore).set('data', state.get('data').concat((action.data)));
+                    .set('hasMore', action.hasMore).set('data', state.get('data').concat(Immutable.fromJS(action.data)));
             }
 
             break;
