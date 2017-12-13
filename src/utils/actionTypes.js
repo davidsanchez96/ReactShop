@@ -68,3 +68,4 @@ export const DetailTab = 'DetailTab';
 export const DetailNumber = 'DetailNumber';
 export const SelectSpec = 'SelectSpec';
 export const DetailClean = 'DetailClean';
+export const DetailStock = 'DetailStock';

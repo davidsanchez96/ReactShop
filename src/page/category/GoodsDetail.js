@@ -100,7 +100,7 @@ class GoodsDetail extends Component {
             <View style={{flex: 1}}>
 
 
-                <ScrollView ref="scrollView" keyboardShouldPersistTaps={true} scrollEnabled={false}>
+                <ScrollView ref="scrollView" keyboardShouldPersistTaps='always' scrollEnabled={false}>
                     <ReactScroll
                         ref="internalScrollView1"
                         onBottomHeight={50}

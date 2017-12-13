@@ -227,10 +227,14 @@ export default function detailReducer(state = initialState, action) {
                     .setIn(['region', 'district'], action.data.districtName)
                     .setIn(['region', 'districtId'], action.data.districtId);
             });
+        case types.DetailStock:
+            return state.withMutations((cursor) => {
+                cursor.setIn(['goodsInfo', 'stock'], fromJS(action.data).get('stock'));
+                cursor.setIn(['goodsInfo', 'warePrice'], fromJS(action.data).get('price'));
+            });
         case types.DetailClean:
             return initialState;
         default:
             return state;
-            break;
     }
 }

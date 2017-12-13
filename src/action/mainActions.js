@@ -21,22 +21,25 @@ export function getMain() {
 
 export function getAddress(goodsInfoId) {
     return (dispatch) => {
-        const data = AsyncStorage.getItem('KStoreApp@defaultRegion');
-        if (data && data.districtId) {
-            dispatch({type: Address, data: data});
-            dispatch(detail( data.districtId,goodsInfoId))
-        } else {
-            NetUtils.get(AreaUrl,
-                (result) => {
-                    console.log(URL + result);
-                    AsyncStorage.setItem('KStoreApp@defaultRegion', JSON.stringify(result));
-                    dispatch({type: Address, data: result});
-                    dispatch(detail(result.districtId,goodsInfoId ));
-                },
-                (error) => {
-                    console.log('---------' + error);
-                });
-        }
+        AsyncStorage.getItem('KStoreApp@defaultRegion', (error, result) => {
+            if (result) {
+                const data = JSON.parse(result);
+                dispatch({type: Address, data: data});
+                dispatch(detail(data.districtId, goodsInfoId))
+            } else {
+                NetUtils.get(AreaUrl,
+                    (result) => {
+                        console.log(URL + result);
+                        AsyncStorage.setItem('KStoreApp@defaultRegion', JSON.stringify(result));
+                        dispatch({type: Address, data: result});
+                        dispatch(detail(result.districtId, goodsInfoId));
+                    },
+                    (error) => {
+                        console.log('---------' + error);
+                    });
+            }
+        });
+
     }
 
 }

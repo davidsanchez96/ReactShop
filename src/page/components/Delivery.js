@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
-import {Image, PixelRatio, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {FilterAddress} from "../../utils/actionTypes";
+import {
+    Image, PixelRatio, InteractionManager,
+    StyleSheet, Text, TouchableOpacity, View,
+    AsyncStorage,
+} from 'react-native';
+import {Address, DetailStock} from "../../utils/actionTypes";
+import {goodsStock} from "../../action/detailActions";
 
 export default class Delivery extends Component {
 
@@ -69,7 +74,13 @@ export default class Delivery extends Component {
     _handleToRegion() {
         this.props.navigation.navigate('Address', {
             selectBack: (select) => {
-                // this.props.dispatch({type: FilterAddress, data: select});
+                console.log(select)
+                InteractionManager.runAfterInteractions(() => {
+                    AsyncStorage.setItem('KStoreApp@defaultRegion', JSON.stringify(select));
+                    this.props.dispatch({type: Address, data: select});
+                    this.props.dispatch(goodsStock(this.props.product.get('id'), select.districtId));
+                });
+
             }
         })
     }
