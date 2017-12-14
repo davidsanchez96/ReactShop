@@ -74,4 +74,5 @@ export const DetailStock = 'DetailStock';
  **/
 export const CommentLoading = 'CommentLoading';
 export const CommentLoaded = 'CommentLoaded';
+export const CommentType = 'CommentType';
 export const CommentClean = 'CommentClean';

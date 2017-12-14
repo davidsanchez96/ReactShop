@@ -15,7 +15,7 @@ import {
 import {connect} from "react-redux";
 import CommentTab from "../components/CommentTab";
 import Immutable from "immutable";
-import {CommentClean} from "../../utils/actionTypes";
+import {CommentClean, CommentType} from "../../utils/actionTypes";
 import {comment} from "../../action/commentActions";
 import moment from 'moment';
 import {goodsList} from "../../action/goodsListActions";
@@ -53,7 +53,19 @@ class Comment extends Component {
         return (
             <View style={{flex: 1, backgroundColor: '#eee'}}>
 
-                <CommentTab product={Immutable.fromJS(navigation.state.params.product)} commentsType={commentType}/>
+                <CommentTab
+                    click={(type) => {
+                        if (commentType !== type) {
+                            InteractionManager.runAfterInteractions(() => {
+                                dispatch({type: CommentType, data: {commentsType: type}});
+                                page = 0;
+                                dispatch(comment(navigation.state.params.product.id, type, page));
+                            })
+                        }
+                    }}
+                    dispatch={dispatch}
+                    product={Immutable.fromJS(navigation.state.params.product)}
+                    commentsType={commentType}/>
                 <FlatList
                     renderItem={this._renderRow}
                     ListEmptyComponent={this._empty}
@@ -66,7 +78,7 @@ class Comment extends Component {
                         dispatch(comment(navigation.state.params.product.id, commentType, page));
                     }}
                     refreshing={loading}
-                    onEndReached={()=>this._onEndReached()}
+                    onEndReached={() => this._onEndReached()}
                     onEndReachedThreshold={0}
                 />
             </View>
@@ -76,7 +88,7 @@ class Comment extends Component {
     /**
      * 渲染评价列表
      */
-    _renderRow=({item, index}) => {
+    _renderRow = ({item, index}) => {
         return (
             <View style={styles.commentItem} key={index}>
                 <View style={styles.commentBox}>
@@ -104,16 +116,21 @@ class Comment extends Component {
         if (loading || reloading) {
             return null;
         } else {
-            return <Text>暂无数据</Text>
+            return (
+                <View style={styles.footer}>
+                    <Text>暂无数据</Text>
+                </View>
+            )
         }
 
-    }
+    };
 
     _renderFooter() {
         const {commentReducer} = this.props;
         let hasMore = commentReducer.get('hasMore');
         let loading = commentReducer.get('loading');
-        if (loading || commentReducer.get('data').size == 0)
+
+        if (loading || commentReducer.get('data').length == 0)
             return null;
         if (hasMore) {
             return (
@@ -135,7 +152,7 @@ class Comment extends Component {
     }
 
     _onEndReached() {
-        const {commentReducer, dispatch,navigation} = this.props;
+        const {commentReducer, dispatch, navigation} = this.props;
         let hasMore = commentReducer.get('hasMore');
         let loading = commentReducer.get('loading');
         let loadingMore = commentReducer.get('loadingMore');
@@ -197,7 +214,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 40,
-        borderWidth: 1 ,
+        borderWidth: 1,
         borderColor: '#eee',
         borderRadius: 5,
         marginLeft: 10,
@@ -206,5 +223,11 @@ const styles = StyleSheet.create({
     btnText: {
         color: '#666',
         fontSize: 16
-    }
+    },
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10,
+    },
 });

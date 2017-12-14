@@ -131,7 +131,7 @@ class GoodsList extends Component {
                         this.props.dispatch(goodsList(page, searchParam, viewOption));
                     }}
                     refreshing={loading}
-                    onEndReached={()=>this._onEndReached()}
+                    onEndReached={() => this._onEndReached()}
                     onEndReachedThreshold={0}
                 />
                 <FilterBox
@@ -281,13 +281,15 @@ class GoodsList extends Component {
 
                     </View>
                     <View style={[styles.priceStyle, {marginTop: 0}]}>
-                        <View style={styles.imageStyle}>
-                            <Text style={styles.textStyle}>
-                                {item.operatingType}
-                            </Text>
-                        </View>
                         {
-                            item.marktingTags.map((item) => {
+                            item.operatingType ? <View style={styles.imageStyle}>
+                                <Text style={styles.textStyle}>
+                                    {item.operatingType}
+                                </Text>
+                            </View> : null
+                        }
+                        {
+                            item.marktingTags ? item.marktingTags.map((item) => {
                                 return (
                                     <View key={item} style={styles.image2Style}>
                                         <Text style={styles.redTextStyle}>
@@ -295,7 +297,7 @@ class GoodsList extends Component {
                                         </Text>
                                     </View>
                                 )
-                            })
+                            }) : null
                         }
                     </View>
                 </View>
@@ -351,13 +353,15 @@ class GoodsList extends Component {
                                 />
                             </View>
                             <View style={[styles.priceStyle, {marginTop: 0}]}>
-                                <View style={styles.imageStyle}>
-                                    <Text style={styles.textStyle}>
-                                        {item.operatingType}
-                                    </Text>
-                                </View>
                                 {
-                                    item.marktingTags.map((item) => {
+                                    item.operatingType ? <View style={styles.imageStyle}>
+                                        <Text style={styles.textStyle}>
+                                            {item.operatingType}
+                                        </Text>
+                                    </View> : null
+                                }
+                                {
+                                    item.marktingTags ? item.marktingTags.map((item) => {
                                         return (
                                             <View key={item} style={styles.image2Style}>
                                                 <Text style={styles.redTextStyle}>
@@ -365,7 +369,7 @@ class GoodsList extends Component {
                                                 </Text>
                                             </View>
                                         )
-                                    })
+                                    }) : null
                                 }
                             </View>
                         </View>

@@ -103,13 +103,15 @@ export default class FloorFive extends Component {
 
                                         </View>
                                         <View style={[styles.priceStyle, {marginTop: 0}]}>
-                                            <View style={styles.imageStyle}>
-                                                <Text style={styles.textStyle}>
-                                                    {advert.operatingType}
-                                                </Text>
-                                            </View>
                                             {
-                                                advert.marktingTags.map((item) => {
+                                                advert.operatingType ? <View style={styles.imageStyle}>
+                                                    <Text style={styles.textStyle}>
+                                                        {advert.operatingType}
+                                                    </Text>
+                                                </View> : null
+                                            }
+                                            {
+                                                advert.marktingTags ? advert.marktingTags.map((item) => {
                                                     return (
                                                         <View style={styles.image2Style}>
                                                             <Text style={styles.redTextStyle}>
@@ -117,7 +119,7 @@ export default class FloorFive extends Component {
                                                             </Text>
                                                         </View>
                                                     )
-                                                })
+                                                }) : null
                                             }
                                         </View>
                                     </View>
