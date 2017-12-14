@@ -25,6 +25,7 @@ import {getAddress} from "../../action/mainActions";
 import {imageDetail, specsDetail} from "../../action/detailActions";
 import {DetailClean, DetailTab, SpecsDetailVisible} from "../../utils/actionTypes";
 import {reset} from "../../action/goodsListActions";
+import Loading from "../components/Loading";
 
 const isAndroid = Platform.OS === 'android';
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -62,7 +63,7 @@ class GoodsDetail extends Component {
     }
 
     render() {
-        const {dispatch, detailReducer,navigation} = this.props;
+        const {dispatch, detailReducer, navigation} = this.props;
         const store = detailReducer;
         this._specVisible = store.get('specVisible');
         this._goodsInfo = store.get('goodsInfo');
@@ -94,118 +95,122 @@ class GoodsDetail extends Component {
         this._goodsInfoExist = store.get('goodsInfoExist');
         //添加状态
         this._addStatus = store.get('addStatus');
-
+        const loading = detailReducer.get('loading');
 
         return (
             <View style={{flex: 1}}>
-
-
-                <ScrollView ref="scrollView" keyboardShouldPersistTaps='always' scrollEnabled={false}>
-                    <ReactScroll
-                        ref="internalScrollView1"
-                        onBottomHeight={50}
-                        onBottomPush={() => this._handleToggleButton(true)}
-                        style={[styles.animateBox]}>
-                        <DetailIntro
-                            dispatch={dispatch}
-                            navigation={navigation}
-                            chosenNum={1}
-                            store={store}
-                            goodsInfo={this.props.goodsInfo}
-                            goodsInfoId={this.props.goodsInfoId}
-                            setChoose={() => {
-                                dispatch({type: SpecsDetailVisible, data: true})
-                            }}
-                            callbackParent={(newState) => {
-                                scrolly = newState
-                            }}/>
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={() => this._handleToggleButton(true)}
-                            style={styles.scrollBtn}>
-                            <View style={styles.line}/>
-                            <Text
-                                allowFontScaling={false}
-                                style={styles.btnText}>{isAndroid ? '点击查看图文详情' : '上拉查看图文详情'}</Text>
-                        </TouchableOpacity>
-                    </ReactScroll>
-
-                    <ReactScroll
-                        onTopHeight={50}
-                        //android下图片详情可滑动
-                        //scrollEnabled={isAndroid ? true : false}
-                        scrollEnabled={true}
-                        onTopPull={() => this._handleToggleButton(false)}
-                        stickyHeaderIndices={[0]}
-                        style={[styles.animateBox]}>
-                        <View style={styles.detailTabs}>
-                            <View style={{flexDirection: 'row'}}>
+            {
+                loading ? <Loading/> :
+                    <View style={{flex: 1}}>
+                        <ScrollView ref="scrollView" keyboardShouldPersistTaps='always' scrollEnabled={false}>
+                            <ReactScroll
+                                ref="internalScrollView1"
+                                onBottomHeight={50}
+                                onBottomPush={() => this._handleToggleButton(true)}
+                                style={[styles.animateBox]}>
+                                <DetailIntro
+                                    dispatch={dispatch}
+                                    navigation={navigation}
+                                    chosenNum={1}
+                                    store={store}
+                                    goodsInfo={this.props.goodsInfo}
+                                    goodsInfoId={this.props.goodsInfoId}
+                                    setChoose={() => {
+                                        dispatch({type: SpecsDetailVisible, data: true})
+                                    }}
+                                    callbackParent={(newState) => {
+                                        scrolly = newState
+                                    }}/>
                                 <TouchableOpacity
-                                    style={styles.tabItem}
                                     activeOpacity={0.8}
-                                    onPressIn={() => {
-                                        dispatch({type: DetailTab, data: {chosenTab: 'goodIntro'}});
-                                    }}>
+                                    onPress={() => this._handleToggleButton(true)}
+                                    style={styles.scrollBtn}>
+                                    <View style={styles.line}/>
                                     <Text
-                                        style={[styles.tabText, this._chosenTab === 'goodIntro' ? {color: '#e63a59'} : {}]}
-                                        allowFontScaling={false}>商品介绍</Text>
+                                        allowFontScaling={false}
+                                        style={styles.btnText}>{isAndroid ? '点击查看图文详情' : '上拉查看图文详情'}</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.tabItem}
-                                    activeOpacity={0.8}
-                                    onPressIn={() => {
-                                        dispatch({type: DetailTab, data: {chosenTab: 'specPara'}});
-                                    }}>
-                                    <Text
-                                        style={[styles.tabText, this._chosenTab === 'specPara' ? {color: '#e63a59'} : {}]}
-                                        allowFontScaling={false}>规格参数</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={() => this._handleToggleButton(false)}
-                            style={styles.scrollBtn}>
-                            <View style={styles.line}/>
-                            <Text
-                                allowFontScaling={false}
-                                style={styles.btnText}>{isAndroid ? '点击返回商品详情' : '下拉返回商品详情'}</Text>
-                        </TouchableOpacity>
-                        <DetailContent
-                            chosenTab={this._chosenTab}
-                            spuParams={this._spuParamItems}
-                            goodsImages={this._goodsImages}
-                            goodsDesc={this._goodsDesc}/>
-                    </ReactScroll>
-                </ScrollView>
+                            </ReactScroll>
 
-                <BottomBar
-                    shoppingCount={this._shoppingCartNum}
-                    //goodsView={this._shoppingGoodsView}
-                    goodsInfo={this._goodsInfo}
-                    follower={this._followerState}
-                    storeInfo={store.get('storeInfo')}
-                    spec={this._spec}
-                    region={this._region}
-                    goodsInfoExist={this._goodsInfoExist}
-                />
-                <SlideMenu
-                    visible={this._specVisible}
-                    closeMenu={() => {
-                        dispatch({type: SpecsDetailVisible, data: false});
-                    }}>
-                    {
-                        <SpecContent
-                            dispatch={dispatch}
-                            specs={this._specs}
+                            <ReactScroll
+                                onTopHeight={50}
+                                //android下图片详情可滑动
+                                //scrollEnabled={isAndroid ? true : false}
+                                scrollEnabled={true}
+                                onTopPull={() => this._handleToggleButton(false)}
+                                stickyHeaderIndices={[0]}
+                                style={[styles.animateBox]}>
+                                <View style={styles.detailTabs}>
+                                    <View style={{flexDirection: 'row'}}>
+                                        <TouchableOpacity
+                                            style={styles.tabItem}
+                                            activeOpacity={0.8}
+                                            onPressIn={() => {
+                                                dispatch({type: DetailTab, data: {chosenTab: 'goodIntro'}});
+                                            }}>
+                                            <Text
+                                                style={[styles.tabText, this._chosenTab === 'goodIntro' ? {color: '#e63a59'} : {}]}
+                                                allowFontScaling={false}>商品介绍</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={styles.tabItem}
+                                            activeOpacity={0.8}
+                                            onPressIn={() => {
+                                                dispatch({type: DetailTab, data: {chosenTab: 'specPara'}});
+                                            }}>
+                                            <Text
+                                                style={[styles.tabText, this._chosenTab === 'specPara' ? {color: '#e63a59'} : {}]}
+                                                allowFontScaling={false}>规格参数</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                                <TouchableOpacity
+                                    activeOpacity={0.8}
+                                    onPress={() => this._handleToggleButton(false)}
+                                    style={styles.scrollBtn}>
+                                    <View style={styles.line}/>
+                                    <Text
+                                        allowFontScaling={false}
+                                        style={styles.btnText}>{isAndroid ? '点击返回商品详情' : '下拉返回商品详情'}</Text>
+                                </TouchableOpacity>
+                                <DetailContent
+                                    chosenTab={this._chosenTab}
+                                    spuParams={this._spuParamItems}
+                                    goodsImages={this._goodsImages}
+                                    goodsDesc={this._goodsDesc}/>
+                            </ReactScroll>
+                        </ScrollView>
+
+                        <BottomBar
+                            shoppingCount={this._shoppingCartNum}
+                            //goodsView={this._shoppingGoodsView}
                             goodsInfo={this._goodsInfo}
-                            chooseNum={this._chooseNum}
+                            follower={this._followerState}
+                            storeInfo={store.get('storeInfo')}
                             spec={this._spec}
+                            region={this._region}
                             goodsInfoExist={this._goodsInfoExist}
-                            specStatusArray={this._specStatusArray}
-                            addStatus={this._addStatus}/>
-                    }
-                </SlideMenu>
+                        />
+                        <SlideMenu
+                            visible={this._specVisible}
+                            closeMenu={() => {
+                                dispatch({type: SpecsDetailVisible, data: false});
+                            }}>
+                            {
+                                <SpecContent
+                                    dispatch={dispatch}
+                                    specs={this._specs}
+                                    goodsInfo={this._goodsInfo}
+                                    chooseNum={this._chooseNum}
+                                    spec={this._spec}
+                                    goodsInfoExist={this._goodsInfoExist}
+                                    specStatusArray={this._specStatusArray}
+                                    addStatus={this._addStatus}/>
+                            }
+                        </SlideMenu>
+
+                    </View>
+            }
             </View>
         )
     }
