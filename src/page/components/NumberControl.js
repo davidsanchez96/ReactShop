@@ -122,41 +122,6 @@ export default class NumberControl extends Component {
         )
     }
 
-    //弹窗内容
-    _renderDialog() {
-        return (
-            <View style={styles.dialog}>
-                <Text style={{fontSize: 16, marginBottom: 20}}>修改购买数量</Text>
-                <View style={[styles.numBox, styles.bigNumBox]}>
-                    <TouchableOpacity style={styles.numItem} activeOpacity={0.8}
-                                      onPress={(inTemp) => this._numberMinus(true)}>
-                        <Image
-                            style={styles.numBtn}
-                            source={require('./img/minus.png')}/>
-                    </TouchableOpacity>
-                    <View style={styles.inputItem}>
-                        <TextInput
-                            ref={component => this._textInput = component}
-                            style={styles.numInput}
-                            underlineColorAndroid='transparent'
-                            value={'12132'}
-                            keyboardType='numeric'
-                            autoFocus={true}
-                            onChangeText={(tempNum) => this._changeNumber(tempNum)}
-                            onBlur={() => this._handleNumber()}/>
-                    </View>
-                    <TouchableOpacity style={styles.numItem} activeOpacity={0.8}
-                                      onPress={(inTemp) => this._numberPlus(true)}>
-                        <Image
-                            style={styles.numBtn}
-                            source={require('./img/plus.png')}/>
-                    </TouchableOpacity>
-                </View>
-                <Text style={{marginTop: 5, fontSize: 12, color: '#e63a59'}}>最多可选{this.props.maxNum}件商品</Text>
-            </View>
-        )
-    }
-
     //编辑文本弹窗
     _editDialog() {
         this.setState({

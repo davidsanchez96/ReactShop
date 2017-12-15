@@ -40,7 +40,9 @@ export default class FloorFive extends Component {
                     {
                         topAdverts.map((advert, id) => {
                                 return (
-                                    <TouchableOpacity activeOpacity={0.8} key={id} style={styles.advertCon}
+                                    <TouchableOpacity
+                                        key={id}
+                                        activeOpacity={0.8} key={id} style={styles.advertCon}
                                                       onPress={() => {
                                                           this._handleBack(advert.action, advert.actionParam)
                                                       }}>
@@ -57,8 +59,8 @@ export default class FloorFive extends Component {
                         bottomAdverts.map((advert, id) => {
 
                                 return (
-
-                                    <View style={styles.goodsItem}>
+                                    <View style={styles.goodsItem}
+                                          key={id}>
                                         <TouchableOpacity activeOpacity={0.8} key={id}
                                                           onPress={() => {
                                                               this._handleBack(advert.action, advert.actionParam)
@@ -114,7 +116,9 @@ export default class FloorFive extends Component {
                                             {
                                                 advert.marktingTags ? advert.marktingTags.map((item) => {
                                                     return (
-                                                        <View style={styles.image2Style}>
+                                                        <View
+                                                            key={item}
+                                                            style={styles.image2Style}>
                                                             <Text style={styles.redTextStyle}>
                                                                 {item}
                                                             </Text>

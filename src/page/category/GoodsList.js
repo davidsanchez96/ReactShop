@@ -348,7 +348,7 @@ class GoodsList extends Component {
                                     size={12}
                                     callbackParent={(number) => {
                                         item.clientCartNo = number;
-                                        this.refs.list.change(index, item);
+                                        this.props.dispatch({type: GoodsListNumber, index: index, item: item});
                                     }}
                                 />
                             </View>
