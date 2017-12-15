@@ -7,6 +7,7 @@ export const NetError = 'netError';
 export const Address = 'Address';
 export const Show = 'show';
 export const Change = 'change';
+export const Number = 'Number';
 /**
  * category
  */

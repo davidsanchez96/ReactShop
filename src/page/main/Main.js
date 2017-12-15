@@ -178,7 +178,9 @@ class Main extends Component {
             case '5':
                 return (
 
-                    <FloorFive data={item}/>
+                    <FloorFive
+                        dispatch={this.props.dispatch}
+                        data={item}/>
                 );
                 break;
             default:

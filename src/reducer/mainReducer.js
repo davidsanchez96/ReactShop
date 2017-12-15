@@ -1,6 +1,7 @@
 import * as types from '../utils/actionTypes';
 import Immutable from 'immutable';
-const initialState = Immutable.Map({
+
+const initialState = Immutable.fromJS({
     loading: true,
     data: {
         "sliders": [],
@@ -13,18 +14,30 @@ const initialState = Immutable.Map({
 export default function main(state = initialState, action) {
     switch (action.type) {
         case types.Loading:
-            return state.set('loading',true);
+            return state.set('loading', true);
         case types.Loaded:
-            return state.set('loading',false).set('data',action.data);
+            return state.set('loading', false).set('data', Immutable.fromJS(action.data));
         case types.NetError:
-            return state.set('loading',false);
+            return state.set('loading', false);
         case  types.Show:
-            return state.set('show',action.show);
+            return state.set('show', action.show);
         case  types.Change:
-            return state.set('change',action.change);
+            return state.set('change', action.change);
+        case  types.Number:
+             let state1=state.withMutations((cursor) => {
+                cursor.getIn(['data','floors']).map((c, i) => {
+                    c.get("adverts").map((p, q) => {
+                        if (action.id == p.get("id")) {
+                            cursor.setIn(['data','floors', i, 'adverts', q, 'clientCartNo'], action.number);
+                        }
+                    });
+                });
+            });
+            return state1;
         default:
             return state;
-    }}
+    }
+}
 // export default function main(state = initialState, action) {
 //     switch (action.type) {
 //         case types.Loading:

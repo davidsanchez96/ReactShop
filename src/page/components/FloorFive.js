@@ -5,6 +5,7 @@ import {View, Image, Text, addons, StyleSheet, Dimensions, TouchableOpacity, Pix
 
 import Swiper from 'react-native-swiper';
 import QMNumberControl from './NumberControl';
+import {GoodsListNumber, Number} from "../../utils/actionTypes";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -85,7 +86,7 @@ export default class FloorFive extends Component {
                                                 width={80}
                                                 height={20}
                                                 callbackParent={(number) => {
-                                                    // msg.emit('main:changeGoodsNum', advert.id, number);
+                                                    this.props.dispatch({type: Number, id: advert.id, number: number});
                                                 }}
                                             />
                                             <TouchableOpacity
