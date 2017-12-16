@@ -6,3 +6,4 @@ export const FilterUrl=URL+'/search/goods/aggregations';
 export const AddressUrl=URL+'/area/all';
 export const DetailUrl=URL+'/goods/';
 export const AreaUrl=URL+'/area/defaultArea';
+export const LoginUrl=URL+'/customer/login';

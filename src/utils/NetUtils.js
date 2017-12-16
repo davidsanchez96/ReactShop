@@ -1,6 +1,6 @@
-
 import Toast from 'react-native-root-toast';
-export default  NetUtils = {
+
+export default NetUtils = {
     /**
      * http get 请求简单封装
      * @param url 请求的URL
@@ -17,14 +17,19 @@ export default  NetUtils = {
                 'Authorization': 'Bearer ' + (window.token || '')
             }
         };
-        fetch(url,fetchOptions)
+        fetch(url, fetchOptions)
             .then((response) => response.json())
             .then((responseJson) => {
-                successCallback(responseJson);
+                if (responseJson.code) {
+                    Toast.show('您的网络不给力:(');
+                    failCallback(responseJson.code);
+                } else {
+                    successCallback(responseJson);
+                }
             })
             .catch((err) => {
                 failCallback(err);
-                Toast.show('您的网络不给力');
+                Toast.show('您的网络不给力:(');
             });
     },
 
@@ -57,11 +62,59 @@ export default  NetUtils = {
         fetch(url, fetchOptions)
             .then((response) => response.json())
             .then((responseJson) => {
-                successCallback(responseJson);
+                if (responseJson.code) {
+                    Toast.show('您的网络不给力:(');
+                    failCallback(responseJson.code);
+                } else {
+                    successCallback(responseJson);
+                }
             })
             .catch((err) => {
                 failCallback(err);
+                Toast.show('您的网络不给力:(');
             });
     },
+
+
+    /**
+     *登录
+     */
+    login: (url, user, password, successCallback, failCallback) => {
+        let formData = new FormData();
+        formData.append('user', user);
+        formData.append('password', password);
+
+        let fetchOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            body: formData
+        };
+
+        fetch(url, fetchOptions)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.code) {
+                    if ('K-000002' === responseJson.code) {
+                        Toast.show('账号信息错误!');
+                    } else if('K-000001'===responseJson.code) {
+                        Toast.show('您的网络不给力:(');
+                    }else {
+                        Toast.show(responseJson.message);
+                    }
+                    failCallback(responseJson.code);
+                } else {
+                    successCallback(responseJson);
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+                failCallback();
+                Toast.show('您的网络不给力:(');
+            });
+    },
+
 
 }

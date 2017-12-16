@@ -77,3 +77,11 @@ export const CommentLoading = 'CommentLoading';
 export const CommentLoaded = 'CommentLoaded';
 export const CommentType = 'CommentType';
 export const CommentClean = 'CommentClean';
+/**
+ *login
+ **/
+export const LoginLoading = 'LoginLoading';
+export const LoginLoaded = 'LoginLoaded';
+export const LoginUser = 'LoginUser';
+export const LoginPassword = 'LoginPassword';
+export const LoginPass = 'LoginPass';

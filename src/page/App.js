@@ -18,6 +18,7 @@ import FilterPanel from "./category/FilterPanel";
 import Address from "./category/Address";
 import FilterSelect from "./category/FilterSelect";
 import Comment from "./category/Comment";
+import Login from "./user/Login";
 
 
 const HomeNavigator = TabNavigator({
@@ -86,6 +87,9 @@ export const AppNavigator = StackNavigator({
         },
         Comment: {
             screen: Comment,
+        },
+        Login: {
+            screen: Login,
         },
     },
     {

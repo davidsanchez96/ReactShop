@@ -9,6 +9,7 @@ import addressReducer from './addressReducer';
 import selectReducer from './selectReducer';
 import detailReducer from './detailReducer';
 import commentReducer from './commentReducer';
+import loginReducer from './loginReducer';
 export default combineReducers({
     nav,
     categoryReducer,
@@ -20,4 +21,5 @@ export default combineReducers({
     selectReducer,
     detailReducer,
     commentReducer,
+    loginReducer,
 });
