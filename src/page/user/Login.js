@@ -18,6 +18,8 @@ import {
 import {connect} from "react-redux";
 import {LoginPass, LoginPassword, LoginUser} from "../../utils/actionTypes";
 import {login} from "../../action/loginActions";
+import Immutable from "immutable";
+import Loading from "../components/Loading";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -42,90 +44,107 @@ class Login extends Component {
         };
     };
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return !Immutable.is(Immutable.Map(this.props.loginReducer), Immutable.Map(nextProps.loginReducer)) ||
+            !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
+    }
+
+    componentWillUpdate() {
+        const {loginReducer, navigation} = this.props;
+        if (loginReducer.get('isSuccess')) {
+            navigation.goBack();
+        }
+    }
+
     render() {
-        const {loginReducer,dispatch} = this.props;
+        const {loginReducer, dispatch} = this.props;
         const store = loginReducer;
+        let disabled = true;
 
         return (
-            <View style={styles.loginContainer}>
-                {/*帐号*/}
-                <Image style={styles.banner} source={require('../components/img/loginBanner.png')}/>
-                <View style={styles.inputBox}>
-                    <View style={styles.inputItem}>
-                        <Text style={styles.label} allowFontScaling={false}>账号：</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder='用户名/手机号/邮箱'
-                            placeholderTextColor='#ddd'
-                            value={store.get('user')}
-                            underlineColorAndroid='transparent'
-                            onChangeText={(user) => {
-                                dispatch({type:LoginUser,user:user})
-                            }}/>
+                <View style={styles.loginContainer}>
+                    {/*帐号*/}
+                    <Loading visible={loginReducer.get('loading')}/>
+                    <Image style={styles.banner} source={require('../components/img/loginBanner.png')}/>
+                    <View style={styles.inputBox}>
+                        <View style={styles.inputItem}>
+                            <Text style={styles.label} allowFontScaling={false}>账号：</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder='用户名/手机号/邮箱'
+                                placeholderTextColor='#ddd'
+                                value={store.get('user')}
+                                underlineColorAndroid='transparent'
+                                onChangeText={(user) => {
+                                    dispatch({type: LoginUser, user: user})
+                                }}/>
+                        </View>
+
+                        {/*密码*/}
+                        <Image style={{width: SCREEN_WIDTH}} source={require('../components/img/line.png')}/>
+                        <View style={[styles.inputItem, {
+                            paddingTop: 10,
+                            paddingBottom: 10
+                        }]}>
+                            <Text style={styles.label} allowFontScaling={false}>密码：</Text>
+                            <TextInput
+                                style={styles.input}
+                                clearButtonMode='while-editing'
+                                placeholder='请输入密码'
+                                placeholderTextColor='#ddd'
+                                secureTextEntry={store.get('isHide')}
+                                value={store.get('password')}
+                                underlineColorAndroid='transparent'
+                                onChangeText={(password) => {
+                                    dispatch({type: LoginPassword, password: password})
+                                }}/>
+                            <TouchableOpacity
+                                activeOpacity={0.6}
+                                onPress={() => {
+                                    dispatch({type: LoginPass})
+                                }}>
+                                <Image
+                                    style={[styles.eye,]}
+                                    resizeMode='cover'
+                                    source={store.get('isHide')
+                                        ? require('../components/img/eye-close.png')
+                                        : require('../components/img/eye-open.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
-                    {/*密码*/}
-                    <Image style={{width: SCREEN_WIDTH}} source={require('../components/img/line.png')}/>
-                    <View style={[styles.inputItem, {
-                        paddingTop: 10,
-                        paddingBottom: 10
-                    }]}>
-                        <Text style={styles.label} allowFontScaling={false}>密码：</Text>
-                        <TextInput
-                            style={styles.input}
-                            clearButtonMode='while-editing'
-                            placeholder='请输入密码'
-                            placeholderTextColor='#ddd'
-                            password={store.get('isHide')}
-                            value={store.get('password')}
-                            underlineColorAndroid='transparent'
-                            onChangeText={(password) => {
-                                dispatch({type:LoginPassword,password:password})
-                            }}/>
+                    {/*登录按钮*/}
+                    <View style={styles.wrap}>
+
                         <TouchableOpacity
-                            activeOpacity={0.6}
-                            onPress={()=>{
-                                dispatch({type:LoginPass})
+                            disabled={!(store.get('user') && store.get('password'))}
+                            activeOpacity={0.8}
+                            style={[styles.btnContainer, !(store.get('user') && store.get('password')) ? styles.disabled : {}]}
+                            onPress={() => {
+                                if (store.get('user') && store.get('password') && disabled) {
+                                    disabled = false;
+                                    dispatch(login(loginReducer.get('user'), loginReducer.get('password')))
+                                }
                             }}>
-                            <Image
-                                style={[styles.eye,]}
-                                resizeMode='cover'
-                                source={store.get('isHide')
-                                    ? require('../components/img/eye-close.png')
-                                    : require('../components/img/eye-open.png')}
-                            />
+                            <Text
+                                style={[styles.btn, !(store.get('user') && store.get('password')) ? styles.disabledText : {}]}
+                                allowFontScaling={false}>
+                                登录
+                            </Text>
                         </TouchableOpacity>
-                        {/*<QMPwdChange onPress={this._handlePwdBtnChange} isHide={store.get('isHide')}/>*/}
+
+                        {/*<QMButton activeOpacity={0.8}*/}
+                        {/*ref={(btn) => this.btn = btn}*/}
+                        {/*onPress={() => this._handleLogin()}*/}
+                        {/*disabled={!(store.get('user') && store.get('password'))}>登录</QMButton>*/}
+                        <View style={styles.quick}>
+                            {/*<Text style={styles.quickTitle} onPress={() => this._quickRegister()} allowFontScaling={false}>手机快速注册</Text>*/}
+                            <Text style={styles.quickTitle} onPress={() => this._findPwd()}
+                                  allowFontScaling={false}>找回密码</Text>
+                        </View>
                     </View>
                 </View>
-
-                {/*登录按钮*/}
-                <View style={styles.wrap}>
-
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        style={[styles.btnContainer,]}
-                        onPress={()=>{
-                            dispatch(login(loginReducer.get('user'),loginReducer.get('password')))
-                        }}>
-                        <Text
-                            style={[styles.btn,]}
-                            allowFontScaling={false}>
-                            登录
-                        </Text>
-                    </TouchableOpacity>
-
-                    {/*<QMButton activeOpacity={0.8}*/}
-                    {/*ref={(btn) => this.btn = btn}*/}
-                    {/*onPress={() => this._handleLogin()}*/}
-                    {/*disabled={!(store.get('user') && store.get('password'))}>登录</QMButton>*/}
-                    <View style={styles.quick}>
-                        {/*<Text style={styles.quickTitle} onPress={() => this._quickRegister()} allowFontScaling={false}>手机快速注册</Text>*/}
-                        <Text style={styles.quickTitle} onPress={() => this._findPwd()}
-                              allowFontScaling={false}>找回密码</Text>
-                    </View>
-                </View>
-            </View>
 
 
         );
@@ -150,12 +169,6 @@ class Login extends Component {
         //如果是被动跳转到登录页面,点击取消按钮时,返回到主页面; 否则返回上一页入口
         msg.emit('route:cancelLoginNav');
     }
-
-
-
-
-
-
 
 
     // /**

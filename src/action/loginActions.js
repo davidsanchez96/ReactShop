@@ -1,8 +1,6 @@
 import NetUtils from "../utils/NetUtils";
-import {AddressUrl, LoginUrl} from "../utils/Constant";
-import {
-    NetError, AddressLoading, AddressLoaded, LoginLoading, LoginLoaded
-} from "../utils/actionTypes";
+import {LoginUrl} from "../utils/Constant";
+import {LoginLoaded, LoginLoading, NetError} from "../utils/actionTypes";
 import {AsyncStorage} from 'react-native';
 
 export function login(user, password) {

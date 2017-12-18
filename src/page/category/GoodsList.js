@@ -40,7 +40,6 @@ class GoodsList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-
         return !Immutable.is(Immutable.Map(this.props.goodsListReducer), Immutable.Map(nextProps.goodsListReducer)) ||
             !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
     }

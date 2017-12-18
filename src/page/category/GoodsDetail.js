@@ -26,6 +26,7 @@ import {imageDetail, specsDetail} from "../../action/detailActions";
 import {DetailClean, DetailTab, SpecsDetailVisible} from "../../utils/actionTypes";
 import {reset} from "../../action/goodsListActions";
 import Loading from "../components/Loading";
+import Immutable from "immutable";
 
 const isAndroid = Platform.OS === 'android';
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -36,7 +37,10 @@ class GoodsDetail extends Component {
     static navigationOptions = {
         title: '商品详情',
     };
-
+    shouldComponentUpdate(nextProps, nextState) {
+        return !Immutable.is(Immutable.Map(this.props.detailReducer), Immutable.Map(nextProps.detailReducer)) ||
+            !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
+    }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
 
