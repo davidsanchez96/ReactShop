@@ -16,7 +16,7 @@ import {
 
 
 import {connect} from "react-redux";
-import {LoginPass, LoginPassword, LoginUser} from "../../utils/actionTypes";
+import {DetailClean, LoginClean, LoginPass, LoginPassword, LoginUser} from "../../utils/actionTypes";
 import {login} from "../../action/loginActions";
 import Immutable from "immutable";
 import Loading from "../components/Loading";
@@ -55,9 +55,11 @@ class Login extends Component {
             navigation.goBack();
         }
     }
-
+    componentWillUnmount() {
+        this.props.dispatch({type: LoginClean});
+    }
     render() {
-        const {loginReducer, dispatch} = this.props;
+        const {loginReducer, dispatch,navigation} = this.props;
         const store = loginReducer;
         let disabled = true;
 
@@ -134,13 +136,11 @@ class Login extends Component {
                             </Text>
                         </TouchableOpacity>
 
-                        {/*<QMButton activeOpacity={0.8}*/}
-                        {/*ref={(btn) => this.btn = btn}*/}
-                        {/*onPress={() => this._handleLogin()}*/}
-                        {/*disabled={!(store.get('user') && store.get('password'))}>登录</QMButton>*/}
                         <View style={styles.quick}>
                             {/*<Text style={styles.quickTitle} onPress={() => this._quickRegister()} allowFontScaling={false}>手机快速注册</Text>*/}
-                            <Text style={styles.quickTitle} onPress={() => this._findPwd()}
+                            <Text style={styles.quickTitle} onPress={() => {
+                                navigation.navigate('FindPasswordFirst');
+                            }}
                                   allowFontScaling={false}>找回密码</Text>
                         </View>
                     </View>

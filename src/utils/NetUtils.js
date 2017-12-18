@@ -77,6 +77,44 @@ export default NetUtils = {
 
 
     /**
+     *
+     */
+    postForm: (url, data, successCallback, failCallback) => {
+        let formData = new FormData();
+        Object.keys(data).map((key) => {
+            formData.append(key, data[key]);
+        });
+
+        let fetchOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            body: formData
+        };
+
+        fetch(url, fetchOptions)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.code) {
+                    if ('K-000001' === responseJson.code) {
+                        Toast.show('您的网络不给力:(');
+                    } else {
+                        Toast.show(responseJson.message);
+                    }
+                    failCallback(responseJson.code);
+                } else {
+                    successCallback(responseJson);
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+                failCallback();
+                Toast.show('您的网络不给力:(');
+            });
+    },
+    /**
      *登录
      */
     login: (url, user, password, successCallback, failCallback) => {
@@ -98,9 +136,9 @@ export default NetUtils = {
                 if (responseJson.code) {
                     if ('K-000002' === responseJson.code) {
                         Toast.show('账号信息错误!');
-                    } else if('K-000001'===responseJson.code) {
+                    } else if ('K-000001' === responseJson.code) {
                         Toast.show('您的网络不给力:(');
-                    }else {
+                    } else {
                         Toast.show(responseJson.message);
                     }
                     failCallback(responseJson.code);

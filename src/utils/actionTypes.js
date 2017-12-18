@@ -85,3 +85,13 @@ export const LoginLoaded = 'LoginLoaded';
 export const LoginUser = 'LoginUser';
 export const LoginPassword = 'LoginPassword';
 export const LoginPass = 'LoginPass';
+export const LoginClean = 'LoginClean';
+/**
+ *find password
+ **/
+export const FindPasswordLoading = 'FindPasswordLoading';
+export const FindPasswordLoaded = 'FindPasswordLoaded';
+export const FindPasswordPhone = 'FindPasswordPhone';
+export const FindPasswordCaptcha = 'FindPasswordCaptcha';
+export const FindPasswordUUID = 'FindPasswordUUID';
+export const FindPasswordClean = 'FindPasswordClean';

@@ -10,6 +10,7 @@ import selectReducer from './selectReducer';
 import detailReducer from './detailReducer';
 import commentReducer from './commentReducer';
 import loginReducer from './loginReducer';
+import findPasswordFirstReducer from './findPasswordFirstReducer';
 export default combineReducers({
     nav,
     categoryReducer,
@@ -22,4 +23,5 @@ export default combineReducers({
     detailReducer,
     commentReducer,
     loginReducer,
+    findPasswordFirstReducer,
 });

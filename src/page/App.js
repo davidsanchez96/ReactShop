@@ -19,6 +19,7 @@ import Address from "./category/Address";
 import FilterSelect from "./category/FilterSelect";
 import Comment from "./category/Comment";
 import Login from "./user/Login";
+import FindPasswordFirst from "./user/FindPasswordFirst";
 
 
 const HomeNavigator = TabNavigator({
@@ -90,6 +91,9 @@ export const AppNavigator = StackNavigator({
         },
         Login: {
             screen: Login,
+        },
+        FindPasswordFirst: {
+            screen: FindPasswordFirst,
         },
     },
     {

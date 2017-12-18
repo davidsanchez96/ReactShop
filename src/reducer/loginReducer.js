@@ -17,12 +17,14 @@ export default function loginReducer(state = initialState, action) {
             return state.set('password', action.password);
         case types.LoginUser:
             return state.set('user', action.user);
-          case types.LoginPass:
+        case types.LoginPass:
             return state.set('isHide', !state.get('isHide'));
         case types.LoginLoaded:
             return state.set('loading', false).set('isSuccess', true);
         case types.NetError:
             return state.set('loading', false);
+        case types.LoginClean:
+            return initialState;
         default:
             return state;
     }
