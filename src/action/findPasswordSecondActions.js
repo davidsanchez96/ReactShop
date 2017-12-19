@@ -2,7 +2,7 @@ import NetUtils from "../utils/NetUtils";
 import {CheckPhoneUrl, SendPhoneUrl, VerifyPhoneUrl} from "../utils/Constant";
 import {
     FindPasswordLoaded, FindPasswordLoading, LoginLoaded, NetError,
-    VerifyPasswordLoaded
+    VerifyPasswordLoaded, VerifyPasswordLoading
 } from "../utils/actionTypes";
 import Toast from 'react-native-root-toast';
 
@@ -22,7 +22,7 @@ export function sendPhone(data) {
 
 export function verifyPhone(data) {
     return (dispatch) => {
-        dispatch({type: FindPasswordLoading});
+        dispatch({type: VerifyPasswordLoading});
         NetUtils.postForm(VerifyPhoneUrl, data,
             (result) => {
                 console.log(result);

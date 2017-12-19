@@ -22,6 +22,7 @@ import {checkPhone} from "../../action/findPasswordFirstActions";
 import {sendPhone, verifyPhone} from "../../action/findPasswordSecondActions";
 import {VerifyPasswordCode} from "../../utils/actionTypes";
 import Toast from 'react-native-root-toast';
+import Loading from "../components/Loading";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -57,7 +58,7 @@ class FindPasswordSecond extends Component {
 
         return (
             <View style={styles.container}>
-
+                <Loading visible={findPasswordSecondReducer.get('loading')}/>
                 <View style={styles.banner}>
                     <Image style={{width: 50, height: 50,}} source={require('../components/img/psw_phone.png')}/>
                     <Text style={styles.bannerTip} allowFontScaling={false}>
