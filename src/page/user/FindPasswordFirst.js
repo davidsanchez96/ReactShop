@@ -1,7 +1,9 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text,
+    InteractionManager,
+    TextInput, TouchableOpacity, View} from 'react-native';
 
 import Toast from 'react-native-root-toast';
 
@@ -11,6 +13,7 @@ import {URL} from "../../utils/Constant";
 import {checkPhone} from "../../action/findPasswordFirstActions";
 import {FindPasswordCaptcha, FindPasswordClean, FindPasswordPhone, FindPasswordUUID} from "../../utils/actionTypes";
 import Immutable from "immutable";
+import FindPasswordSecond from "./FindPasswordSecond";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -21,17 +24,13 @@ class FindPasswordFirst extends Component {
     static navigationOptions = {
         title: '找回密码',
     };
+
     shouldComponentUpdate(nextProps, nextState) {
         return !Immutable.is(Immutable.Map(this.props.findPasswordFirstReducer), Immutable.Map(nextProps.findPasswordFirstReducer)) ||
             !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
     }
+    
 
-    componentWillUpdate() {
-        const {findPasswordFirstReducer, navigation} = this.props;
-        if (findPasswordFirstReducer.get('isSuccess')) {
-            navigation.navigate('');
-        }
-    }
     componentDidMount() {
         // msg.emit('findPwd:newCaptcha');
     }
@@ -41,13 +40,24 @@ class FindPasswordFirst extends Component {
     }
 
     render() {
-        const {findPasswordFirstReducer, dispatch} = this.props;
+        const {findPasswordFirstReducer, dispatch,navigation} = this.props;
         //帐号
         const phone = findPasswordFirstReducer.get('phone');
         //验证码
         const captcha = findPasswordFirstReducer.get('captcha');
         const uuid = findPasswordFirstReducer.get('uuid');
         let disabled = true;
+        InteractionManager.runAfterInteractions(()=>{
+            if (findPasswordFirstReducer.get('isSuccess')) {
+                navigation.navigate('FindPasswordSecond', {
+                    phone: findPasswordFirstReducer.get('phone'),
+                    nickname: findPasswordFirstReducer.get('nickname'),
+                    uuid: findPasswordFirstReducer.get('uuid')
+                });
+
+            }
+        });
+
 
         return (
             <View style={styles.container}>

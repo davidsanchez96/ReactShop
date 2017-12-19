@@ -96,9 +96,11 @@ export default NetUtils = {
         fetch(url, fetchOptions)
             .then((response) => response.json())
             .then((responseJson) => {
-                if (responseJson.code) {
+                if (responseJson.code && responseJson.code !== 'K-000000') {
                     if ('K-000001' === responseJson.code) {
                         Toast.show('您的网络不给力:(');
+                    } else if ('K-010102' === responseJson.code) {
+                        Toast.show(`短信验证码错误!`);
                     } else {
                         Toast.show(responseJson.message);
                     }

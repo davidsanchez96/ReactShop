@@ -10,12 +10,13 @@ const initialState = Immutable.fromJS({
     captcha: '',
     uuid: UUID.create().toString(),
     nickname:'',
+    isSuccess:false,
 });
 
 export default function findPasswordFirstReducer(state = initialState, action) {
     switch (action.type) {
         case types.FindPasswordLoading:
-            return state.set('loading', true);
+            return state.set('loading', true).set('isSuccess', false);
         case types.FindPasswordCaptcha:
             return state.set('captcha', action.captcha);
         case types.FindPasswordPhone:

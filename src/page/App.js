@@ -20,6 +20,8 @@ import FilterSelect from "./category/FilterSelect";
 import Comment from "./category/Comment";
 import Login from "./user/Login";
 import FindPasswordFirst from "./user/FindPasswordFirst";
+import FindPasswordSecond from "./user/FindPasswordSecond";
+import FindPasswordThird from "./user/FindPasswordThird";
 
 
 const HomeNavigator = TabNavigator({
@@ -94,6 +96,12 @@ export const AppNavigator = StackNavigator({
         },
         FindPasswordFirst: {
             screen: FindPasswordFirst,
+        },
+        FindPasswordSecond: {
+            screen: FindPasswordSecond,
+        },
+        FindPasswordThird: {
+            screen: FindPasswordThird,
         },
     },
     {

@@ -180,13 +180,7 @@ class Login extends Component {
     // },
 
 
-    /**
-     * 找回密码
-     * @private
-     */
-    _findPwd() {
-        msg.emit('route:goToNext', {sceneName: 'FindPwdValidPhone'});
-    }
+
 }
 
 

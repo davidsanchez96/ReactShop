@@ -90,8 +90,15 @@ export const LoginClean = 'LoginClean';
  *find password
  **/
 export const FindPasswordLoading = 'FindPasswordLoading';
+export const VerifyPasswordLoading = 'VerifyPasswordLoading';
 export const FindPasswordLoaded = 'FindPasswordLoaded';
+export const VerifyPasswordLoaded = 'VerifyPasswordLoaded';
+export const VerifyPasswordCode = 'VerifyPasswordCode';
 export const FindPasswordPhone = 'FindPasswordPhone';
 export const FindPasswordCaptcha = 'FindPasswordCaptcha';
 export const FindPasswordUUID = 'FindPasswordUUID';
+export const PasswordSet = 'PasswordSet';
+export const PasswordSetLoading = 'PasswordSetLoading';
+export const PasswordSetCode = 'PasswordSetCode';
+export const PasswordShow = 'PasswordShow';
 export const FindPasswordClean = 'FindPasswordClean';

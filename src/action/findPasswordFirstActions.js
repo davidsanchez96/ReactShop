@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
 import {CheckPhoneUrl} from "../utils/Constant";
-import {FindPasswordLoaded, FindPasswordLoading, LoginLoaded, NetError} from "../utils/actionTypes";
+import {FindPasswordLoaded, FindPasswordLoading, NetError} from "../utils/actionTypes";
 import Toast from 'react-native-root-toast';
 
 export function checkPhone(data) {
