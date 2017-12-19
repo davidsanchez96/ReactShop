@@ -4,26 +4,25 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
+    AppRegistry,
+    StyleSheet,
+    Text,
+    View
 } from 'react-native';
 import {Provider} from 'react-redux';
 import App from './src/page/App';
 import store from './src/store/store';
 
 export default class First extends Component {
-  render() {
-      return (
-          <Provider store={store()}>
-            <App/>
-          </Provider>
-      );
-  }
+    render() {
+        return (
+            <Provider store={store()}>
+                <App/>
+            </Provider>
+        );
+    }
 }
-
 
 AppRegistry.registerComponent('First', () => First);

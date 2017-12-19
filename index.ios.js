@@ -25,6 +25,4 @@ export default class First extends Component {
     }
 }
 
-
-
 AppRegistry.registerComponent('First', () => First);
