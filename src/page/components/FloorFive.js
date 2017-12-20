@@ -42,10 +42,11 @@ export default class FloorFive extends Component {
                                 return (
                                     <TouchableOpacity
                                         key={id}
-                                        activeOpacity={0.8} key={id} style={styles.advertCon}
-                                                      onPress={() => {
-                                                          this._handleBack(advert.action, advert.actionParam)
-                                                      }}>
+                                        activeOpacity={0.8}
+                                        style={styles.advertCon}
+                                        onPress={() => {
+                                            this._handleBack(advert.action, advert.actionParam)
+                                        }}>
                                         <Image style={styles.smImg} source={{uri: advert.img}} resizeMode={'stretch'}/>
                                     </TouchableOpacity>
                                 )
