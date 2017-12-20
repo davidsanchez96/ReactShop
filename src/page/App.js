@@ -1,5 +1,12 @@
 import React from 'react';
 import {
+    View,
+    Text,
+    TouchableOpacity,
+    Image,
+    StyleSheet,
+} from 'react-native'
+import {
     TabNavigator,
     StackNavigator,
     NavigationActions,
@@ -105,10 +112,27 @@ export const AppNavigator = StackNavigator({
         },
     },
     {
-        navigationOptions: {
+        navigationOptions: ({navigation}) => ({
             headerBackTitle: null,
             headerTintColor: 'gray',
-        }
+            headerTitleStyle: {
+                color: '#333',
+                backgroundColor: 'white',
+                alignSelf: 'center',
+                textAlign: 'center',
+            },
+            headerRight: (<View/>),
+            headerLeft: navigation.state.routeName === 'Home' ? <View/> : (
+                <TouchableOpacity style={styles.backBtn}
+                                  activeOpacity={0.8}
+                                  onPress={() => {
+                                      navigation.goBack();
+                                  }}>
+                    <Image style={styles.backIcon}
+                           source={require('./components/img/left.png')}/>
+                </TouchableOpacity>
+            ),
+        })
     });
 
 
@@ -139,6 +163,20 @@ class App extends React.PureComponent {
         return true;
     };
 }
+
+const styles = StyleSheet.create({
+    backBtn: {
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingRight: 15,
+        paddingLeft: 20
+    },
+    backIcon: {
+        width: 12,
+        height: 22
+    },
+});
 
 const mapStateToProps = (state) => ({
     nav: state.get('nav').toJS()
