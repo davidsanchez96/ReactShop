@@ -19,10 +19,10 @@ const initialState = Immutable.fromJS({
 
 export default function userReducer(state = initialState, action) {
     switch (action.type) {
-        case types.LoginLoading:
+        case types.UserLoading:
             return state.set('loading', true);
-        case types.LoginPassword:
-            return state.set('password', action.password);
+        case types.UserLoaded:
+            return state.set('customer', action.data).set('loading',false);
         case types.LoginUser:
             return state.set('user', action.user);
         case types.LoginPass:

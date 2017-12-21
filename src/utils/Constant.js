@@ -11,3 +11,4 @@ export const CheckPhoneUrl=URL+'/customer/refundpwd/checkphone';
 export const SendPhoneUrl=URL+'/customer/refundpwd/send/smsverifycode';
 export const VerifyPhoneUrl=URL+'/customer/refundpwd/validate/smsverifycode';
 export const SetPasswordUrl=URL+'/customer/refundpwd/setpassword';
+export const UserUrl=URL+'/customers';

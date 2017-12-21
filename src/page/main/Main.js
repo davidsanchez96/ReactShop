@@ -39,7 +39,6 @@ class Main extends Component {
         ),
     };
     shouldComponentUpdate(nextProps, nextState) {
-
         return !Immutable.is(Immutable.Map(this.props.mainReducer),Immutable.Map(nextProps.mainReducer))||
             !Immutable.is(Immutable.Map(this.state),Immutable.Map(nextState));
     }

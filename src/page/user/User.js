@@ -166,7 +166,11 @@ class User extends Component {
                                 </View>
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity onPress={() => this._login()} style={styles.head} activeOpacity={0.8}>
+                            <TouchableOpacity onPress={() => {
+                                this.props.navigation.navigate('Login');
+                            }}
+                                              style={styles.head}
+                                              activeOpacity={0.8}>
                                 <View style={styles.headLogin}>
                                     <View style={styles.imgBox}>
                                         <Image source={require('../components/img/unlogin_img.png')}
@@ -372,15 +376,7 @@ class User extends Component {
         msg.emit('route:goToNext', {sceneName: 'AccountManager'});
     }
 
-    _login() {
-        window.selectedTab = 'memberCenter';
-        msg.emit('route:goToNext',
-            {
-                sceneName: 'Login',
-                sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-                nextSceneName: 'Home'
-            })
-    }
+
 
     /**
      * 查询我的关注

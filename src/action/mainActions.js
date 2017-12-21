@@ -7,15 +7,21 @@ import {detail} from "./detailActions";
 export function getMain() {
     return (dispatch) => {
         dispatch({type: Loading});
-        NetUtils.get(URL,
-            (result) => {
-                console.log(URL + result);
-                dispatch({type: Loaded, data: result});
-            },
-            (error) => {
-                console.log('---------' + error);
-                dispatch({type: NetError});
-            });
+        AsyncStorage.getItem('hkshop@data',(error, result)=>{
+            if(result){
+                window.token =JSON.parse(result).token
+            }
+            NetUtils.get(URL,
+                (result) => {
+                    console.log(URL + result);
+                    dispatch({type: Loaded, data: result});
+                },
+                (error) => {
+                    console.log('---------' + error);
+                    dispatch({type: NetError});
+                });
+        });
+
     }
 }
 

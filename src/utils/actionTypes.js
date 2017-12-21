@@ -102,3 +102,8 @@ export const PasswordSetLoading = 'PasswordSetLoading';
 export const PasswordSetCode = 'PasswordSetCode';
 export const PasswordShow = 'PasswordShow';
 export const FindPasswordClean = 'FindPasswordClean';
+/**
+ *user
+ **/
+export const UserLoading = 'UserLoading';
+export const UserLoaded = 'UserLoaded';
