@@ -11,7 +11,7 @@ export default class Shopping extends Component {
     static navigationOptions = {
         tabBarLabel: '购物车',
         tabBarIcon: ({tintColor}) => (
-            <View style={{alignItems:'center',justifyContent:'center'}}>
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Image source={{uri: cartIcon, scale: 2}}
                        style={{
                            width: 25,
@@ -22,6 +22,8 @@ export default class Shopping extends Component {
                 <Badge badge={223}/>
             </View>
         ),
+        headerRight: <Text>1</Text>,
+
     }
 
     render() {

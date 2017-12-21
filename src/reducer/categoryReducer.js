@@ -1,7 +1,7 @@
 import * as types from '../utils/actionTypes';
 import Immutable from 'immutable';
 const initialState = Immutable.Map({
-    loading: true,
+    loading: false,
     data: [],
     index: 0,
 

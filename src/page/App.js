@@ -40,6 +40,7 @@ const HomeNavigator = TabNavigator({
         tabBarPosition: 'bottom',
         animationEnabled: false,
         swipeEnabled: false,
+        lazy: true,
         tabBarOptions: {
             activeTintColor: '#fd4062',
             inactiveTintColor: 'gray', // 文字和图片未选中颜色
@@ -75,41 +76,51 @@ const HomeNavigator = TabNavigator({
 export const AppNavigator = StackNavigator({
         Home: {
             screen: HomeNavigator,
-
         },
         GoodsDetail: {
             screen: GoodsDetail,
-        },
+        }
+        ,
         Search: {
             screen: Search,
-        },
+        }
+        ,
         GoodsList: {
             screen: GoodsList,
-        },
+        }
+        ,
         FilterPanel: {
             screen: FilterPanel,
-        },
+        }
+        ,
         Address: {
             screen: Address,
-        },
+        }
+        ,
         FilterSelect: {
             screen: FilterSelect,
-        },
+        }
+        ,
         Comment: {
             screen: Comment,
-        },
+        }
+        ,
         Login: {
             screen: Login,
-        },
+        }
+        ,
         FindPasswordFirst: {
             screen: FindPasswordFirst,
-        },
+        }
+        ,
         FindPasswordSecond: {
             screen: FindPasswordSecond,
-        },
+        }
+        ,
         FindPasswordThird: {
             screen: FindPasswordThird,
-        },
+        }
+        ,
     },
     {
         navigationOptions: ({navigation}) => ({
@@ -121,7 +132,6 @@ export const AppNavigator = StackNavigator({
                 alignSelf: 'center',
                 textAlign: 'center',
             },
-            headerRight: (<View/>),
             headerLeft: navigation.state.routeName === 'Home' ? <View/> : (
                 <TouchableOpacity style={styles.backBtn}
                                   activeOpacity={0.8}
@@ -133,7 +143,9 @@ export const AppNavigator = StackNavigator({
                 </TouchableOpacity>
             ),
         })
-    });
+    }
+    )
+;
 
 
 class App extends React.PureComponent {
@@ -176,6 +188,7 @@ const styles = StyleSheet.create({
         width: 12,
         height: 22
     },
+
 });
 
 const mapStateToProps = (state) => ({

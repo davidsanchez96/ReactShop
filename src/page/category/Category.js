@@ -33,14 +33,6 @@ class Category extends Component {
         ),
     }
     shouldComponentUpdate(nextProps, nextState) {
-
-        // console.log('--------',Immutable.is(this.props,nextProps));
-        // console.log('++++++++',Immutable.is(this.props.categoryReducer,nextProps.categoryReducer));
-        // console.log('>>>>>>>>',Immutable.is(Immutable.fromJS(this.props.categoryReducer),Immutable.fromJS(nextProps.categoryReducer)));
-        // console.log('<<<<<<<<',Immutable.is(shallowEqualImmutable(Immutable.Map(this.props.categoryReducer),
-        //     Immutable.Map(nextProps.categoryReducer))));
-        // console.log(shallowEqualImmutable(this.props, nextProps));
-        // console.log(shallowEqualImmutable(this.state, nextState));
         return !Immutable.is(Immutable.Map(this.props.categoryReducer),Immutable.Map(nextProps.categoryReducer))||
             !Immutable.is(Immutable.Map(this.state),Immutable.Map(nextState));
     }

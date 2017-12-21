@@ -36,7 +36,7 @@ class User extends Component {
                 />
             ),
             title: '我的',
-            headerRight: (
+            headerRight:
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => {
@@ -45,7 +45,7 @@ class User extends Component {
                         style={styles.settingIcon}
                         source={require('../components/img/setting.png')}/>
                 </TouchableOpacity>
-            ),
+            ,
         }
     }
 
