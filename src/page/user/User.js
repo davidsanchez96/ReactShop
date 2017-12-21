@@ -12,7 +12,6 @@ import {
     ImageBackground,
     Platform,
     Animated,
-    Navigator,
     Dimensions,
     InteractionManager
 } from 'react-native';
@@ -40,6 +39,7 @@ class User extends Component {
             title: '我的',
             headerRight:
                 <TouchableOpacity
+                    style={{padding: 10}}
                     activeOpacity={0.8}
                     onPress={() => {
                     }}>
@@ -88,7 +88,7 @@ class User extends Component {
     }
 
     render() {
-        const {userReducer} = this.props;
+        const {userReducer,navigation} = this.props;
         const isLoading = userReducer.getIn('loading');
 
         return (
@@ -97,7 +97,7 @@ class User extends Component {
 
                 <ScrollView automaticallyAdjustContentInsets={false} bounces={false}>
 
-                    {this._renderImageContent(userReducer)}
+                    {this._renderImageContent(userReducer,navigation)}
 
                     {this._renderMyOrderContent()}
                     {/*待付款 + 待收货 + 退款退货*/}
@@ -120,7 +120,7 @@ class User extends Component {
     /**
      * 首页头部渲染
      */
-    _renderImageContent(userReducer) {
+    _renderImageContent(userReducer,navigation) {
         const store = userReducer;
         const followTotal = store.getIn(['follows', 'total']) || 0;
         const browserecordTotal = store.getIn(['browserecord', 'total']) || 0;
@@ -144,7 +144,10 @@ class User extends Component {
                     {
                         window.token
                             ?
-                            <TouchableOpacity onPress={() => this._account()} style={styles.head} activeOpacity={0.8}>
+                            <TouchableOpacity onPress={() => {
+                                navigation.navigate('Account');
+                            }
+                            } style={styles.head} activeOpacity={0.8}>
                                 <View style={styles.headRight}>
                                     {
                                         image ?
@@ -172,7 +175,7 @@ class User extends Component {
                             </TouchableOpacity>
                             :
                             <TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate('Login');
+                                navigation.navigate('Login');
                             }}
                                               style={styles.head}
                                               activeOpacity={0.8}>

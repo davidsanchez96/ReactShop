@@ -14,6 +14,7 @@ import findPasswordFirstReducer from './findPasswordFirstReducer';
 import findPasswordSecondReducer from './findPasswordSecondReducer';
 import findPasswordThirdReducer from './findPasswordThirdReducer';
 import userReducer from './userReducer';
+import accountReducer from "./accountReducer";
 export default combineReducers({
     nav,
     categoryReducer,
@@ -30,4 +31,6 @@ export default combineReducers({
     findPasswordSecondReducer,
     findPasswordThirdReducer,
     userReducer,
+    accountReducer,
+
 });

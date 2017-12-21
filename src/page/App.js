@@ -29,6 +29,7 @@ import Login from "./user/Login";
 import FindPasswordFirst from "./user/FindPasswordFirst";
 import FindPasswordSecond from "./user/FindPasswordSecond";
 import FindPasswordThird from "./user/FindPasswordThird";
+import Account from "./user/account/Account";
 
 
 const HomeNavigator = TabNavigator({
@@ -79,48 +80,40 @@ export const AppNavigator = StackNavigator({
         },
         GoodsDetail: {
             screen: GoodsDetail,
-        }
-        ,
+        },
         Search: {
             screen: Search,
-        }
-        ,
+        },
         GoodsList: {
             screen: GoodsList,
-        }
-        ,
+        },
         FilterPanel: {
             screen: FilterPanel,
-        }
-        ,
+        },
         Address: {
             screen: Address,
-        }
-        ,
+        },
         FilterSelect: {
             screen: FilterSelect,
-        }
-        ,
+        },
         Comment: {
             screen: Comment,
-        }
-        ,
+        },
         Login: {
             screen: Login,
-        }
-        ,
+        },
         FindPasswordFirst: {
             screen: FindPasswordFirst,
-        }
-        ,
+        },
         FindPasswordSecond: {
             screen: FindPasswordSecond,
-        }
-        ,
+        },
         FindPasswordThird: {
             screen: FindPasswordThird,
-        }
-        ,
+        },
+        Account: {
+            screen: Account,
+        },
     },
     {
         navigationOptions: ({navigation}) => ({
