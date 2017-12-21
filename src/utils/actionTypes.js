@@ -107,3 +107,8 @@ export const FindPasswordClean = 'FindPasswordClean';
  **/
 export const UserLoading = 'UserLoading';
 export const UserLoaded = 'UserLoaded';
+export const UserLevel = 'UserLevel';
+export const UserFollow = 'UserFollow';
+export const UserRecord = 'UserRecord';
+export const UserStatus = 'UserStatus';
+export const UserUnread = 'UserUnread';

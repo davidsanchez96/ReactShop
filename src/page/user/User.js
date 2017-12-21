@@ -9,6 +9,7 @@ import {
     AsyncStorage,
     TouchableOpacity,
     Image,
+    ImageBackground,
     Platform,
     Animated,
     Navigator,
@@ -18,6 +19,7 @@ import {
 
 import {connect} from "react-redux";
 import NavItem from "../components/NavItem";
+import {user, userFollow, userLevel, userOrder, userRecord, userStatus, userUnread} from "../../action/userActions";
 
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -50,20 +52,26 @@ class User extends Component {
     }
 
     componentDidMount() {
-        // InteractionManager.runAfterInteractions(() => {
-        //     msg.emit('customers:storage');
-        //     if (window.token) {
-        //         msg.emit('customers:account');
-        //     } else {
-        //         msg.emit('customers:logout:browserecord');
-        //     }
-        //     if (window.update) {
-        //         msg.emit('app:checkVersion');
-        //     }
-        // });
-        // if (Platform.OS === 'ios') {
-        //     JPushModule.setBadge(0, (badgeNumber) => {
-        //     });
+        InteractionManager.runAfterInteractions(() => {
+            //     msg.emit('customers:storage');
+            if (window.token) {
+                this.props.dispatch(user());
+                this.props.dispatch(userLevel());
+                this.props.dispatch(userFollow());
+                this.props.dispatch(userRecord());
+                this.props.dispatch(userStatus());
+                this.props.dispatch(userUnread());
+                this.props.dispatch(userOrder());
+            } else {
+                msg.emit('customers:logout:browserecord');
+            }
+            //     if (window.update) {
+            //         msg.emit('app:checkVersion');
+            //     }
+            // });
+            // if (Platform.OS === 'ios') {
+            //     JPushModule.setBadge(0, (badgeNumber) => {
+        });
         // }
     }
 
@@ -128,7 +136,7 @@ class User extends Component {
         }
         let pointName = store.getIn(['point']).name ? store.getIn(['point']).name : myStore.point ? myStore.point.name : '';
         return (
-            <Image
+            <ImageBackground
                 style={styles.backgroundImage}
                 resizeMode='stretch'
                 source={require('../components/img/my.png')}>
@@ -139,23 +147,20 @@ class User extends Component {
                             <TouchableOpacity onPress={() => this._account()} style={styles.head} activeOpacity={0.8}>
                                 <View style={styles.headRight}>
                                     {
-                                        store.get('showDefault') ?
+                                        image ?
+                                            <Animated.Image source={{uri: image}}
+                                                            style={[styles.logo, {
+                                                                opacity: this._opacity,
+                                                                marginTop: 20,
+                                                                marginLeft: 10
+                                                            }]}
+                                            />
+                                            :
                                             <Animated.Image source={require('../components/img/c_defaultImg.png')}
                                                             style={[styles.logo, {
                                                                 opacity: this._opacity, marginTop: 20, marginLeft: 10
                                                             }]}
                                             />
-                                            :
-                                            image ?
-                                                <Animated.Image source={{uri: image}}
-                                                                style={[styles.logo, {
-                                                                    opacity: this._opacity,
-                                                                    marginTop: 20,
-                                                                    marginLeft: 10
-                                                                }]}
-                                                />
-                                                :
-                                                <View style={styles.logo}/>
                                     }
                                     <View style={styles.accountRight}>
                                         <Text style={[styles.name]} allowFontScaling={false}>{nickname}</Text>
@@ -194,7 +199,7 @@ class User extends Component {
                         <Text style={styles.attentionColumnRow} allowFontScaling={false}>浏览记录</Text>
                     </TouchableOpacity>
                 </View>
-            </Image>
+            </ImageBackground>
         )
     }
 
@@ -268,7 +273,7 @@ class User extends Component {
         )
     }
 
-    //我的订单
+//我的订单
     _renderMyOrderContent() {
         return (
             <NavItem title='我的订单'
@@ -282,7 +287,7 @@ class User extends Component {
         )
     }
 
-    // 我的资产
+// 我的资产
     _renderMyAssets() {
         return (
             <NavItem title='我的资产'
@@ -293,7 +298,7 @@ class User extends Component {
         )
     }
 
-    // 预存款 提现记录 积分 优惠券
+// 预存款 提现记录 积分 优惠券
     _renderAssets() {
         return (
             <View style={styles.contentBox}>
@@ -333,8 +338,6 @@ class User extends Component {
     }
 
 
-
-
     /**
      * 我的关注 我的消息
      * @returns {XML}
@@ -371,11 +374,9 @@ class User extends Component {
     }
 
 
-
     _account() {
         msg.emit('route:goToNext', {sceneName: 'AccountManager'});
     }
-
 
 
     /**

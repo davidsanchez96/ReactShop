@@ -22,7 +22,17 @@ export default function userReducer(state = initialState, action) {
         case types.UserLoading:
             return state.set('loading', true);
         case types.UserLoaded:
-            return state.set('customer', action.data).set('loading',false);
+            return state.set('customer', Immutable.fromJS(action.data)).set('loading', false);
+        case types.UserLevel:
+            return state.set('point', action.data);
+        case types.UserFollow:
+            return state.set('follows', action.data);
+        case types.UserRecord:
+            return state.set('browserecord', Immutable.fromJS(action.data));
+        case types.UserStatus:
+            return state.set('orderCounts', action.data);
+        case types.UserUnread:
+            return state.set('message', action.data);
         case types.LoginUser:
             return state.set('user', action.user);
         case types.LoginPass:
