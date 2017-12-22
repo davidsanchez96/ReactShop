@@ -11,6 +11,7 @@ import moment from 'moment';
 import {connect} from "react-redux";
 import NavItem from "../../components/NavItem";
 import {user} from "../../../action/userActions";
+import {NicknameSet} from "../../../utils/actionTypes";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -33,7 +34,7 @@ class Account extends Component {
 
 
     render() {
-        const {accountReducer, navigation} = this.props;
+        const {accountReducer, navigation, dispatch} = this.props;
         const store = accountReducer;
         if (__DEV__) {
             console.log('isLoading =====> ', store.get('isLoading'));
@@ -89,17 +90,17 @@ class Account extends Component {
                     }
 
 
-                    {/*
-           <NavItem
-           title='用户名'
-           content={store.getIn(['customer', 'username'])}
-           showRightImage={false} />
-          */}
-
                     <NavItem title='昵称'
                              showLeftImage={false}
                              content={store.getIn(['customer', 'nickname'])}
-                             onPress={() => this._udpateNickName()}/>
+                             onPress={() => {
+                                 navigation.navigate('Nickname', {
+                                     nickname: store.getIn(['customer', 'nickname']),
+                                     nicknameBack: (nickname) => {
+                                         dispatch({type: NicknameSet, data: nickname})
+                                     }
+                                 })
+                             }}/>
                     <NavItem title='性别'
                              showLeftImage={false}
                              content={gender}

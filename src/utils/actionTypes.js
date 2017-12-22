@@ -112,3 +112,7 @@ export const UserFollow = 'UserFollow';
 export const UserRecord = 'UserRecord';
 export const UserStatus = 'UserStatus';
 export const UserUnread = 'UserUnread';
+export const NicknameChange = 'NicknameChange';
+export const NicknameLoading = 'NicknameLoading';
+export const NicknameLoaded = 'NicknameLoaded';
+export const NicknameSet = 'NicknameSet';

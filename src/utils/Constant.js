@@ -22,3 +22,4 @@ export const UserRecordUrl=URL+'/customers/browserecord/totals';//用户浏览�
 export const UserStatusUrl=URL+'/orders/status/counts';//获取用户不同状态的订单数量
 export const UserUnreadUrl=URL+'/customers/messages/unread/counts';//获取未读消息数
 export const UserOrderUrl=URL+'/sys/settings/order';//校验订单设置
+export const NicknameUrl=URL+'/customers/nickname';//修改昵称

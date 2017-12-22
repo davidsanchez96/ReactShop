@@ -12,6 +12,8 @@ export default function accountReducer(state = initialState, action) {
             return state.set('loading',true);
         case types.UserLoaded:
             return state.set('customer', Immutable.fromJS(action.data)).set('loading', false);
+        case types.NicknameSet:
+            return state.setIn(['customer', 'nickname'],action.data);
         case types.NetError:
             return state.set('loading',false);
         default:
