@@ -24,3 +24,4 @@ export const UserUnreadUrl=URL+'/customers/messages/unread/counts';//获取未�
 export const UserOrderUrl=URL+'/sys/settings/order';//校验订单设置
 export const NicknameUrl=URL+'/customers/nickname';//修改昵称
 export const GenderUrl=URL+'/customers/gender';//修改性别
+export const BirthdayUrl=URL+'/customers/birthday';//修改出生日期

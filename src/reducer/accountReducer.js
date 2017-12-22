@@ -16,10 +16,11 @@ export default function accountReducer(state = initialState, action) {
             return state.setIn(['customer', 'nickname'],action.data);
         case types.GenderSet:
             return state.setIn(['customer', 'gender'],action.data);
-        case types.NetError:
+        case types.BirthdaySet:
+            return state.setIn(['customer', 'birthday'],action.data);
+         case types.NetError:
             return state.set('loading',false);
         default:
             return state;
-            break;
     }
 }

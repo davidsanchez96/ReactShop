@@ -120,3 +120,4 @@ export const GenderLoading = 'GenderLoading';
 export const GenderLoaded = 'GenderLoaded';
 export const GenderChange = 'GenderChange';
 export const GenderSet = 'GenderSet';
+export const BirthdaySet = 'BirthdaySet';

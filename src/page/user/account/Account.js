@@ -12,6 +12,8 @@ import {connect} from "react-redux";
 import NavItem from "../../components/NavItem";
 import {user} from "../../../action/userActions";
 import {GenderSet, NicknameSet} from "../../../utils/actionTypes";
+import DatePicker from 'react-native-datepicker';
+import {changeBirthday} from "../../../action/birthdayActions";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -115,8 +117,28 @@ class Account extends Component {
                     <NavItem title='出生日期'
                              showLeftImage={false}
                              content={store.getIn(['customer', 'birthday'])}
-                             onPress={() => this._updateBirthday()}/>
-
+                             onPress={() => {
+                                 this.refs.datePicker.onPressDate()
+                             }}/>
+                    <DatePicker
+                        ref="datePicker"
+                        style={{width: 0, height: 0}}
+                        date={"2016-05-15"}
+                        mode="date"
+                        confirmBtnText="确定"
+                        cancelBtnText="取消"
+                        showIcon={false}
+                        customStyles={{
+                            dateInput: {
+                                width: 0,
+                                height: 0,
+                                borderWidth: 0
+                            }
+                        }}
+                        onDateChange={(date) => {
+                            dispatch(changeBirthday(date))
+                        }}
+                    />
                     <View style={{marginTop: 10}}>
                         <NavItem
                             title='地址管理'
