@@ -11,7 +11,7 @@ import moment from 'moment';
 import {connect} from "react-redux";
 import NavItem from "../../components/NavItem";
 import {user} from "../../../action/userActions";
-import {NicknameSet} from "../../../utils/actionTypes";
+import {GenderSet, NicknameSet} from "../../../utils/actionTypes";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -104,7 +104,14 @@ class Account extends Component {
                     <NavItem title='性别'
                              showLeftImage={false}
                              content={gender}
-                             onPress={() => this._updateGender()}/>
+                             onPress={() => {
+                                 navigation.navigate('Gender', {
+                                     gender: store.getIn(['customer', 'gender']),
+                                     genderBack: (gender) => {
+                                         dispatch({type: GenderSet, data: gender})
+                                     }
+                                 })
+                             }}/>
                     <NavItem title='出生日期'
                              showLeftImage={false}
                              content={store.getIn(['customer', 'birthday'])}
@@ -336,19 +343,6 @@ class Account extends Component {
         }
     }
 
-    /**
-     * 修改nickname
-     * @private
-     */
-    _udpateNickName() {
-        if (__DEV__) {
-            console.log('update username');
-        }
-        msg.emit('route:goToNext', {
-            sceneName: 'NickNameManager',
-            nickname: appStore.data().getIn(['customer', 'nickname'])
-        })
-    }
 
     /**
      * 修改gender

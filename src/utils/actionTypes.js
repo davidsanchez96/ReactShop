@@ -116,3 +116,7 @@ export const NicknameChange = 'NicknameChange';
 export const NicknameLoading = 'NicknameLoading';
 export const NicknameLoaded = 'NicknameLoaded';
 export const NicknameSet = 'NicknameSet';
+export const GenderLoading = 'GenderLoading';
+export const GenderLoaded = 'GenderLoaded';
+export const GenderChange = 'GenderChange';
+export const GenderSet = 'GenderSet';
