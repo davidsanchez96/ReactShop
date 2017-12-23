@@ -20,7 +20,7 @@ export default NetUtils = {
         fetch(url, fetchOptions)
             .then((response) => response.json())
             .then((responseJson) => {
-                if (responseJson.code) {
+                if (responseJson.code && responseJson.code !== 'K-000000') {
                     Toast.show('您的网络不给力:(');
                     failCallback(responseJson.code);
                 } else {
@@ -62,7 +62,7 @@ export default NetUtils = {
         fetch(url, fetchOptions)
             .then((response) => response.json())
             .then((responseJson) => {
-                if (responseJson.code) {
+                if (responseJson.code && responseJson.code !== 'K-000000') {
                     Toast.show('您的网络不给力:(');
                     failCallback(responseJson.code);
                 } else {
@@ -135,7 +135,7 @@ export default NetUtils = {
         fetch(url, fetchOptions)
             .then((response) => response.json())
             .then((responseJson) => {
-                if (responseJson.code) {
+                if (responseJson.code && responseJson.code !== 'K-000000') {
                     if ('K-000002' === responseJson.code) {
                         Toast.show('账号信息错误!');
                     } else if ('K-000001' === responseJson.code) {
@@ -174,7 +174,7 @@ export default NetUtils = {
         fetch(url, fetchOptions)
             .then((response) => response.json())
             .then((responseJson) => {
-                if (responseJson.code) {
+                if (responseJson.code && responseJson.code !== 'K-000000') {
                     if ('K-000002' === responseJson.code) {
                         Toast.show('账号信息错误!');
                     } else if ('K-000001' === responseJson.code) {
@@ -212,7 +212,7 @@ export default NetUtils = {
         fetch(url, fetchOptions)
             .then((response) => response.json())
             .then((responseJson) => {
-                if (responseJson.code) {
+                if (responseJson.code && responseJson.code !== 'K-000000') {
                     if ('K-000002' === responseJson.code) {
                         Toast.show('账号信息错误!');
                     } else if ('K-000001' === responseJson.code) {

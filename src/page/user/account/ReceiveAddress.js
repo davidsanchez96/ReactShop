@@ -47,7 +47,7 @@ class ReceiveAddress extends Component {
                 <Loading visible={loading}/>
 
                 {/* 内容区域 */}
-                {this._renderContent(receiveAddressReducer)}
+                {this._renderContent(receiveAddressReducer,dispatch)}
 
                 {/* 按钮区域 */}
                 <View style={styles.btnViewContainer}>
@@ -88,7 +88,7 @@ class ReceiveAddress extends Component {
      * @returns {*}
      * @private
      */
-    _renderContent(receiveAddressReducer) {
+    _renderContent(receiveAddressReducer,dispatch) {
         const isLoading = receiveAddressReducer.get('loading');
 
         //地址列表是否为空
@@ -108,6 +108,7 @@ class ReceiveAddress extends Component {
                             automaticallyAdjustContentInsets={false}>
                             {receiveAddressReducer.get('addrList').map((v, k) =>
                                 <AddressItem data={v}
+                                             dispatch={dispatch}
                                              choose={this.props.choose}
                                              key={k}/>)}
                         </ScrollView>
