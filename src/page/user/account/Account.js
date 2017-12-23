@@ -5,6 +5,7 @@ import {
     Navigator, Platform, StyleSheet, View,
     TouchableOpacity,
     Text,
+    DatePickerIOS,
 } from 'react-native';
 
 import moment from 'moment';
@@ -14,6 +15,7 @@ import {user} from "../../../action/userActions";
 import {GenderSet, NicknameSet} from "../../../utils/actionTypes";
 import DatePicker from 'react-native-datepicker';
 import {changeBirthday} from "../../../action/birthdayActions";
+import Style from "react-native-datepicker/style";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -57,7 +59,9 @@ class Account extends Component {
                 break;
         }
         let image = store.getIn(['customer', 'image']);
-
+        var localizedFormat = "YYYY-MM-DD";
+        var maxDateString = moment().format(localizedFormat); //Today
+        var minDateString = moment('1900-01-01','YYYY-MM-DD').format(localizedFormat);
         return (
             <View style={styles.container}>
                 <View style={{flex: 1}}>
@@ -123,16 +127,18 @@ class Account extends Component {
                     <DatePicker
                         ref="datePicker"
                         style={{width: 0, height: 0}}
-                        date={"2016-05-15"}
+                        date={accountReducer.getIn(['customer', 'birthday'])}
+                        timeZoneOffsetInMinutes={(-1) * (new Date()).getTimezoneOffset()}
                         mode="date"
-                        confirmBtnText="确定"
-                        cancelBtnText="取消"
                         showIcon={false}
                         customStyles={{
                             dateInput: {
                                 width: 0,
                                 height: 0,
                                 borderWidth: 0
+                            },
+                            btnTextConfirm:{
+                                color: '#666',
                             }
                         }}
                         onDateChange={(date) => {
