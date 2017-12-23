@@ -43,7 +43,7 @@ class AddAddress extends Component {
         const {addAddressReducer, dispatch, navigation} = this.props;
 
         return (
-            <View style={[styles.container, {backgroundColor: '#eee'}]}>
+            <View style={[styles.container, {backgroundColor: '#fff'}]}>
 
                 {this._renderContent(addAddressReducer)}
 
