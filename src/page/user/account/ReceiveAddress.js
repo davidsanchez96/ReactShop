@@ -15,6 +15,9 @@ import {connect} from "react-redux";
 import {receiveAddress} from "../../../action/receiveAddressActions";
 import Loading from "../../components/Loading";
 import AddressItem from "../../components/AddressItem";
+import Immutable from "immutable";
+import AddAddress from "./AddAddress";
+import Toast from 'react-native-root-toast';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -26,6 +29,10 @@ class ReceiveAddress extends Component {
         title: '地址管理',
     };
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return !Immutable.is(this.props.receiveAddressReducer, nextProps.receiveAddressReducer) ||
+            !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
+    }
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
@@ -47,7 +54,7 @@ class ReceiveAddress extends Component {
                 <Loading visible={loading}/>
 
                 {/* 内容区域 */}
-                {this._renderContent(receiveAddressReducer,dispatch)}
+                {this._renderContent(receiveAddressReducer, dispatch)}
 
                 {/* 按钮区域 */}
                 <View style={styles.btnViewContainer}>
@@ -56,7 +63,13 @@ class ReceiveAddress extends Component {
                         activeOpacity={0.8}
                         style={styles.btnContainer}
                         onPress={
-                            () => this._createAddress()
+                            () => {
+                                if (receiveAddressReducer.get('addrList').count() >= 10) {
+                                    Toast.show('您最多可以创建10个地址');
+                                } else {
+                                    navigation.navigate('AddAddress');
+                                }
+                            }
                         }>
                         <Text
                             style={styles.btnText}
@@ -75,11 +88,7 @@ class ReceiveAddress extends Component {
      */
     _createAddress() {
         const store = appStore.data();
-        if (store.get('addrList').count() >= 10) {
-            msg.emit('app:tip', '您最多可以创建10个地址');
-        } else {
-            msg.emit('route:goToNext', {sceneName: 'AddressEditor'});
-        }
+
     }
 
     /**
@@ -88,7 +97,7 @@ class ReceiveAddress extends Component {
      * @returns {*}
      * @private
      */
-    _renderContent(receiveAddressReducer,dispatch) {
+    _renderContent(receiveAddressReducer, dispatch) {
         const isLoading = receiveAddressReducer.get('loading');
 
         //地址列表是否为空

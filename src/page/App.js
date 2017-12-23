@@ -33,6 +33,7 @@ import Account from "./user/account/Account";
 import Nickname from "./user/account/Nickname";
 import Gender from "./user/account/Gender";
 import ReceiveAddress from "./user/account/ReceiveAddress";
+import AddAddress from "./user/account/AddAddress";
 
 
 const HomeNavigator = TabNavigator({
@@ -125,6 +126,9 @@ export const AppNavigator = StackNavigator({
         },
         ReceiveAddress: {
             screen: ReceiveAddress,
+        },
+        AddAddress: {
+            screen: AddAddress,
         },
     },
     {

@@ -18,6 +18,7 @@ import accountReducer from "./accountReducer";
 import nicknameReducer from "./nicknameReducer";
 import genderReducer from "./genderReducer";
 import receiveAddressReducer from "./receiveAddressReducer";
+import addAddressReducer from "./addAddressReducer";
 export default combineReducers({
     nav,
     categoryReducer,
@@ -38,4 +39,5 @@ export default combineReducers({
     nicknameReducer,
     genderReducer,
     receiveAddressReducer,
+    addAddressReducer,
 });
