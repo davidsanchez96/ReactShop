@@ -21,7 +21,7 @@ export default class GoodsTop extends Component {
     static defaultProps = {
         validSearchText: '',
         viewType: true,
-    }
+    };
 
     constructor(props) {
         super(props);

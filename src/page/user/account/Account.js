@@ -1,11 +1,8 @@
 'use strict';
 import React, {Component} from 'react';
 import {
-    AsyncStorage, InteractionManager, Dimensions,
-    Navigator, Platform, StyleSheet, View,
-    TouchableOpacity,
-    Text,
-    DatePickerIOS,
+    AsyncStorage, Dimensions, InteractionManager, Navigator, Platform, StyleSheet, Text, TouchableOpacity,
+    View,
 } from 'react-native';
 
 import moment from 'moment';
@@ -15,7 +12,7 @@ import {user} from "../../../action/userActions";
 import {GenderSet, NicknameSet} from "../../../utils/actionTypes";
 import DatePicker from 'react-native-datepicker';
 import {changeBirthday} from "../../../action/birthdayActions";
-import Style from "react-native-datepicker/style";
+import Immutable from "immutable";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -29,6 +26,11 @@ class Account extends Component {
     static navigationOptions = {
         title: '我的账户',
     };
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return !Immutable.is(Immutable.Map(this.props.accountReducer), Immutable.Map(nextProps.accountReducer)) ||
+            !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
+    }
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
@@ -59,9 +61,6 @@ class Account extends Component {
                 break;
         }
         let image = store.getIn(['customer', 'image']);
-        var localizedFormat = "YYYY-MM-DD";
-        var maxDateString = moment().format(localizedFormat); //Today
-        var minDateString = moment('1900-01-01','YYYY-MM-DD').format(localizedFormat);
         return (
             <View style={styles.container}>
                 <View style={{flex: 1}}>
@@ -130,6 +129,7 @@ class Account extends Component {
                         date={accountReducer.getIn(['customer', 'birthday'])}
                         timeZoneOffsetInMinutes={(-1) * (new Date()).getTimezoneOffset()}
                         mode="date"
+                        hideText={true}
                         showIcon={false}
                         customStyles={{
                             dateInput: {
@@ -137,7 +137,7 @@ class Account extends Component {
                                 height: 0,
                                 borderWidth: 0
                             },
-                            btnTextConfirm:{
+                            btnTextConfirm: {
                                 color: '#666',
                             }
                         }}
@@ -150,15 +150,9 @@ class Account extends Component {
                             title='地址管理'
                             showLeftImage={false}
                             content=''
-                            onPress={
-                                () => {
-                                    if (window.token) {
-                                        msg.emit('route:goToNext', {
-                                            sceneName: 'AddressManager'
-                                        });
-                                    }
-                                }
-                            }/>
+                            onPress={() => {
+                                navigation.navigate('ReceiveAddress')
+                            }}/>
                         <NavItem
                             title='账户安全'
                             showLeftImage={false}

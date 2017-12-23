@@ -1,15 +1,10 @@
 import NetUtils from "../utils/NetUtils";
+import {AsyncStorage,} from 'react-native';
 import {
-    AsyncStorage,
-} from 'react-native';
-import {
-    SuggestionUrl, UserFollowUrl, UserLevelUrl, UserOrderUrl, UserRecordUrl, UserStatusUrl, UserUnreadUrl,
+    UserFollowUrl, UserLevelUrl, UserOrderUrl, UserRecordUrl, UserStatusUrl, UserUnreadUrl,
     UserUrl
 } from "../utils/Constant";
-import {
-    CategorySelected, NetError, SuggestionLoading,
-    SuggestionLoaded, UserLoading, UserLoaded, UserLevel, UserFollow, UserRecord, UserUnread
-} from "../utils/actionTypes";
+import {NetError, UserFollow, UserLevel, UserLoaded, UserLoading, UserRecord, UserUnread} from "../utils/actionTypes";
 
 export function user() {
     return (dispatch) => {

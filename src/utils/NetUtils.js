@@ -155,7 +155,7 @@ export default NetUtils = {
                 Toast.show('您的网络不给力:(');
             });
     },
-  /**
+    /**
      *修改
      */
     put: (url, data, successCallback, failCallback) => {
@@ -169,6 +169,44 @@ export default NetUtils = {
                 'Content-Type': 'application/json'
             },
             body: data
+        };
+
+        fetch(url, fetchOptions)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.code) {
+                    if ('K-000002' === responseJson.code) {
+                        Toast.show('账号信息错误!');
+                    } else if ('K-000001' === responseJson.code) {
+                        Toast.show('您的网络不给力:(');
+                    } else {
+                        Toast.show(responseJson.message);
+                    }
+                    failCallback(responseJson.code);
+                } else {
+                    successCallback(responseJson);
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+                failCallback();
+                Toast.show('您的网络不给力:(');
+            });
+    },
+    /**
+     *删除
+     */
+    delete: (url, successCallback, failCallback) => {
+
+
+        let fetchOptions = {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + (window.token || ''),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
         };
 
         fetch(url, fetchOptions)

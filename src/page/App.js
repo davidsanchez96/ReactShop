@@ -32,6 +32,7 @@ import FindPasswordThird from "./user/FindPasswordThird";
 import Account from "./user/account/Account";
 import Nickname from "./user/account/Nickname";
 import Gender from "./user/account/Gender";
+import ReceiveAddress from "./user/account/ReceiveAddress";
 
 
 const HomeNavigator = TabNavigator({
@@ -121,6 +122,9 @@ export const AppNavigator = StackNavigator({
         },
         Gender: {
             screen: Gender,
+        },
+        ReceiveAddress: {
+            screen: ReceiveAddress,
         },
     },
     {

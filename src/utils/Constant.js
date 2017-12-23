@@ -25,3 +25,6 @@ export const UserOrderUrl=URL+'/sys/settings/order';//校验订单设置
 export const NicknameUrl=URL+'/customers/nickname';//修改昵称
 export const GenderUrl=URL+'/customers/gender';//修改性别
 export const BirthdayUrl=URL+'/customers/birthday';//修改出生日期
+export const DefaultAddressUrl=URL+'/customers/addresses/default/';//默认收货地址
+export const DeleteAddressUrl=URL+'/customers/addresses/';//删除收货地址
+export const ReceiveAddressUrl=URL+'/customers/addresses';//收货地址
