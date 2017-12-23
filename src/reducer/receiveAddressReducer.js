@@ -10,9 +10,12 @@ export default function receiveAddressReducer(state = initialState, action) {
         case types.ReceiveAddressLoading:
             return state.set('loading', true);
         case types.ReceiveAddressLoaded:
+            return state.withMutations((state)=>{
+                state.set('loading', false);
+                state.set('addrList', Immutable.fromJS(action.data));
+            });
+        case types.NetError:
             return state.set('loading', false);
-        // case types.NetError:
-        //     return state.set('loading', false);
         default:
             return state;
     }

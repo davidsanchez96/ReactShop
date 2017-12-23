@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Image,
     Dimensions,
+    ScrollView,
 } from 'react-native';
 
 
@@ -16,6 +17,7 @@ import Loading from "../../components/Loading";
 import AddressItem from "../../components/AddressItem";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
+
 /**
  * 地址管理
  */
@@ -45,7 +47,7 @@ class ReceiveAddress extends Component {
                 <Loading visible={loading}/>
 
                 {/* 内容区域 */}
-                {/*{this._renderContent(receiveAddressReducer)}*/}
+                {this._renderContent(receiveAddressReducer)}
 
                 {/* 按钮区域 */}
                 <View style={styles.btnViewContainer}>
@@ -87,8 +89,7 @@ class ReceiveAddress extends Component {
      * @private
      */
     _renderContent(receiveAddressReducer) {
-
-
+        const isLoading = receiveAddressReducer.get('loading');
 
         //地址列表是否为空
         const isEmpty = receiveAddressReducer.get('addrList').count() === 0;
@@ -96,7 +97,7 @@ class ReceiveAddress extends Component {
         return (
             <View style={styles.container}>
                 {
-                    isEmpty
+                    isLoading ? null : isEmpty
                         ? <View style={styles.empty}>
                             <Image style={styles.icon} source={require('../../components/img/address_icon.png')}/>
                             <Text style={styles.text} allowFontScaling={false}>暂无收货地址</Text>
@@ -105,10 +106,10 @@ class ReceiveAddress extends Component {
                             bounces={false}
                             showsVerticalScrollIndicator={true}
                             automaticallyAdjustContentInsets={false}>
-                            {/*{receiveAddressReducer.get('addrList').map((v, k) =>*/}
-                                {/*<AddressItem data={v}*/}
-                                             {/*choose={this.props.choose}*/}
-                                             {/*key={k}/>)}*/}
+                            {receiveAddressReducer.get('addrList').map((v, k) =>
+                                <AddressItem data={v}
+                                             choose={this.props.choose}
+                                             key={k}/>)}
                         </ScrollView>
                 }
             </View>

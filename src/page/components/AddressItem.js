@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { AlertIOS, PixelRatio, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { AlertIOS,  Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import IconButton from "./IconButton";
 
 export default class AddressItem extends Component {
@@ -122,8 +122,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderTopWidth: 1 / PixelRatio.get(),
-    borderStyle: 'dotted',
+    borderTopWidth: 1 ,
     borderTopColor: '#eee',
   },
   right: {
