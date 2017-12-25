@@ -53,7 +53,6 @@ export function updateAddress(data) {
         dispatch({type: AddAddressLoading});
         NetUtils.put(ReceiveAddressUrl,JSON.stringify(data),
             () => {
-                // console.log(result);
                 dispatch({type: AddAddressLoaded});
             },
             (error) => {
