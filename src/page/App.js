@@ -35,6 +35,7 @@ import Gender from "./user/account/Gender";
 import ReceiveAddress from "./user/account/ReceiveAddress";
 import AddAddress from "./user/account/AddAddress";
 import Security from "./user/account/Security";
+import ModifyPasswordFirst from "./user/account/ModifyPasswordFirst";
 
 
 const HomeNavigator = TabNavigator({
@@ -133,6 +134,9 @@ export const AppNavigator = StackNavigator({
         },
         Security: {
             screen: Security,
+        },
+        ModifyPasswordFirst: {
+            screen: ModifyPasswordFirst,
         },
     },
     {

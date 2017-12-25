@@ -157,13 +157,7 @@ class FindPasswordSecond extends Component {
     }
 
 
-    /**
-     * 下一步按钮动作
-     * @private
-     */
-    _nextStep(phone) {
-        msg.emit("findPwd:validSms", phone);
-    }
+
 
 
 }

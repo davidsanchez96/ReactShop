@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import NavItem from "../../components/NavItem";
+import ModifyPasswordFirst from "./ModifyPasswordFirst";
 
 
 export default class Security extends Component {
@@ -27,7 +28,9 @@ export default class Security extends Component {
                     showLeftImage={false}
                     title='登录密码'
                     subTitle='*建议您定期更改密码以保护账户安全'
-                    onPress={() => this.securityPassword()}
+                    onPress={() => {
+                        navigation.navigate('ModifyPasswordFirst')
+                    }}
                 />
                 {
                     this.props.mobileVerifyStatus === '1' ?
