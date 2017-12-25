@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, Text, Image, StyleSheet} from 'react-native';
+import {
+    TouchableOpacity, Text,
+    View, Image, StyleSheet
+} from 'react-native';
 import RightArrow from "./RightArrow";
 
 const noop = () => {
@@ -26,7 +29,19 @@ export default class NavItem extends Component {
                     this.props.showLeftImage ? <Image source={this.props.imageSource} style={styles.image}/> : null
                 }
 
-                <Text style={styles.title} allowFontScaling={false}>{this.props.title}</Text>
+
+                <View>
+                    <Text style={styles.title} allowFontScaling={false}>{this.props.title}</Text>
+                    {
+                        this.props.subTitle
+                            ?
+                            <Text style={styles.subTitle} allowFontScaling={false}>{this.props.subTitle}</Text>
+                            :
+                            null
+                    }
+
+                </View>
+
                 <RightArrow
                     text={this.props.content}
                     imageSourceLocal={this.props.imageSourceLocal}
@@ -47,7 +62,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         height: 50,
         justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderBottomWidth: 1 ,
+        borderBottomColor: '#eee',
     },
     title: {
         fontSize: 16,
@@ -56,7 +73,12 @@ const styles = StyleSheet.create({
         width: 25,
         height: 25,
         marginRight: 20,
-    }
+    },
+    subTitle: {
+        marginTop: 10,
+        fontSize: 12,
+        color: '#999'
+    },
 });
 
 

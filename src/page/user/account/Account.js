@@ -154,7 +154,9 @@ class Account extends Component {
                             title='账户安全'
                             showLeftImage={false}
                             content='可修改密码'
-                            onPress={() => this._security()}/>
+                            onPress={() => {
+                                navigation.navigate('Security')
+                            }}/>
                     </View>
 
                     <View style={styles.buttonWrap}>

@@ -286,7 +286,6 @@ class User extends Component {
     _renderMyOrderContent() {
         return (
             <NavItem title='我的订单'
-                     style={styles.line}
                      content='查看全部订单'
                      imageSource={require('../components/img/c_order.png')}
                      onPress={() => {
@@ -300,7 +299,6 @@ class User extends Component {
     _renderMyAssets() {
         return (
             <NavItem title='我的资产'
-                     style={styles.line}
                      imageSource={require('../components/img/my_assets.png')}
                      showRightImage={false}
             />
@@ -558,10 +556,6 @@ const styles = StyleSheet.create({
     orderImage: {
         width: 20,
         height: 20,
-    },
-    line: {
-        borderBottomColor: 'lightgrey',
-        borderBottomWidth: 1 / PixelRatio.get()
     },
     spanner: {
         marginTop: 10,
