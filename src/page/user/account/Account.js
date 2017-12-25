@@ -42,9 +42,6 @@ class Account extends Component {
     render() {
         const {accountReducer, navigation, dispatch} = this.props;
         const store = accountReducer;
-        if (__DEV__) {
-            console.log('isLoading =====> ', store.get('isLoading'));
-        }
         let gender = '保密';
         switch (store.getIn(['customer', 'gender'])) {
             case '0':

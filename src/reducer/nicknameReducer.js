@@ -1,6 +1,5 @@
 import * as types from '../utils/actionTypes';
 import Immutable from 'immutable';
-import {UserLoaded} from "../utils/actionTypes";
 
 const initialState = Immutable.fromJS({
     loading: false,

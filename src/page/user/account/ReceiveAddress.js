@@ -54,7 +54,7 @@ class ReceiveAddress extends Component {
                 <Loading visible={loading}/>
 
                 {/* 内容区域 */}
-                {this._renderContent(receiveAddressReducer, dispatch)}
+                {this._renderContent(receiveAddressReducer, dispatch,navigation)}
 
                 {/* 按钮区域 */}
                 <View style={styles.btnViewContainer}>
@@ -67,7 +67,12 @@ class ReceiveAddress extends Component {
                                 if (receiveAddressReducer.get('addrList').count() >= 10) {
                                     Toast.show('您最多可以创建10个地址');
                                 } else {
-                                    navigation.navigate('AddAddress');
+                                    navigation.navigate('AddAddress',{addressBack:()=>{
+                                            InteractionManager.runAfterInteractions(() => {
+                                                //初始化数据
+                                               dispatch(receiveAddress())
+                                            });
+                                        }});
                                 }
                             }
                         }>
@@ -82,14 +87,7 @@ class ReceiveAddress extends Component {
         );
     }
 
-    /**
-     * 创建新的地址
-     * @private
-     */
-    _createAddress() {
-        const store = appStore.data();
 
-    }
 
     /**
      * 内容区域
@@ -97,7 +95,7 @@ class ReceiveAddress extends Component {
      * @returns {*}
      * @private
      */
-    _renderContent(receiveAddressReducer, dispatch) {
+    _renderContent(receiveAddressReducer, dispatch,navigation) {
         const isLoading = receiveAddressReducer.get('loading');
 
         //地址列表是否为空
@@ -118,6 +116,7 @@ class ReceiveAddress extends Component {
                             {receiveAddressReducer.get('addrList').map((v, k) =>
                                 <AddressItem data={v}
                                              dispatch={dispatch}
+                                             navigation={navigation}
                                              choose={this.props.choose}
                                              key={k}/>)}
                         </ScrollView>

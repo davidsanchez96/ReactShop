@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
-import {Alert, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+    Alert, Platform, StyleSheet,
+    InteractionManager, Text, TouchableOpacity, View
+} from 'react-native';
 import IconButton from "./IconButton";
-import {defaultAddress, deleteAddress} from "../../action/receiveAddressActions";
+import {defaultAddress, deleteAddress, receiveAddress} from "../../action/receiveAddressActions";
 
 export default class AddressItem extends Component {
 
@@ -50,7 +53,16 @@ export default class AddressItem extends Component {
                         <IconButton
                             icon={require('./img/edit.png')}
                             text='编辑'
-                            onPress={() => msg.emit('route:goToNext', {sceneName: 'AddressEditor', id: data.get('id')})}
+                            onPress={() => {
+                                this.props.navigation.navigate('AddAddress', {
+                                    id: data.get('id'), addressBack: () => {
+                                        InteractionManager.runAfterInteractions(() => {
+                                            //初始化数据
+                                            this.props.dispatch(receiveAddress())
+                                        });
+                                    }
+                                });
+                            }}
                         />
                         {
                             this.props.choose
@@ -76,9 +88,6 @@ export default class AddressItem extends Component {
             </View>
         );
     }
-
-
-
 
 
     _chooseAddress(data) {
