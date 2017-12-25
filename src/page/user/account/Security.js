@@ -10,6 +10,7 @@ export default class Security extends Component {
     static navigationOptions = {
         title: '账户安全',
     };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -18,9 +19,8 @@ export default class Security extends Component {
     }
 
 
-
     render() {
-
+        const {navigation} = this.props;
         return (
             <View style={styles.container}>
                 <NavItem
@@ -55,18 +55,14 @@ export default class Security extends Component {
                     <NavItem
                         showLeftImage={false}
                         title='安全Tips'
-                        onPress={() => this._securityTips()}/>
+                        onPress={() => {
+                            navigation.navigate('SecurityTip')
+                        }}/>
                 </View>
             </View>
         );
     }
 
-    _securityTips() {
-        if (__DEV__) {
-            console.log("phone------->", this.props.mobile);
-        }
-        msg.emit('route:goToNext', {sceneName: 'SecurityTips', phone: this.props.mobile});
-    }
 
     securityPassword() {
         msg.emit('route:goToNext', {sceneName: 'SendSMS', phone: this.props.mobile});
@@ -91,7 +87,7 @@ export default class Security extends Component {
         //         }
         //     });
         // } else {
-            msg.emit('route:goToNext', {sceneName: 'SendPaySMS', phone: this.props.mobile});
+        msg.emit('route:goToNext', {sceneName: 'SendPaySMS', phone: this.props.mobile});
         // }
     }
 }
