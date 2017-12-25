@@ -1,10 +1,18 @@
 import NetUtils from "../utils/NetUtils";
 import {AsyncStorage,} from 'react-native';
 import {
+    AreaUrl,
+    URL,
     UserFollowUrl, UserLevelUrl, UserOrderUrl, UserRecordUrl, UserStatusUrl, UserUnreadUrl,
     UserUrl
 } from "../utils/Constant";
-import {NetError, UserFollow, UserLevel, UserLoaded, UserLoading, UserRecord, UserUnread} from "../utils/actionTypes";
+import {
+    Address,
+    NetError, UserBrowseRecord, UserFollow, UserLevel, UserLoaded, UserLoading, UserRecord,
+    UserUnread
+} from "../utils/actionTypes";
+import Toast from 'react-native-root-toast';
+import {detail} from "./detailActions";
 
 export function user() {
     return (dispatch) => {
@@ -103,6 +111,22 @@ export function userOrder() {
                 console.log(error);
                 dispatch({type: NetError});
             });
+    }
+}
+
+export function browse() {
+    return (dispatch) => {
+        AsyncStorage.getItem('hkshop@browseRecord', (error, result) => {
+            if (!error) {
+                dispatch({type: UserBrowseRecord, data: result ? result : '[]'});
+            } else {
+                if (__DEV__) {
+                    console.log(error);
+                }
+                Toast.show('获取浏览记录错误');
+            }
+        });
+
     }
 }
 

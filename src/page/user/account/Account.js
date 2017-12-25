@@ -13,6 +13,7 @@ import {GenderSet, NicknameSet} from "../../../utils/actionTypes";
 import DatePicker from 'react-native-datepicker';
 import {changeBirthday} from "../../../action/birthdayActions";
 import Immutable from "immutable";
+import Toast from 'react-native-root-toast';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -165,7 +166,7 @@ class Account extends Component {
                             activeOpacity={0.8}
                             style={styles.btnContainer}
                             onPress={
-                                () => this._handleLogout()
+                                () => this._handleLogout(navigation)
                             }>
                             <Text
                                 style={styles.text}
@@ -329,7 +330,7 @@ class Account extends Component {
      * 退出登录
      * @private
      */
-    async _handleLogout() {
+    async _handleLogout(navigation) {
         try {
 
             if (__DEV__) {
@@ -340,27 +341,27 @@ class Account extends Component {
                 await AsyncStorage.setItem('hkshop@data', '{"token":""}');
                 await AsyncStorage.setItem('KStoreApp@defaultRegion', '');
                 window.token = '';
-                JPushModule.setAlias('.', () => {
-                }, () => {
-                });
-                if (Platform.OS !== 'ios') {
-                    JPushModule.clearAllNotifications();
-                } else {
-                    JPushModule.setBadge(0, (badgeNumber) => {
-                    });
-                }
+                // JPushModule.setAlias('.', () => {
+                // }, () => {
+                // });
+                // if (Platform.OS !== 'ios') {
+                //     JPushModule.clearAllNotifications();
+                // } else {
+                //     JPushModule.setBadge(0, (badgeNumber) => {
+                //     });
+                // }
 
-                msg.emit('route:backToLast');
-                window.selectedTab = 'memberCenter';
-                msg.emit('route:replaceRoute', {sceneName: 'Home'});
+                navigation.goBack();
             } catch (err) {
                 if (__DEV__) {
                     console.log(err);
                 }
-                msg.emit('app:tip', '系统错误，请重试!');
+                Toast.show('系统错误，请重试!');
             }
         } catch (err) {
-            //TODO todo nothing.
+            if (__DEV__) {
+                console.log(err);
+            }
         }
     }
 

@@ -110,6 +110,7 @@ export const UserLoaded = 'UserLoaded';
 export const UserLevel = 'UserLevel';
 export const UserFollow = 'UserFollow';
 export const UserRecord = 'UserRecord';
+export const UserBrowseRecord = 'UserBrowseRecord';
 export const UserStatus = 'UserStatus';
 export const UserUnread = 'UserUnread';
 export const NicknameChange = 'NicknameChange';

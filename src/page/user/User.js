@@ -18,7 +18,10 @@ import {
 
 import {connect} from "react-redux";
 import NavItem from "../components/NavItem";
-import {user, userFollow, userLevel, userOrder, userRecord, userStatus, userUnread} from "../../action/userActions";
+import {
+    browse, user, userFollow, userLevel, userOrder, userRecord, userStatus,
+    userUnread
+} from "../../action/userActions";
 import Immutable from "immutable";
 
 
@@ -59,7 +62,6 @@ class User extends Component {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            //     msg.emit('customers:storage');
             if (window.token) {
                 this.props.dispatch(user());
                 this.props.dispatch(userLevel());
@@ -69,7 +71,7 @@ class User extends Component {
                 this.props.dispatch(userUnread());
                 this.props.dispatch(userOrder());
             } else {
-                msg.emit('customers:logout:browserecord');
+                this.props.dispatch(browse());
             }
             //     if (window.update) {
             //         msg.emit('app:checkVersion');
@@ -187,10 +189,10 @@ class User extends Component {
                                               activeOpacity={0.8}>
                                 <View style={styles.headLogin}>
                                     <View style={styles.imgBox}>
-                                        <Image source={require('../components/img/unlogin_img.png')}
+                                        <ImageBackground source={require('../components/img/unlogin_img.png')}
                                                style={[styles.logo, {marginLeft: 0}]}>
                                             <Text style={styles.unlogin} allowFontScaling={false}>登录</Text>
-                                        </Image>
+                                        </ImageBackground>
                                     </View>
                                 </View>
                             </TouchableOpacity>

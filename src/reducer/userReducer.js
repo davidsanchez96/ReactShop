@@ -29,6 +29,11 @@ export default function userReducer(state = initialState, action) {
             return state.set('follows', action.data);
         case types.UserRecord:
             return state.set('browserecord', Immutable.fromJS(action.data));
+        case types.UserBrowseRecord:
+            return state.setIn(['browserecord', 'total'], JSON.parse(action.data).map(function (t) {
+                return t.goodsId
+            }).filter(onlyUnique).length);
+
         case types.UserStatus:
             return state.set('orderCounts', action.data);
         case types.UserUnread:
@@ -46,4 +51,7 @@ export default function userReducer(state = initialState, action) {
         default:
             return state;
     }
+}
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
 }
