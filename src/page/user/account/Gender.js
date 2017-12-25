@@ -5,7 +5,7 @@ import {Image, InteractionManager, PixelRatio, StyleSheet, Text, TouchableOpacit
 import {connect} from "react-redux";
 import Immutable from "immutable";
 import Loading from "../../components/Loading";
-import {GenderChange} from "../../../utils/actionTypes";
+import {GenderChange, GenderClean} from "../../../utils/actionTypes";
 import {changeGender} from "../../../action/genderActions";
 
 
@@ -41,7 +41,9 @@ class Gender extends Component {
             this.props.dispatch({type: GenderChange, data: this.props.navigation.state.params.gender})
         })
     }
-
+    componentWillUnmount() {
+        this.props.dispatch({type: GenderClean});
+    }
     render() {
         const {genderReducer, navigation, dispatch} = this.props;
         const loading = genderReducer.get('loading');

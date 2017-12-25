@@ -17,7 +17,9 @@ export default function nicknameReducer(state = initialState, action) {
             return state.setIn(['form', 'nickname'], action.data);
         case types.NicknameLoaded:
             return state.set('isSuccess', true).set('loading', false);
-        case types.NetError:
+        case types.NicknameClean:
+            return initialState;
+       case types.NetError:
             return state.set('loading', false);
         default:
             return state;

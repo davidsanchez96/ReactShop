@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {InteractionManager, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {connect} from "react-redux";
 import Immutable from "immutable";
-import {NicknameChange} from "../../../utils/actionTypes";
+import {NicknameChange, NicknameClean} from "../../../utils/actionTypes";
 import Toast from 'react-native-root-toast';
 import {changeNickname} from "../../../action/nicknameActions";
 import Loading from "../../components/Loading";
@@ -31,8 +31,6 @@ class Nickname extends Component {
     }
 
     componentDidMount() {
-
-
         this.props.navigation.setParams({
                 onPress: () => {
                     const {nicknameReducer, dispatch} = this.props;
@@ -53,6 +51,10 @@ class Nickname extends Component {
         InteractionManager.runAfterInteractions(() => {
             this.props.dispatch({type: NicknameChange, data: this.props.navigation.state.params.nickname})
         })
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch({type: NicknameClean});
     }
 
     render() {
@@ -99,7 +101,6 @@ class Nickname extends Component {
         );
 
     }
-
 
 
 }
