@@ -6,10 +6,11 @@ import {
     View,
 } from 'react-native';
 import {connect} from "react-redux";
-import {VerifyPasswordChange, VerifyPasswordShow} from "../../../utils/actionTypes";
+import {ModifyPasswordSecondClean, VerifyPasswordChange, VerifyPasswordShow} from "../../../utils/actionTypes";
 import Toast from "react-native-root-toast";
 import {verifyPassword} from "../../../action/modifyPasswordSecondActions";
 import Loading from "../../components/Loading";
+import Immutable from "immutable";
 
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -19,8 +20,17 @@ class ModifyPasswordSecond extends Component {
         title: '修改密码',
     };
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return !Immutable.is(Immutable.Map(this.props.modifyPasswordSecondReducer), Immutable.Map(nextProps.modifyPasswordSecondReducer)) ||
+            !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch({type: ModifyPasswordSecondClean});
+    }
+
     render() {
-        const {modifyPasswordSecondReducer,dispatch,navigation,nav} = this.props;
+        const {modifyPasswordSecondReducer, dispatch, navigation, nav} = this.props;
 
         const phone = navigation.state.params.phone;
         const password = modifyPasswordSecondReducer.get('password');
@@ -31,7 +41,7 @@ class ModifyPasswordSecond extends Component {
                 const {goBack} = navigation;
                 let key;
                 for (let i = 0; i < nav.routes.length; i++) {
-                    if (nav.routes[i].routeName === 'Account') {
+                    if (nav.routes[i].routeName === 'Security') {
                         key = nav.routes[i].key;
                         break;
                     }
@@ -69,10 +79,10 @@ class ModifyPasswordSecond extends Component {
                                 placeholder='请输入6-20位字符'
                                 placeholderTextColor='#ddd'
                                 underlineColorAndroid='transparent'
-                                password={isHide}
+                                secureTextEntry={isHide}
                                 value={password}
                                 onChangeText={(password) => {
-                                    dispatch({type: VerifyPasswordChange,data:password})
+                                    dispatch({type: VerifyPasswordChange, data: password})
                                 }}/>
 
 

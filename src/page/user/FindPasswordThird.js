@@ -61,7 +61,7 @@ class FindPasswordThird extends Component {
                         clearButtonMode='while-editing'
                         placeholder='请输入6-20位字符'
                         placeholderTextColor='#ddd'
-                        password={isHide}
+                        secureTextEntry={isHide}
                         value={password}
                         underlineColorAndroid='transparent'
                         onChangeText={(password) => {

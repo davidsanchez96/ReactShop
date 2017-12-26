@@ -9,7 +9,7 @@ import {
 import {connect} from "react-redux";
 import ResendButton from "../../components/ResendButton";
 import Immutable from "immutable";
-import {CodeSet, VerifyCodeReset} from "../../../utils/actionTypes";
+import {CodeSet, ModifyPasswordFirstClean, VerifyCodeReset} from "../../../utils/actionTypes";
 import {getCode, verifyCode} from "../../../action/modifyPasswordFirstActions";
 import Toast from 'react-native-root-toast';
 import ModifyPasswordSecond from "./ModifyPasswordSecond";
@@ -34,7 +34,9 @@ class ModifyPasswordFirst extends Component {
             this.props.dispatch(getCode(this.props.navigation.state.params.phone))
         })
     }
-
+    componentWillUnmount() {
+        this.props.dispatch({type: ModifyPasswordFirstClean});
+    }
     render() {
         const {modifyPasswordFirstReducer, dispatch, navigation} = this.props;
 
