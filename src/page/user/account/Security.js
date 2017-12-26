@@ -52,7 +52,9 @@ export default class Security extends Component {
                     title='支付密码'
                     showLeftImage={false}
                     subTitle='*设置支付密码用户可进行预存款支付'
-                    onPress={() => this.payPassword()}
+                    onPress={() => {
+                        navigation.navigate('PayPasswordFirst', {phone: navigation.state.params.phone})
+                    }}
                 />
                 <View style={styles.spanner}>
                     <NavItem
