@@ -9,7 +9,7 @@ import {
 import {connect} from "react-redux";
 import ResendButton from "../../components/ResendButton";
 import Immutable from "immutable";
-import {CodeSet} from "../../../utils/actionTypes";
+import {CodeSet, VerifyCodeReset} from "../../../utils/actionTypes";
 import {getCode, verifyCode} from "../../../action/modifyPasswordFirstActions";
 import {sendPhone} from "../../../action/findPasswordSecondActions";
 import Toast from 'react-native-root-toast';
@@ -47,7 +47,7 @@ class ModifyPasswordFirst extends Component {
                 navigation.navigate('ModifyPasswordSecond', {
                     phone: phone,
                 });
-
+                dispatch({type: VerifyCodeReset});
             }
         });
 

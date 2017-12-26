@@ -137,3 +137,4 @@ export const GetCodeSet = 'GetCodeSet';
 export const ModifyPasswordFirstClean = 'ModifyPasswordFirstClean';
 export const ModifyPasswordSecondClean = 'ModifyPasswordSecondClean';
 export const VerifyCodeSuccess = 'VerifyCodeSuccess';
+export const VerifyCodeReset = 'VerifyCodeReset';

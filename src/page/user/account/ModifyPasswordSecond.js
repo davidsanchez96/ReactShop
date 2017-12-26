@@ -176,12 +176,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderWidth: 1 / PixelRatio.get(),
         borderColor: '#bbb',
         borderRadius: 5,
         paddingLeft: 10,
         paddingRight: 10,
-        flex: 1
+        borderWidth: 1,
+
     },
     input: {
         flex: 1,
@@ -217,6 +217,10 @@ const styles = StyleSheet.create({
     },
     disabledText: {
         color: '#999'
+    },
+    eye: {
+        width: 70,
+        height: 40,
     },
 });
 
