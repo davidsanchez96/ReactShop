@@ -36,6 +36,7 @@ import ReceiveAddress from "./user/account/ReceiveAddress";
 import AddAddress from "./user/account/AddAddress";
 import Security from "./user/account/Security";
 import ModifyPasswordFirst from "./user/account/ModifyPasswordFirst";
+import ModifyPasswordSecond from "./user/account/ModifyPasswordSecond";
 
 
 const HomeNavigator = TabNavigator({
@@ -137,6 +138,9 @@ export const AppNavigator = StackNavigator({
         },
         ModifyPasswordFirst: {
             screen: ModifyPasswordFirst,
+        },
+        ModifyPasswordSecond: {
+            screen: ModifyPasswordSecond,
         },
     },
     {

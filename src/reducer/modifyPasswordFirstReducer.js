@@ -24,7 +24,7 @@ export default function modifyPasswordFirstReducer(state = initialState, action)
             return state.set('isSuccess', true);
         case types.NetError:
             return state.set('smsReFlag', false);
-        case types.FindPasswordClean:
+        case types.ModifyPasswordFirstClean:
             return initialState;
         default:
             return state;

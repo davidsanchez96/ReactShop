@@ -20,6 +20,7 @@ import genderReducer from "./genderReducer";
 import receiveAddressReducer from "./receiveAddressReducer";
 import addAddressReducer from "./addAddressReducer";
 import modifyPasswordFirstReducer from "./modifyPasswordFirstReducer";
+import modifyPasswordSecondReducer from "./modifyPasswordSecondReducer";
 export default combineReducers({
     nav,
     categoryReducer,
@@ -42,4 +43,5 @@ export default combineReducers({
     receiveAddressReducer,
     addAddressReducer,
     modifyPasswordFirstReducer,
+    modifyPasswordSecondReducer,
 });

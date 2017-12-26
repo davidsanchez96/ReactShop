@@ -134,5 +134,6 @@ export const AddAddressClean = 'AddAddressClean';
 export const AddAddressGet = 'AddAddressGet';
 export const CodeSet = 'CodeSet';
 export const GetCodeSet = 'GetCodeSet';
-export const ModifyCodeClean = 'GetCodeSet';
+export const ModifyPasswordFirstClean = 'ModifyPasswordFirstClean';
+export const ModifyPasswordSecondClean = 'ModifyPasswordSecondClean';
 export const VerifyCodeSuccess = 'VerifyCodeSuccess';

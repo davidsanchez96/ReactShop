@@ -88,7 +88,9 @@ export default NetUtils = {
         let fetchOptions = {
             method: 'POST',
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Authorization': 'Bearer ' + (window.token || ''),
+                'Content-Type': 'multipart/form-data',
+                'Accept': 'application/json',
             },
             body: formData
         };
@@ -127,6 +129,7 @@ export default NetUtils = {
         let fetchOptions = {
             method: 'POST',
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'multipart/form-data'
             },
             body: formData

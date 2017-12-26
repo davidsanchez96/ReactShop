@@ -12,6 +12,8 @@ import Immutable from "immutable";
 import {CodeSet} from "../../../utils/actionTypes";
 import {getCode, verifyCode} from "../../../action/modifyPasswordFirstActions";
 import {sendPhone} from "../../../action/findPasswordSecondActions";
+import Toast from 'react-native-root-toast';
+import ModifyPasswordSecond from "./ModifyPasswordSecond";
 
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -29,7 +31,7 @@ class ModifyPasswordFirst extends Component {
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             //进入页面就发送验证码
-            dispatch(getCode(this.props.navigation.state.params.phone))
+            this.props.dispatch(getCode(this.props.navigation.state.params.phone))
         })
     }
 
@@ -40,6 +42,15 @@ class ModifyPasswordFirst extends Component {
         const smsVerifyCode = modifyPasswordFirstReducer.get('smsVerifyCode');
         const smsReFlag = modifyPasswordFirstReducer.get('smsReFlag');
         let disabled = true;
+        InteractionManager.runAfterInteractions(() => {
+            if (modifyPasswordFirstReducer.get('isSuccess')) {
+                navigation.navigate('ModifyPasswordSecond', {
+                    phone: phone,
+                });
+
+            }
+        });
+
         return (
             <View style={styles.container}>
                 <ScrollView
@@ -52,11 +63,11 @@ class ModifyPasswordFirst extends Component {
                     <View style={styles.navItem}>
                         <View style={styles.navItemCol}>
                             <Image style={styles.image}
-                                   source={require('../../components/img/c_phone_red.png')}></Image>
+                                   source={require('../../components/img/c_phone_red.png')}/>
                             <Text style={styles.navItemTextChosen} allowFontScaling={false}>输入验证码</Text>
                         </View>
                         <View style={styles.navItemCol}>
-                            <Image style={styles.image} source={require('../../components/img/c_done.png')}></Image>
+                            <Image style={styles.image} source={require('../../components/img/c_done.png')}/>
                             <Text style={styles.navItemText} allowFontScaling={false}>修改密码</Text>
                         </View>
                     </View>
@@ -104,12 +115,17 @@ class ModifyPasswordFirst extends Component {
                             style={[styles.btnContainer, !(smsVerifyCode) ? styles.btnDisabled : {}]}
                             onPress={() => {
                                 if (smsVerifyCode && disabled) {
-                                    disabled = false;
-                                    let data = {
-                                        phone: phone,
-                                        smsVerifyCode: smsVerifyCode,
-                                    };
-                                    dispatch(verifyCode(data));
+                                    if (!(/^\d{6}$/.test(smsVerifyCode))) {
+                                        Toast.show('验证码格式不正确!');
+                                    } else {
+                                        disabled = false;
+                                        let data = {
+                                            phone: phone,
+                                            smsVerifyCode: smsVerifyCode,
+                                        };
+                                        dispatch(verifyCode(data));
+                                    }
+
                                 }
                             }}>
                             <Text
