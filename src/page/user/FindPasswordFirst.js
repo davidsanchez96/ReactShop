@@ -107,12 +107,12 @@ class FindPasswordFirst extends Component {
                         style={[styles.btnContainer, {marginTop: 20}, !(phone && captcha) ? styles.btnDisabled : {}]}
                         onPress={() => {
                             if (phone && captcha && disabled) {
-                                disabled = false;
                                 if (phone && !(/^1\d{10}$/.test(phone))) {
                                     Toast.show('手机号码不正确!');
                                 } else if (captcha && !(/^\d{4,6}$/.test(captcha))) {
                                     Toast.show('验证码错误!');
                                 } else {
+                                    disabled = false;
                                     let data = {
                                         phone: phone,
                                         uuid: uuid,

@@ -99,6 +99,7 @@ class FindPasswordThird extends Component {
                                 Toast.show('密码格式不正确!');
 
                             } else {
+                                disabled = false;
                                 const data = {
                                     phone: phone,
                                     password: password,

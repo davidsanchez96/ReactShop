@@ -29,7 +29,7 @@ export default class Security extends Component {
                     title='登录密码'
                     subTitle='*建议您定期更改密码以保护账户安全'
                     onPress={() => {
-                        navigation.navigate('ModifyPasswordFirst')
+                        navigation.navigate('ModifyPasswordFirst', {phone: navigation.state.params.phone})
                     }}
                 />
                 {

@@ -1,32 +1,30 @@
 import NetUtils from "../utils/NetUtils";
-import {SendPhoneUrl, VerifyPhoneUrl} from "../utils/Constant";
-import {NetError, VerifyPasswordLoaded, VerifyPasswordLoading} from "../utils/actionTypes";
+import {CheckPhoneUrl, GetCodeUrl, VerifyCodeUrl} from "../utils/Constant";
+import {FindPasswordLoaded, FindPasswordLoading, GetCodeSet, NetError, VerifyCodeSuccess} from "../utils/actionTypes";
 import Toast from 'react-native-root-toast';
 
-export function sendPhone(data) {
+export function getCode(phone) {
     return (dispatch) => {
-        NetUtils.postForm(SendPhoneUrl, data,
+        NetUtils.post(GetCodeUrl, null,
             (result) => {
                 console.log(result);
-                const slurPhone = (data.phone ? (data.phone.substring(0, 3) + '****' + data.phone.substring(7)) : '');
+                const slurPhone = (phone ? (phone.substring(0, 3) + '****' + phone.substring(7)) : '');
                 Toast.show(`验证码已发送到${slurPhone}的手机上,请查收`);
+                dispatch({type: GetCodeSet});
             },
             () => {
                 dispatch({type: NetError});
             });
     }
 }
-
-export function verifyPhone(data) {
+export function verifyCode(data) {
     return (dispatch) => {
-        dispatch({type: VerifyPasswordLoading});
-        NetUtils.postForm(VerifyPhoneUrl, data,
+        NetUtils.postForm(VerifyCodeUrl, data,
             (result) => {
                 console.log(result);
-                dispatch({type: VerifyPasswordLoaded});
+                dispatch({type: VerifyCodeSuccess});
             },
             () => {
-
                 dispatch({type: NetError});
             });
     }

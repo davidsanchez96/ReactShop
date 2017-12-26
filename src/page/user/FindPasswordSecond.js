@@ -97,6 +97,7 @@ class FindPasswordSecond extends Component {
                                 if (!(/^\d{6}$/.test(smsVerifyCode))) {
                                     Toast.show('验证码格式不正确!');
                                 } else {
+                                    disabled = false;
                                     const data = {
                                         phone: phone,
                                         smsVerifyCode: smsVerifyCode,

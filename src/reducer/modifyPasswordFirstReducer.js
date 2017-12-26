@@ -16,18 +16,14 @@ const initialState = Immutable.fromJS({
 
 export default function modifyPasswordFirstReducer(state = initialState, action) {
     switch (action.type) {
-        case types.FindPasswordLoading:
-            return state.set('loading', true).set('isSuccess', false);
-        case types.FindPasswordCaptcha:
-            return state.set('captcha', action.captcha);
-        case types.FindPasswordPhone:
-            return state.set('phone', action.phone);
-        case types.FindPasswordUUID:
-            return state.set('uuid', UUID.create().toString());
-        case types.FindPasswordLoaded:
-            return state.set('loading', false).set('isSuccess', true).set('nickname',action.data);
+        case types.CodeSet:
+            return  state.set('smsVerifyCode', action.data);
+        case types.GetCodeSet:
+            return state.set('smsReFlag', true);
+         case types.VerifyCodeSuccess:
+            return state.set('isSuccess', true);
         case types.NetError:
-            return state.set('loading', false);
+            return state.set('smsReFlag', false);
         case types.FindPasswordClean:
             return initialState;
         default:

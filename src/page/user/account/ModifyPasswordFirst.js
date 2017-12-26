@@ -9,6 +9,9 @@ import {
 import {connect} from "react-redux";
 import ResendButton from "../../components/ResendButton";
 import Immutable from "immutable";
+import {CodeSet} from "../../../utils/actionTypes";
+import {getCode, verifyCode} from "../../../action/modifyPasswordFirstActions";
+import {sendPhone} from "../../../action/findPasswordSecondActions";
 
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -26,16 +29,17 @@ class ModifyPasswordFirst extends Component {
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             //进入页面就发送验证码
-            // msg.emit("security:sendSMS", this.props.phone);
+            dispatch(getCode(this.props.navigation.state.params.phone))
         })
     }
 
     render() {
         const {modifyPasswordFirstReducer, dispatch, navigation} = this.props;
 
-        const phone = this.props.phone;
+        const phone = navigation.state.params.phone;
         const smsVerifyCode = modifyPasswordFirstReducer.get('smsVerifyCode');
         const smsReFlag = modifyPasswordFirstReducer.get('smsReFlag');
+        let disabled = true;
         return (
             <View style={styles.container}>
                 <ScrollView
@@ -47,7 +51,8 @@ class ModifyPasswordFirst extends Component {
                     {/*修改密码导航图*/}
                     <View style={styles.navItem}>
                         <View style={styles.navItemCol}>
-                            <Image style={styles.image} source={require('../../components/img/c_phone_red.png')}></Image>
+                            <Image style={styles.image}
+                                   source={require('../../components/img/c_phone_red.png')}></Image>
                             <Text style={styles.navItemTextChosen} allowFontScaling={false}>输入验证码</Text>
                         </View>
                         <View style={styles.navItemCol}>
@@ -58,7 +63,7 @@ class ModifyPasswordFirst extends Component {
                     {/*主体内容区域*/}
                     <View style={styles.navContent}>
                         <Text
-                            allowFontScaling={false}>我们已经给您的手机发送了一条短信</Text>
+                            allowFontScaling={false}>我们已经给您的手机{phone.substring(0, 3) + '****' + phone.substring(7)}发送了一条短信</Text>
 
                         <View style={styles.inputBox}>
                             <View style={styles.textWrap}>
@@ -67,16 +72,24 @@ class ModifyPasswordFirst extends Component {
                                            placeholderTextColor='#ddd'
                                            underlineColorAndroid='transparent'
                                            keyboardType='numeric'
-                                           onChangeText={(smsVerifyCode) => msg.emit('security:changeSmsCode', smsVerifyCode)}/>
+                                           onChangeText={(smsVerifyCode) => {
+                                               dispatch({type: CodeSet, data: smsVerifyCode});
+                                           }}/>
                             </View>
                             {
                                 smsReFlag
                                     ?
-                                    <ResendButton resend={this._resend} time={60}/>
+                                    <ResendButton
+                                        resend={() => {
+                                            dispatch(getCode(phone))
+                                        }}
+                                        time={60}/>
                                     :
                                     <TouchableOpacity activeOpacity={0.6}
                                                       style={[styles.sendBtn, {borderColor: '#E63A59'}]}
-                                                      onPress={() => this._resend()}>
+                                                      onPress={() => {
+                                                          dispatch(getCode(phone))
+                                                      }}>
                                         <Text style={[styles.sendText, {color: '#e63a59'}]}
                                               allowFontScaling={false}>获取验证码</Text>
                                     </TouchableOpacity>
@@ -91,8 +104,12 @@ class ModifyPasswordFirst extends Component {
                             style={[styles.btnContainer, !(smsVerifyCode) ? styles.btnDisabled : {}]}
                             onPress={() => {
                                 if (smsVerifyCode && disabled) {
-
-
+                                    disabled = false;
+                                    let data = {
+                                        phone: phone,
+                                        smsVerifyCode: smsVerifyCode,
+                                    };
+                                    dispatch(verifyCode(data));
                                 }
                             }}>
                             <Text

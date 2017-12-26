@@ -132,3 +132,7 @@ export const AddressValue = 'AddressValue';
 export const AddAddressSelect = 'AddAddressSelect';
 export const AddAddressClean = 'AddAddressClean';
 export const AddAddressGet = 'AddAddressGet';
+export const CodeSet = 'CodeSet';
+export const GetCodeSet = 'GetCodeSet';
+export const ModifyCodeClean = 'GetCodeSet';
+export const VerifyCodeSuccess = 'VerifyCodeSuccess';

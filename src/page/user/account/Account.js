@@ -156,7 +156,8 @@ class Account extends Component {
                             showLeftImage={false}
                             content='可修改密码'
                             onPress={() => {
-                                navigation.navigate('Security')
+                                navigation.navigate('Security',{ phone:accountReducer.getIn(['customer', 'mobile']),
+                                    mobileVerifyStatus: accountReducer.getIn(['customer', 'mobileVerifyStatus'])})
                             }}/>
                     </View>
 

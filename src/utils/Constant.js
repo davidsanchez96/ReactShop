@@ -28,3 +28,5 @@ export const BirthdayUrl=URL+'/customers/birthday';//修改出生日期
 export const DefaultAddressUrl=URL+'/customers/addresses/default/';//默认收货地址
 export const DeleteAddressUrl=URL+'/customers/addresses/';//删除收货地址
 export const ReceiveAddressUrl=URL+'/customers/addresses';//收货地址
+export const GetCodeUrl=URL+'/customers/security/password/send/smsverifycode';//获取验证码
+export const VerifyCodeUrl=URL+'/customers/security/password/validate/smsverifycode';//验证验证码
