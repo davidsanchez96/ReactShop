@@ -41,7 +41,7 @@ class ModifyPasswordSecond extends Component {
                 const {goBack} = navigation;
                 let key;
                 for (let i = 0; i < nav.routes.length; i++) {
-                    if (nav.routes[i].routeName === 'Security') {
+                    if (nav.routes[i].routeName === 'Account') {
                         key = nav.routes[i].key;
                         break;
                     }
