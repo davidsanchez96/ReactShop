@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
-import {CheckPhoneUrl, GetCodeUrl, VerifyCodeUrl} from "../utils/Constant";
-import {FindPasswordLoaded, FindPasswordLoading, GetCodeSet, NetError, VerifyCodeSuccess} from "../utils/actionTypes";
+import {GetCodeUrl, VerifyCodeUrl} from "../utils/Constant";
+import {GetCodeSet, NetError, VerifyCodeLoading, VerifyCodeSuccess} from "../utils/actionTypes";
 import Toast from 'react-native-root-toast';
 
 export function getCode(phone) {
@@ -19,6 +19,7 @@ export function getCode(phone) {
 }
 export function verifyCode(data) {
     return (dispatch) => {
+        dispatch({type: VerifyCodeLoading});
         NetUtils.postForm(VerifyCodeUrl, data,
             (result) => {
                 console.log(result);

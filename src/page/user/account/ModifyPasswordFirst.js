@@ -11,9 +11,9 @@ import ResendButton from "../../components/ResendButton";
 import Immutable from "immutable";
 import {CodeSet, VerifyCodeReset} from "../../../utils/actionTypes";
 import {getCode, verifyCode} from "../../../action/modifyPasswordFirstActions";
-import {sendPhone} from "../../../action/findPasswordSecondActions";
 import Toast from 'react-native-root-toast';
 import ModifyPasswordSecond from "./ModifyPasswordSecond";
+import Loading from "../../components/Loading";
 
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -53,6 +53,7 @@ class ModifyPasswordFirst extends Component {
 
         return (
             <View style={styles.container}>
+                <Loading visible={modifyPasswordFirstReducer.get('loading')}/>
                 <ScrollView
                     bounces={false}
                     contentContainerStyle={{flex: 1}}

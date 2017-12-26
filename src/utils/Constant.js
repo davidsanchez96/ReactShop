@@ -30,3 +30,4 @@ export const DeleteAddressUrl=URL+'/customers/addresses/';//删除收货地址
 export const ReceiveAddressUrl=URL+'/customers/addresses';//收货地址
 export const GetCodeUrl=URL+'/customers/security/password/send/smsverifycode';//获取验证码
 export const VerifyCodeUrl=URL+'/customers/security/password/validate/smsverifycode';//验证验证码
+export const SetCodeUrl=URL+'/customers/security/password/setpassword';//设置密码

@@ -14,13 +14,13 @@ const initialState = Immutable.fromJS({
 
 export default function modifyPasswordSecondReducer(state = initialState, action) {
     switch (action.type) {
-        case types.PasswordSetLoading:
+        case types.ModifyPasswordLoading:
             return state.set('loading', true).set('isSuccess', false);
-        case types.PasswordSetCode:
+        case types.VerifyPasswordChange:
             return state.set('password', action.data);
-        case types.PasswordSet:
+        case types.VerifyPasswordSuccess:
             return state.set('loading', false).set('isSuccess', true);
-        case types.PasswordShow:
+        case types.VerifyPasswordShow:
             return state.set('isHide', !state.get('isHide'));
         case types.NetError:
             return state.set('loading', false);

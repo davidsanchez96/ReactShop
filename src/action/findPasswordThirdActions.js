@@ -1,14 +1,11 @@
 import NetUtils from "../utils/NetUtils";
-import {CheckPhoneUrl, SendPhoneUrl, SetPasswordUrl, VerifyPhoneUrl} from "../utils/Constant";
-import {
-    FindPasswordLoaded, FindPasswordLoading, LoginLoaded, NetError, PasswordSet,
-    PasswordSetLoading
-} from "../utils/actionTypes";
+import {SetPasswordUrl} from "../utils/Constant";
+import {NetError, PasswordSet, VerifyPasswordLoading} from "../utils/actionTypes";
 import Toast from 'react-native-root-toast';
 
 export function setPassword(data) {
     return (dispatch) => {
-        dispatch({type: PasswordSetLoading});
+        dispatch({type: VerifyPasswordLoading});
         NetUtils.postForm(SetPasswordUrl, data,
             (result) => {
                 console.log(result);

@@ -2,13 +2,14 @@
 
 import React, {Component} from 'react';
 import {
-    Dimensions, Image, PixelRatio, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity,
-    View
+    Dimensions, Image, InteractionManager, PixelRatio, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity,
+    View,
 } from 'react-native';
 import {connect} from "react-redux";
-import {PasswordShow} from "../../../utils/actionTypes";
+import {VerifyPasswordChange, VerifyPasswordShow} from "../../../utils/actionTypes";
 import Toast from "react-native-root-toast";
-import {setPassword} from "../../../action/findPasswordThirdActions";
+import {verifyPassword} from "../../../action/modifyPasswordSecondActions";
+import Loading from "../../components/Loading";
 
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -19,14 +20,28 @@ class ModifyPasswordSecond extends Component {
     };
 
     render() {
-        const {modifyPasswordSecondReducer} = this.props;
+        const {modifyPasswordSecondReducer,dispatch,navigation,nav} = this.props;
 
-        const phone = this.props.phone;
+        const phone = navigation.state.params.phone;
         const password = modifyPasswordSecondReducer.get('password');
         const isHide = modifyPasswordSecondReducer.get('isHide');
-
+        let disabled = true;
+        InteractionManager.runAfterInteractions(() => {
+            if (modifyPasswordSecondReducer.get('isSuccess')) {
+                const {goBack} = navigation;
+                let key;
+                for (let i = 0; i < nav.routes.length; i++) {
+                    if (nav.routes[i].routeName === 'Account') {
+                        key = nav.routes[i].key;
+                        break;
+                    }
+                }
+                goBack(key);
+            }
+        });
         return (
             <View style={styles.container}>
+                <Loading visible={modifyPasswordSecondReducer.get('loading')}/>
                 <ScrollView
                     bounces={false}
                     contentContainerStyle={{flex: 1}}
@@ -56,13 +71,15 @@ class ModifyPasswordSecond extends Component {
                                 underlineColorAndroid='transparent'
                                 password={isHide}
                                 value={password}
-                                onChangeText={(password) => this._passwordChange(password)}/>
+                                onChangeText={(password) => {
+                                    dispatch({type: VerifyPasswordChange,data:password})
+                                }}/>
 
 
                             <TouchableOpacity
                                 activeOpacity={0.6}
                                 onPress={() => {
-                                    dispatch({type: PasswordShow})
+                                    dispatch({type: VerifyPasswordShow})
                                 }}>
                                 <Image
                                     style={[styles.eye,]}
@@ -97,7 +114,7 @@ class ModifyPasswordSecond extends Component {
                                             phone: phone,
                                             password: password,
                                         };
-                                        dispatch(setPassword(data))
+                                        dispatch(verifyPassword(data))
                                     }
 
 
@@ -225,6 +242,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    modifyPasswordSecondReducer: state.get('modifyPasswordSecondReducer')
+    modifyPasswordSecondReducer: state.get('modifyPasswordSecondReducer'),
+    nav: state.get('nav').toJS(),
 });
 export default connect(mapStateToProps)(ModifyPasswordSecond);
