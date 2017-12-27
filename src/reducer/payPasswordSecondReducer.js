@@ -12,16 +12,18 @@ const initialState = Immutable.fromJS({
 
 export default function payPasswordSecondReducer(state = initialState, action) {
     switch (action.type) {
-        case types.PayCodeSet:
-            return state.set('smsVerifyCode', action.data);
-        case types.GetCodeSet:
-            return state.set('smsReFlag', true);
-        case types.PayCodeSuccess:
-            return state.set('isSuccess', true);
-        case types.PayCodeReset:
+        case types.PayPasswordLoading:
+            return state.set('loading', true);
+        case types.PayPasswordFirstSet:
+            return state.set('firstPassword', action.data);
+        case types.PayPasswordSecond:
+            return state.set('nextPassword', action.data);
+        case types.PayPasswordSuccess:
+            return state.set('isSuccess', true).set('loading', false);
+        case types.PayPasswordReset:
             return state.set('isSuccess', false);
         case types.NetError:
-            return state.set('smsReFlag', false);
+            return state.set('loading', false);
         case types.PayPasswordSecondClean:
             return initialState;
         default:

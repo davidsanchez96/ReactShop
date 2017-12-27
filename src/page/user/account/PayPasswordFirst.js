@@ -212,12 +212,27 @@ const styles = StyleSheet.create({
     btn: {
         marginTop: 20
     },
+    sendBtn: {
+        //flex: 2,
+        width: 120,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderRadius: 5,
+        marginLeft: 10,
+        backgroundColor: '#fff'
+    },
+    sendText: {
+        fontSize: 16
+    },
     btnContainer: {
         borderRadius: 5,
         height: SCREEN_WIDTH <= 320 ? 40 : 50,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#e63a59'
+        backgroundColor: '#e63a59',
+        marginTop: 20,
     },
     text: {
         fontSize: SCREEN_WIDTH <= 320 ? 16 : 18,

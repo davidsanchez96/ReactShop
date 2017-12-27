@@ -39,6 +39,7 @@ import ModifyPasswordFirst from "./user/account/ModifyPasswordFirst";
 import ModifyPasswordSecond from "./user/account/ModifyPasswordSecond";
 import PayPasswordFirst from "./user/account/PayPasswordFirst";
 import PayPasswordSecond from "./user/account/PayPasswordSecond";
+import PayPasswordThird from "./user/account/PayPasswordThird";
 
 
 const HomeNavigator = TabNavigator({
@@ -149,6 +150,9 @@ export const AppNavigator = StackNavigator({
         },
         PayPasswordSecond: {
             screen: PayPasswordSecond,
+        },
+        PayPasswordThird: {
+            screen: PayPasswordThird,
         },
     },
     {
