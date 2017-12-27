@@ -35,7 +35,6 @@ export const FilterLoading = 'FilterLoading';
 export const FilterLoaded = 'FilterLoaded';
 export const FilterAddress = 'FilterAddress';
 export const FilterType = 'FilterType';
-export const FilterSearch = 'FilterSearch';
 export const FilterCategory = 'FilterCategory';
 export const FilterCate = 'FilterCate';
 export const FilterSelect = 'FilterSelect';
@@ -132,6 +131,9 @@ export const AddressValue = 'AddressValue';
 export const AddAddressSelect = 'AddAddressSelect';
 export const AddAddressClean = 'AddAddressClean';
 export const AddAddressGet = 'AddAddressGet';
+/**
+ *security
+ **/
 export const CodeSet = 'CodeSet';
 export const GetCodeSet = 'GetCodeSet';
 export const ModifyPasswordFirstClean = 'ModifyPasswordFirstClean';
@@ -166,3 +168,9 @@ export const SetPhoneSecondCode= 'SetPhoneSecondCode';
 export const SetPhoneSecondSet= 'SetPhoneSecondSet';
 export const SetPhoneSecondSuccess= 'SetPhoneSecondSuccess';
 export const SetPhoneSecondReset= 'SetPhoneSecondReset';
+export const ModifyPhoneFirstLoading= 'ModifyPhoneFirstLoading';
+export const ModifyPhoneFirstClean= 'ModifyPhoneFirstClean';
+export const ModifyPhoneFirstReset= 'ModifyPhoneFirstReset';
+export const ModifyPhoneFirstCode= 'ModifyPhoneFirstCode';
+export const ModifyPhoneFirstSuccess= 'ModifyPhoneFirstSuccess';
+export const ModifyPhoneFirstSet= 'ModifyPhoneFirstSet';

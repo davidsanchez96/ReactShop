@@ -43,6 +43,7 @@ import PayPasswordThird from "./user/account/PayPasswordThird";
 import SetPhoneFirst from "./user/account/SetPhoneFirst";
 import SetPhoneSecond from "./user/account/SetPhoneSecond";
 import SetPhoneThird from "./user/account/SetPhoneThird";
+import ModifyPhoneFirst from "./user/account/ModifyPhoneFirst";
 
 
 const HomeNavigator = TabNavigator({
@@ -165,6 +166,9 @@ export const AppNavigator = StackNavigator({
         },
         SetPhoneThird: {
             screen: SetPhoneThird,
+        },
+        ModifyPhoneFirst: {
+            screen: ModifyPhoneFirst,
         },
     },
     {
