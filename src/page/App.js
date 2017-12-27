@@ -40,6 +40,7 @@ import ModifyPasswordSecond from "./user/account/ModifyPasswordSecond";
 import PayPasswordFirst from "./user/account/PayPasswordFirst";
 import PayPasswordSecond from "./user/account/PayPasswordSecond";
 import PayPasswordThird from "./user/account/PayPasswordThird";
+import SetPhoneFirst from "./user/account/SetPhoneFirst";
 
 
 const HomeNavigator = TabNavigator({
@@ -153,6 +154,9 @@ export const AppNavigator = StackNavigator({
         },
         PayPasswordThird: {
             screen: PayPasswordThird,
+        },
+        SetPhoneFirst: {
+            screen: SetPhoneFirst,
         },
     },
     {

@@ -35,3 +35,4 @@ export const SetCodeUrl=URL+'/customers/security/password/setpassword';//设置�
 export const PayGetUrl=URL+'/balance/pay/set/send/smsverifycode';//获取验证码
 export const PayVerifyUrl=URL+'/balance/pay/set/validate/smsverifycode';//验证验证码
 export const PayPasswordUrl=URL+'/balance/setpassword';//设置支付密码
+export const PasswordCheckUrl=URL+'/customers/check/loginPassword?password=';//设置支付密码

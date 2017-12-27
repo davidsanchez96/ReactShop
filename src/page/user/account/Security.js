@@ -38,14 +38,18 @@ export default class Security extends Component {
                             showLeftImage={false}
                             title='修改已验证手机'
                             subTitle='*可用于找回密码'
-                            onPress={() => this.securityPhone()}
+                            onPress={() => {
+                                navigation.navigate('SetPhoneFirst')
+                            }}
                         />
                         :
                         <NavItem
                             showLeftImage={false}
                             title='手机验证'
                             subTitle='*可用于找回密码'
-                            onPress={() => this.verifyPhone()}
+                            onPress={() => {
+                                navigation.navigate('SetPhoneFirst')
+                            }}
                         />
                 }
                 <NavItem

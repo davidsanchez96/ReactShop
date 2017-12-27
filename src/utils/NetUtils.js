@@ -21,7 +21,11 @@ export default NetUtils = {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.code && responseJson.code !== 'K-000000') {
-                    Toast.show('您的网络不给力:(');
+                    if ('K-000001' === responseJson.code) {
+                        Toast.show('您的网络不给力:(');
+                    } else {
+                        Toast.show(responseJson.message);
+                    }
                     failCallback(responseJson.code);
                 } else {
                     successCallback(responseJson);
@@ -63,7 +67,11 @@ export default NetUtils = {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.code && responseJson.code !== 'K-000000') {
-                    Toast.show('您的网络不给力:(');
+                    if ('K-000001' === responseJson.code) {
+                        Toast.show('您的网络不给力:(');
+                    } else {
+                        Toast.show(responseJson.message);
+                    }
                     failCallback(responseJson.code);
                 } else {
                     successCallback(responseJson);
