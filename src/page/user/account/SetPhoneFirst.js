@@ -172,7 +172,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#e63a59',
-        marginTop: 20,
     },
     text: {
         fontSize: SCREEN_WIDTH <= 320 ? 16 : 18,

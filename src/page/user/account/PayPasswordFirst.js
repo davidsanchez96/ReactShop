@@ -150,10 +150,6 @@ class PayPasswordFirst extends Component {
 
 
 
-    _nextStep() {
-        //
-        msg.emit("balance:validPhone", this.props.phone, this.props.orderCode, this.props.orderPrice, this.props.viewName);
-    }
 }
 
 const styles = StyleSheet.create({

@@ -33,7 +33,7 @@ export default class Security extends Component {
                     }}
                 />
                 {
-                    this.props.mobileVerifyStatus === '1' ?
+                    navigation.state.params.mobileVerifyStatus === '1' ?
                         <NavItem
                             showLeftImage={false}
                             title='修改已验证手机'
