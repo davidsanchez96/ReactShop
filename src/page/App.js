@@ -46,6 +46,7 @@ import SetPhoneThird from "./user/account/SetPhoneThird";
 import ModifyPhoneFirst from "./user/account/ModifyPhoneFirst";
 import ModifyPhoneSecond from "./user/account/ModifyPhoneSecond";
 import ModifyPhoneThird from "./user/account/ModifyPhoneThird";
+import Follow from "./user/Follow";
 
 
 const HomeNavigator = TabNavigator({
@@ -177,6 +178,9 @@ export const AppNavigator = StackNavigator({
         },
         ModifyPhoneThird: {
             screen: ModifyPhoneThird,
+        },
+        Follow: {
+            screen: Follow,
         },
     },
     {

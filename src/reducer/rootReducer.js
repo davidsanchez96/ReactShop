@@ -27,6 +27,7 @@ import setPhoneFirstReducer from "./setPhoneFirstReducer";
 import setPhoneSecondReducer from "./setPhoneSecondReducer";
 import modifyPhoneFirstReducer from "./modifyPhoneFirstReducer";
 import modifyPhoneSecondReducer from "./modifyPhoneSecondReducer";
+import followReducer from "./followReducer";
 export default combineReducers({
     nav,
     categoryReducer,
@@ -56,4 +57,5 @@ export default combineReducers({
     setPhoneSecondReducer,
     modifyPhoneFirstReducer,
     modifyPhoneSecondReducer,
+    followReducer,
 });

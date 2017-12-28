@@ -181,3 +181,10 @@ export const ModifyPhoneSecondCode= 'ModifyPhoneSecondCode';
 export const ModifyPhoneSecondSuccess= 'ModifyPhoneSecondSuccess';
 export const ModifyPhoneSecondSet= 'ModifyPhoneSecondSet';
 export const ModifyPhoneSecondPhone= 'ModifyPhoneSecondPhone';
+/**
+ *security
+ **/
+export const FollowListLoading = 'FollowListLoading';
+export const FollowListShowMore = 'FollowListShowMore';
+export const FollowListLoaded = 'FollowListLoaded';
+export const FollowListDelete = 'FollowListDelete';

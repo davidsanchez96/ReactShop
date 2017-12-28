@@ -41,3 +41,8 @@ export const VerifyPhoneCodeUrl=URL+'/customers/security/phone/validate/binding/
 export const ModifyPhoneCodeUrl=URL+'/customers/security/phone/send/smsverifycode';//获取验证码
 export const ModifyPhoneVerifyUrl=URL+'/customers/security/phone/validate/smsverifycode';//验证验证码
 export const ModifyPhoneNewCodeUrl=URL+'/customers/security/phone/send/new/smsverifycode';//获取验证码
+
+export const FollowListUrl=URL+'/customers/follows?region=';//获取关注
+export const FollowDeleteUrl=URL+'/customers/follows/';//取消关注
+
+
