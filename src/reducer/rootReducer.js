@@ -26,6 +26,7 @@ import payPasswordSecondReducer from "./payPasswordSecondReducer";
 import setPhoneFirstReducer from "./setPhoneFirstReducer";
 import setPhoneSecondReducer from "./setPhoneSecondReducer";
 import modifyPhoneFirstReducer from "./modifyPhoneFirstReducer";
+import modifyPhoneSecondReducer from "./modifyPhoneSecondReducer";
 export default combineReducers({
     nav,
     categoryReducer,
@@ -54,4 +55,5 @@ export default combineReducers({
     setPhoneFirstReducer,
     setPhoneSecondReducer,
     modifyPhoneFirstReducer,
+    modifyPhoneSecondReducer,
 });

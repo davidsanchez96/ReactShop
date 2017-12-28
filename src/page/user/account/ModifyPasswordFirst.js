@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     disabledText: {
         color: '#999'
     },
-})
+});
 
 const mapStateToProps = (state) => ({
     modifyPasswordFirstReducer: state.get('modifyPasswordFirstReducer')

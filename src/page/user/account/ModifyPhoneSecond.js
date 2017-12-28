@@ -2,57 +2,60 @@
 
 import React, {Component} from 'react';
 import {
-    Dimensions, Image, InteractionManager, PixelRatio, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity,
-    View
+    View,
+    StyleSheet,
+    Text,
+    Image,
+    Dimensions,
+    ScrollView,
+    TextInput,
+    TouchableOpacity,
+    AsyncStorage,
+    InteractionManager,
 } from 'react-native';
-import Immutable from "immutable";
-import {
-    ModifyPhoneFirstClean, ModifyPhoneFirstCode, ModifyPhoneFirstReset,
-    ModifyPhoneFirstSet
-} from "../../../utils/actionTypes";
-import ResendButton from "../../components/ResendButton";
+
 import {connect} from "react-redux";
+import ResendButton from "../../components/ResendButton";
 import Toast from "react-native-root-toast";
 import {getModifyPhoneCode, verifyModifyPhoneCode} from "../../../action/modifyPhoneFirstActions";
+import Immutable from "immutable";
+import {
+    ModifyPhoneFirstClean, ModifyPhoneFirstReset, ModifyPhoneFirstSet, ModifyPhoneSecondClean, ModifyPhoneSecondCode,
+    ModifyPhoneSecondPhone,
+    ModifyPhoneSecondReset
+} from "../../../utils/actionTypes";
+import {getModifyNewCode, verifyModifyNewCode} from "../../../action/modifyPhoneSecondActions";
 
 
-const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
+const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 
-class ModifyPhoneFirst extends Component {
+class ModifyPhoneSecond extends Component {
     static navigationOptions = {
         title: '修改手机验证',
     };
 
     shouldComponentUpdate(nextProps, nextState) {
-        return !Immutable.is(Immutable.Map(this.props.modifyPhoneFirstReducer), Immutable.Map(nextProps.modifyPhoneFirstReducer)) ||
+        return !Immutable.is(Immutable.Map(this.props.modifyPhoneSecondReducer), Immutable.Map(nextProps.modifyPhoneSecondReducer)) ||
             !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
     }
 
     componentWillUnmount() {
-        this.props.dispatch({type: ModifyPhoneFirstClean});
-    }
-
-    componentDidMount() {
-        InteractionManager.runAfterInteractions(() => {
-            //进入页面就发送验证码
-            this.props.dispatch(getModifyPhoneCode())
-        })
+        this.props.dispatch({type: ModifyPhoneSecondClean});
     }
 
     render() {
-        const {modifyPhoneFirstReducer, dispatch, navigation} = this.props;
+        const {modifyPhoneSecondReducer, dispatch, navigation} = this.props;
 
-        const phone = navigation.state.params.phone;
-        const smsVerifyCode = modifyPhoneFirstReducer.get('smsVerifyCode');
-        const smsReFlag = modifyPhoneFirstReducer.get('smsReFlag');
+        const smsVerifyCode = modifyPhoneSecondReducer.get('smsVerifyCode');
+        const newPhone = modifyPhoneSecondReducer.get('newPhone');
+        const smsReFlag = modifyPhoneSecondReducer.get('smsReFlag');
+        const time = modifyPhoneSecondReducer.get('time');
         let disabled = true;
         InteractionManager.runAfterInteractions(() => {
-            if (modifyPhoneFirstReducer.get('isSuccess')) {
-                navigation.navigate('ModifyPhoneSecond', {
-                    phone: phone,
-                });
-                dispatch({type: ModifyPhoneFirstReset});
+            if (modifyPhoneSecondReducer.get('isSuccess')) {
+                navigation.navigate('ModifyPhoneThird',);
+                dispatch({type: ModifyPhoneSecondReset});
             }
         });
         return (
@@ -65,12 +68,12 @@ class ModifyPhoneFirst extends Component {
                     {/*修改密码导航图*/}
                     <View style={styles.navItem}>
                         <View style={styles.navItemCol}>
-                            <Image style={styles.image} source={require('../../components/img/c_isPerson_red.png')}/>
-                            <Text style={styles.navItemTextChosen} allowFontScaling={false}>验证身份</Text>
+                            <Image style={styles.image} source={require('../../components/img/c_isPerson.png')}/>
+                            <Text style={styles.navItemText} allowFontScaling={false}>验证身份</Text>
                         </View>
                         <View style={styles.navItemCol}>
-                            <Image style={styles.image} source={require('../../components/img/c_phone.png')}/>
-                            <Text style={styles.navItemText} allowFontScaling={false}>修改已验证手机</Text>
+                            <Image style={styles.image} source={require('../../components/img/c_phone_red.png')}/>
+                            <Text style={styles.navItemTextChosen} allowFontScaling={false}>修改已验证手机</Text>
                         </View>
                         <View style={styles.navItemCol}>
                             <Image style={styles.image} source={require('../../components/img/c_done.png')}/>
@@ -79,40 +82,58 @@ class ModifyPhoneFirst extends Component {
                     </View>
                     {/*主体内容区域*/}
                     <View style={styles.navContent}>
-                        <Text
-                            allowFontScaling={false}>我们已经给您的手机{phone.substring(0, 3) + '****' + phone.substring(7)}发送了一条短信</Text>
-
+                        <Text allowFontScaling={false}>请输入新的手机号</Text>
                         <View style={styles.inputBox}>
                             <View style={styles.textWrap}>
                                 <TextInput style={styles.input}
-                                           placeholder='请输入短信验证码'
+                                           placeholder='验证手机号'
                                            placeholderTextColor='#ddd'
                                            underlineColorAndroid='transparent'
                                            keyboardType='numeric'
-                                           onChangeText={(smsVerifyCode) => {
-                                               dispatch({type: ModifyPhoneFirstCode, data: smsVerifyCode});
+                                           onChangeText={(newPhone) => {
+                                               dispatch({type: ModifyPhoneSecondPhone, data: newPhone});
                                            }}/>
                             </View>
                             {
                                 smsReFlag
                                     ?
                                     <ResendButton
+                                        disabled={!(newPhone)}
+                                        name='重新发送'
                                         resend={() => {
-                                            dispatch(getModifyPhoneCode())
+                                            let data = {
+                                                phone: newPhone,
+                                            };
+                                            dispatch(getModifyNewCode(data))
                                         }}
-                                        time={60}/>
+                                        time={time}/>
                                     :
                                     <TouchableOpacity activeOpacity={0.6}
                                                       style={[styles.sendBtn, {borderColor: '#E63A59'}]}
                                                       onPress={() => {
-                                                          dispatch(getModifyPhoneCode())
+                                                          let data = {
+                                                              phone: newPhone,
+                                                          };
+                                                          dispatch(getModifyNewCode(data))
                                                       }}>
                                         <Text style={[styles.sendText, {color: '#e63a59'}]}
                                               allowFontScaling={false}>获取验证码</Text>
                                     </TouchableOpacity>
                             }
-
                         </View>
+                        <View style={[styles.inputBox, {marginBottom: 20}]}>
+                            <View style={styles.textWrap}>
+                                <TextInput style={styles.input}
+                                           placeholder='短信验证码'
+                                           placeholderTextColor='#ddd'
+                                           underlineColorAndroid='transparent'
+                                           keyboardType='numeric'
+                                           onChangeText={(newCode) => {
+                                               dispatch({type: ModifyPhoneSecondCode, data: newCode});
+                                           }}/>
+                            </View>
+                        </View>
+
                         <TouchableOpacity
                             disabled={!(smsVerifyCode)}
                             activeOpacity={0.8}
@@ -124,10 +145,10 @@ class ModifyPhoneFirst extends Component {
                                     } else {
                                         disabled = false;
                                         let data = {
-                                            phone: phone,
+                                            phone: newPhone,
                                             smsVerifyCode: smsVerifyCode,
                                         };
-                                        dispatch(verifyModifyPhoneCode(data));
+                                        dispatch(verifyModifyNewCode(data));
                                     }
 
                                 }
@@ -138,14 +159,12 @@ class ModifyPhoneFirst extends Component {
                                 下一步
                             </Text>
                         </TouchableOpacity>
+
                         <View style={styles.bar}>
-                            <View style={{flexDirection: 'row'}}>
-                                <Image style={{width: 15, height: 15}}
-                                       source={require('../../components/img/c_tip.png')}/>
-                                <Text style={styles.lightText} allowFontScaling={false}> 小提示:</Text>
-                            </View>
-                            <Text style={{color: '#999', marginTop: 5}}
-                                  allowFontScaling={false}>设置手机验证后,可用于快速找回登录密码</Text>
+                            <Text style={styles.lightText} allowFontScaling={false}>遇到问题？您可以</Text>
+                            <TouchableOpacity onPress={this._contactService}>
+                                <Text style={{color: '#666'}} allowFontScaling={false}>联系客服</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </ScrollView>
@@ -153,6 +172,65 @@ class ModifyPhoneFirst extends Component {
         );
     }
 
+    /**
+     * 联系客服
+     * @private
+     */
+    async _contactService() {
+        try {
+            const data = await AsyncStorage.getItem('hkshop@SysBasicSettings');
+
+            if (__DEV__) {
+                console.log("_contactService", data);
+            }
+
+            if (data) {
+                const sysBasicSettings = JSON.parse(data);
+                const contactPhone = sysBasicSettings.contactPhone;
+
+                if (contactPhone) {
+                    Communications.phonecall(contactPhone, true)
+                }
+            }
+        } catch (err) {
+            //ignore
+        }
+    }
+
+    /**
+     * 下一步
+     * @param phone
+     * @private
+     */
+    _nextStep(phone) {
+        msg.emit('security:changePhone:validNewSMS', phone);
+    }
+
+    /**
+     * 重新发送
+     * @private
+     */
+    _resend() {
+        if (!(/^1\d{10}$/.test(appStore.data().get('newPhone')))) {
+            msg.emit('app:tip', '手机号不合法');
+            return;
+        } else {
+            msg.emit('security:changePhone:sendNewSMS', appStore.data().get('newPhone'));
+        }
+    }
+
+    /**
+     * 页面初始化 或者 当手机号码变化时,触发校验
+     * @private
+     */
+    _validPhone() {
+        if (!(/^1\d{10}$/.test(appStore.data().get('newPhone')))) {
+            msg.emit('app:tip', '手机号不合法');
+            return;
+        } else {
+            msg.emit('security:changePhone:sendNewSMS', appStore.data().get('newPhone'));
+        }
+    }
 }
 
 const styles = StyleSheet.create({
@@ -164,8 +242,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 20,
         justifyContent: 'space-between',
-
-        borderBottomWidth: 1 / PixelRatio.get(),
+        borderBottomWidth: 1,
         borderBottomColor: '#eee'
     },
     navContent: {
@@ -187,18 +264,17 @@ const styles = StyleSheet.create({
         height: SCREEN_WIDTH / 10,
     },
     inputBox: {
-        marginBottom: 20,
         marginTop: 20,
         flexDirection: 'row',
         alignItems: 'center'
     },
     textWrap: {
         backgroundColor: '#fff',
-        borderWidth: 1 / PixelRatio.get(),
+        borderWidth: 1,
         borderColor: '#bbb',
         borderRadius: 5,
-        overflow: 'hidden',
-        flex: 4
+        flex: 4,
+        overflow: 'hidden'
     },
     input: {
         height: 50,
@@ -210,12 +286,12 @@ const styles = StyleSheet.create({
     },
     lightText: {
         //fontSize: 16,
-        color: '#999',
-
+        color: '#999'
     },
     bar: {
         paddingTop: 20,
-        alignItems: 'flex-start'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     sendBtn: {
         //flex: 2,
@@ -248,8 +324,9 @@ const styles = StyleSheet.create({
     disabledText: {
         color: '#999'
     },
-})
-const mapStateToProps = (state) => ({
-    modifyPhoneFirstReducer: state.get('modifyPhoneFirstReducer')
 });
-export default connect(mapStateToProps)(ModifyPhoneFirst);
+
+const mapStateToProps = (state) => ({
+    modifyPhoneSecondReducer: state.get('modifyPhoneSecondReducer')
+});
+export default connect(mapStateToProps)(ModifyPhoneSecond);

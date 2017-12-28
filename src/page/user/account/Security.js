@@ -39,7 +39,7 @@ export default class Security extends Component {
                             title='修改已验证手机'
                             subTitle='*可用于找回密码'
                             onPress={() => {
-                                navigation.navigate('SetPhoneFirst')
+                                navigation.navigate('ModifyPhoneFirst', {phone: navigation.state.params.phone})
                             }}
                         />
                         :
@@ -72,33 +72,6 @@ export default class Security extends Component {
         );
     }
 
-
-    securityPassword() {
-        msg.emit('route:goToNext', {sceneName: 'SendSMS', phone: this.props.mobile});
-    }
-
-    verifyPhone() {
-        msg.emit('route:goToNext', {sceneName: 'ValidAccount'});
-    }
-
-    securityPhone() {
-        msg.emit('route:goToNext', {sceneName: 'ValidOldPhone', phone: this.props.mobile});
-    }
-
-    payPassword() {
-        // if (!this.state.verified) {
-        //     msg.emit('app:alert', {
-        //         title: '',
-        //         msgContent: '设置支付密码，请先验证手机',
-        //         okText: '立即验证',
-        //         cancelText: '稍后再说',
-        //         okHandle: () => {
-        //         }
-        //     });
-        // } else {
-        msg.emit('route:goToNext', {sceneName: 'SendPaySMS', phone: this.props.mobile});
-        // }
-    }
 }
 
 const styles = StyleSheet.create({
