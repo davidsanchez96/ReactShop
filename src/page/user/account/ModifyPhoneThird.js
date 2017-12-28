@@ -44,7 +44,7 @@ class ModifyPhoneThird extends Component {
                 <ScrollView
                     contentContainerStyle={{flex: 1}} //非常重要，让ScrollView的子元素占满整个区域
                     keyboardDismissMode='on-drag' //拖动界面输入法退出
-                    keyboardShouldPersistTaps={false} //点击输入法意外的区域，输入法退出
+                    keyboardShouldPersistTaps='never' //点击输入法意外的区域，输入法退出
                 >
                     {/*修改密码导航图*/}
                     <View style={styles.navItem}>
