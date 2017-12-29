@@ -26,7 +26,7 @@ export default function userReducer(state = initialState, action) {
         case types.UserLevel:
             return state.set('point', action.data);
         case types.UserFollow:
-            return state.set('follows', action.data);
+            return state.set('follows', Immutable.fromJS(action.data));
         case types.UserRecord:
             return state.set('browserecord', Immutable.fromJS(action.data));
         case types.UserBrowseRecord:

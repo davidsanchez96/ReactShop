@@ -44,5 +44,6 @@ export const ModifyPhoneNewCodeUrl=URL+'/customers/security/phone/send/new/smsve
 
 export const FollowListUrl=URL+'/customers/follows?region=';//获取关注
 export const FollowDeleteUrl=URL+'/customers/follows/';//取消关注
+export const BrowseListUrl=URL+'/customers/browserecord?region=';//获取浏览
 
 

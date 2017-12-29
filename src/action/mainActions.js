@@ -50,6 +50,27 @@ export function getAddress(goodsInfoId) {
 
 }
 
+export function getDefaultAddress() {
+    return (dispatch) => {
+        AsyncStorage.getItem('KStoreApp@defaultRegion', (error, result) => {
+            if (result) {
+                console.log( result);
+            } else {
+                NetUtils.get(AreaUrl,
+                    (result) => {
+                        console.log(URL + result);
+                        AsyncStorage.setItem('KStoreApp@defaultRegion', JSON.stringify(result));
+                    },
+                    (error) => {
+                        console.log('---------' + error);
+                    });
+            }
+        });
+
+    }
+
+}
+
 export function show(index) {
     return {
         type: Show,

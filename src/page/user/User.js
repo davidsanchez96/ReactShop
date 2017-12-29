@@ -98,47 +98,47 @@ class User extends Component {
     }
 
     render() {
-        const {userReducer, navigation,dispatch} = this.props;
+        const {userReducer, navigation, dispatch} = this.props;
         const isLoading = userReducer.get('loading');
 
         return (
 
 
-                <ScrollView
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={isLoading}
-                            onRefresh={()=>{
-                                if (window.token) {
-                                    dispatch(user());
-                                    dispatch(userLevel());
-                                    dispatch(userFollow());
-                                    dispatch(userRecord());
-                                    dispatch(userStatus());
-                                    dispatch(userUnread());
-                                    dispatch(userOrder());
-                                } else {
-                                    dispatch(browse());
-                                }
-                            }}
-                        />
-                    }
-                >
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={isLoading}
+                        onRefresh={() => {
+                            if (window.token) {
+                                dispatch(user());
+                                dispatch(userLevel());
+                                dispatch(userFollow());
+                                dispatch(userRecord());
+                                dispatch(userStatus());
+                                dispatch(userUnread());
+                                dispatch(userOrder());
+                            } else {
+                                dispatch(browse());
+                            }
+                        }}
+                    />
+                }
+            >
 
-                    {this._renderImageContent(userReducer, navigation)}
+                {this._renderImageContent(userReducer, navigation)}
 
-                    {this._renderMyOrderContent()}
-                    {/*待付款 + 待收货 + 退款退货*/}
-                    {this._renderOrderContent(userReducer)}
+                {this._renderMyOrderContent()}
+                {/*待付款 + 待收货 + 退款退货*/}
+                {this._renderOrderContent(userReducer)}
 
-                    {this._renderMyAssets()}
+                {this._renderMyAssets()}
 
-                    {this._renderAssets()}
+                {this._renderAssets()}
 
-                    {this._renderItemContent(userReducer)}
+                {this._renderItemContent(userReducer)}
 
 
-                </ScrollView>
+            </ScrollView>
 
         );
     }
@@ -224,7 +224,9 @@ class User extends Component {
                         <Text style={styles.attentionColumnRow} allowFontScaling={false}>{followTotal}</Text>
                         <Text style={styles.attentionColumnRow} allowFontScaling={false}>关注的商品</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this._browseRecord} style={styles.attentionColumnWithBorder}
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('Browse')
+                    }} style={styles.attentionColumnWithBorder}
                                       activeOpacity={0.8}>
                         <Text style={styles.attentionColumnRow} allowFontScaling={false}>{browserecordTotal}</Text>
                         <Text style={styles.attentionColumnRow} allowFontScaling={false}>浏览记录</Text>

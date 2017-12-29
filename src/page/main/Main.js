@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import {change, getMain, show} from "../../action/mainActions";
+import {change, getDefaultAddress, getMain, show} from "../../action/mainActions";
 import {connect} from 'react-redux';
 import Swiper from 'react-native-swiper';
 import FloorOne from '../components/FloorOne';
@@ -45,6 +45,7 @@ class Main extends Component {
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             this.props.dispatch(getMain());
+            this.props.dispatch(getDefaultAddress());
         })
     }
 

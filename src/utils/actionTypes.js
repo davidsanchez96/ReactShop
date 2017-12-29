@@ -185,9 +185,16 @@ export const ModifyPhoneSecondSuccess= 'ModifyPhoneSecondSuccess';
 export const ModifyPhoneSecondSet= 'ModifyPhoneSecondSet';
 export const ModifyPhoneSecondPhone= 'ModifyPhoneSecondPhone';
 /**
- *security
+ *follow
  **/
 export const FollowListLoading = 'FollowListLoading';
 export const FollowListShowMore = 'FollowListShowMore';
 export const FollowListLoaded = 'FollowListLoaded';
 export const FollowListDelete = 'FollowListDelete';
+/**
+ *follow
+ **/
+export const BrowseListLoading = 'BrowseListLoading';
+export const BrowseListShowMore = 'BrowseListShowMore';
+export const BrowseListLoaded = 'BrowseListLoaded';
+export const BrowseListDelete = 'BrowseListDelete';
