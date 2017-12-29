@@ -34,15 +34,15 @@ class Browse extends Component {
 
     componentDidMount() {
         const {followReducer, dispatch, navigation} = this.props;
-        if (!window.token) {
-            // InteractionManager.runAfterInteractions(() =>
-            // msg.emit('browserecord:findGoodsByStore', this.props.defaultRegion)
-            // )
-        } else {
+        // if (!window.token) {
+        //     // InteractionManager.runAfterInteractions(() =>
+        //     // msg.emit('browserecord:findGoodsByStore', this.props.defaultRegion)
+        //     // )
+        // } else {
 
             page = 0;
             dispatch(browseList(page));
-        }
+        // }
         this.props.navigation.setParams({
                 onPress: () => {
                     dispatch(browseClean());
@@ -58,7 +58,7 @@ class Browse extends Component {
         const hasMore = browseReducer.hasMore;
         const loadingMore = browseReducer.loadingMore;
 
-        if (window.token) {//已登录
+        // if (window.token) {//已登录
             return (
                 <View style={styles.container}>
 
@@ -114,7 +114,7 @@ class Browse extends Component {
 
                 </View>
             );
-        } else {//未登录
+        // } else {//未登录
             // if (this.dataSource.toJS().length > 0) {
             //     return (
             //         <View style={styles.container}>
@@ -153,7 +153,7 @@ class Browse extends Component {
             //         </View>
             //     );
             // }
-        }
+        // }
 
     }
 
