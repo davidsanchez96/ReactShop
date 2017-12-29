@@ -178,13 +178,6 @@ class Browse extends Component {
 
     }
 
-    _backToMemberCenter() {
-        if (__DEV__) {
-            console.log('backToMemberCenter');
-        }
-        window.selectedTab = 'memberCenter';
-        msg.emit('route:popToRouteAndRefresh', {sceneName: 'Home'})
-    }
 
     /**
      * render浏览记录
@@ -198,7 +191,9 @@ class Browse extends Component {
         return (
             <TouchableOpacity key={index} style={styles.rowView} activeOpacity={0.8}
                               onPress={() => {
-                                  msg.emit('route:goToNext', {sceneName: 'GoodsDetail', goodsInfoId: item.id})
+                                  this.props.navigation.navigate('GoodsDetail', {
+                                      goodsInfoId: item.id,
+                                  })
                               }}>
                 <View style={styles.imageView}>
                     <Image style={styles.image} source={{uri: item.image}}/>

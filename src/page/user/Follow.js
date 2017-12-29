@@ -168,7 +168,9 @@ class Follow extends Component {
             <SwipeOut right={this._renderSwipeOutBtns(item, index)}>
                 <TouchableOpacity key={index} style={styles.rowView} activeOpacity={0.8}
                                   onPress={() => {
-                                      msg.emit('route:goToNext', {sceneName: 'GoodsDetail', goodsInfoId: item.id})
+                                      this.props.navigation.navigate('GoodsDetail', {
+                                          goodsInfoId: item.id,
+                                      })
                                   }}>
                     <View style={styles.imageView}>
                         <Image style={styles.image} source={{uri: item.image}}/>

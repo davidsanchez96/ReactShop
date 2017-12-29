@@ -1,5 +1,5 @@
 import NetUtils from "../utils/NetUtils";
-import {BrowseCleanUrl, BrowseListUrl, FollowDeleteUrl, URL} from "../utils/Constant";
+import {BrowseAddUrl, BrowseCleanUrl, BrowseListUrl, FollowDeleteUrl, URL} from "../utils/Constant";
 import {
     BrowseListLoading, BrowseListShowMore, FollowAdd, FollowDelete, FollowListDelete, BrowseListLoaded, FollowState,
     NetError, BrowseListClean
@@ -53,13 +53,11 @@ export function browseClean() {
 
     }
 }
-export function followDelete(id,index) {
+export function browseAdd(data) {
     return (dispatch) => {
-
-        NetUtils.delete(FollowDeleteUrl + id,
+        NetUtils.post(BrowseAddUrl,data,
             (result) => {
                 console.log(result);
-                dispatch({type: FollowListDelete, data: index});
             },
             (error) => {
                 console.log(error);

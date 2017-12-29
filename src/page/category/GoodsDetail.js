@@ -28,6 +28,7 @@ import {reset} from "../../action/goodsListActions";
 import Loading from "../components/Loading";
 import Immutable from "immutable";
 import {followType} from "../../action/followActions";
+import {browseAdd} from "../../action/browseActions";
 
 const isAndroid = Platform.OS === 'android';
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -48,6 +49,7 @@ class GoodsDetail extends Component {
             this.props.dispatch(getAddress(this.props.navigation.state.params.goodsInfoId));
             this.props.dispatch(imageDetail(this.props.navigation.state.params.goodsInfoId));
             this.props.dispatch(specsDetail(this.props.navigation.state.params.goodsInfoId));
+            this.props.dispatch(browseAdd([this.props.navigation.state.params.goodsInfoId]));
             //查看商品详情
             // msg.emit('goods:detail', this.props.goodsInfoId);
             //
