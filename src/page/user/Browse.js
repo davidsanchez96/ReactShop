@@ -20,7 +20,7 @@ class Browse extends Component {
             headerRight:
                 (
                     <TouchableOpacity style={{padding: 10}} activeOpacity={0.8}
-                                      onPress={()=>navigation.state.params.onPress()}>
+                                      onPress={() => navigation.state.params.onPress()}>
                         <Text style={{color: '#999',}} allowFontScaling={false}>清空</Text>
                     </TouchableOpacity>
                 ),
@@ -45,7 +45,7 @@ class Browse extends Component {
         }
         this.props.navigation.setParams({
                 onPress: () => {
-                   dispatch(browseClean());
+                    dispatch(browseClean());
                 },
             }
         );
@@ -69,10 +69,9 @@ class Browse extends Component {
                             if (loading || reloading) {
                                 return null;
                             } else {
-                                return <View style={styles.noDataContainer}>
-                                    <Text style={styles.txt}
-                                          allowFontScaling={false}>浏览记录为空</Text>
-                                </View>
+                                return <Text style={styles.txt}
+                                             allowFontScaling={false}>浏览记录为空</Text>
+
                             }
                         }}
                         ListFooterComponent={() => {
@@ -328,7 +327,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         margin: 10,
     },
-})
+    txt: {
+        flex: 1,
+        fontSize: 16,
+        color: '#666',
+        alignSelf: 'center',
+        marginTop:120,
+    },
+});
 
 const mapStateToProps = (state) => ({
     browseReducer: state.get('browseReducer').toJS()

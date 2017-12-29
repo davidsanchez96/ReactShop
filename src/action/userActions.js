@@ -8,7 +8,7 @@ import {
 } from "../utils/Constant";
 import {
     Address,
-    NetError, UserBrowseRecord, UserFollow, UserLevel, UserLoaded, UserLoading, UserRecord,
+    NetError, UserBrowseRecord, UserFollow, UserLevel, UserLoaded, UserLoading, UserRecord, UserStatus,
     UserUnread
 } from "../utils/actionTypes";
 import Toast from 'react-native-root-toast';
@@ -77,7 +77,7 @@ export function userStatus() {
         NetUtils.get(UserStatusUrl,
             (result) => {
                 console.log(result);
-                dispatch({type: UserRecord, data: result});
+                dispatch({type: UserStatus, data: result});
             },
             (error) => {
                 console.log(error);

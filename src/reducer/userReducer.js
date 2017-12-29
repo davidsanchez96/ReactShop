@@ -35,7 +35,7 @@ export default function userReducer(state = initialState, action) {
             }).filter(onlyUnique).length);
 
         case types.UserStatus:
-            return state.set('orderCounts', action.data);
+            return state.set('orderCounts', Immutable.fromJS(action.data));
         case types.UserUnread:
             return state.set('message', action.data);
         case types.LoginUser:
@@ -52,6 +52,7 @@ export default function userReducer(state = initialState, action) {
             return state;
     }
 }
+
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
