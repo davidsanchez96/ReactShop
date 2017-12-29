@@ -219,6 +219,12 @@ export default function detailReducer(state = initialState, action) {
             return state.set('specVisible', action.data);
         case types.DetailNumber:
             return state.setIn(['spec', 'chosenNum'], action.data);
+        case types.FollowState:
+            return state.set('followerState', Immutable.fromJS(action.data));
+        case types.FollowAdd:
+            return state.set('followerState', true);
+        case types.FollowDelete:
+            return state.set('followerState', false);
         case types.Address:
             return state.withMutations((cursor) => {
                 cursor

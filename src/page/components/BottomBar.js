@@ -11,6 +11,7 @@ import {
     Animated,
     findNodeHandle
 } from 'react-native';
+import {followType} from "../../action/followActions";
 
 const {UIManager} = NativeModules;
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -39,7 +40,7 @@ export default class SearchHistory extends Component {
 
                 <View style={styles.navBar}>
                     <TouchableOpacity style={styles.navItem} activeOpacity={0.8}
-                                      onPress={this._handleFollow}>
+                                      onPress={()=>this._handleFollow()}>
                         <View style={{alignItems: 'center'}}>
                             {
                                 Platform.OS === 'android' ?
@@ -164,9 +165,17 @@ export default class SearchHistory extends Component {
 
 
     _handleFollow() {
-        if (this.props.goodsInfoExist) {
-            this.props.follower ? msg.emit('goods:cancelFollower') : msg.emit('goods:addFollower', this.props.goodsInfo.get('id'), false);
+
+        if(window.token){
+            if (this.props.goodsInfoExist) {
+                this.props.follower ? this.props.dispatch(followType(this.props.goodsInfo.get('id'),'delete')) :
+                    this.props.dispatch(followType(this.props.goodsInfo.get('id'),'add'));
+            }
+        }else {
+
+
         }
+
     }
 
 

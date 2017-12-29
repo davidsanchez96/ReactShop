@@ -1,8 +1,9 @@
 import NetUtils from "../utils/NetUtils";
-import {FollowDeleteUrl, FollowListUrl, SearchUrl} from "../utils/Constant";
+import {FollowDeleteUrl, FollowListUrl, SearchUrl, URL} from "../utils/Constant";
 import {
     NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore, GoodsListSearch, GoodsListReset,
-    GoodsListDescending, FollowListShowMore, FollowListLoading, FollowListLoaded, FollowListDelete
+    GoodsListDescending, FollowListShowMore, FollowListLoading, FollowListLoaded, FollowListDelete, FollowState,
+    FollowAdd, FollowDelete
 } from "../utils/actionTypes";
 import {
     AsyncStorage,
@@ -51,6 +52,48 @@ export function followDelete(id,index) {
                 console.log(error);
                 dispatch({type: NetError});
             });
+
+
+    }
+}
+export function followType(id,type) {
+    return (dispatch) => {
+        switch (type){
+            case 'add':
+                NetUtils.post(URL+`/goods/${id}/follower`,null,
+                    (result) => {
+                        console.log(result);
+                        dispatch({type: FollowAdd});
+                    },
+                    (error) => {
+                        console.log(error);
+                        dispatch({type: NetError});
+                    });
+                break;
+            case 'delete':
+                NetUtils.delete(URL+`/goods/${id}/follower`,
+                    (result) => {
+                        console.log(result);
+                        dispatch({type: FollowDelete});
+                    },
+                    (error) => {
+                        console.log(error);
+                        dispatch({type: NetError});
+                    });
+                break;
+            case 'get':
+                NetUtils.get(URL+`/goods/${id}/follower`,
+                    (result) => {
+                        console.log(result);
+                        dispatch({type: FollowState, data: result});
+                    },
+                    (error) => {
+                        console.log(error);
+                        dispatch({type: NetError});
+                    });
+                break;
+        }
+
 
 
     }

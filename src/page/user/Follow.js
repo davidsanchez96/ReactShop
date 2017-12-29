@@ -45,7 +45,7 @@ class Follow extends Component {
                             return null;
                         } else {
                             return <View style={styles.noDataContainer}>
-                                <Image style={[styles.emptyIcon, {marginBottom: 50}]}
+                                <Image style={styles.emptyIcon}
                                        source={require('../components/img/collect_empty.png')}/>
                                 <Text style={styles.txt}
                                       allowFontScaling={false}>您还没关注过宝贝</Text>
@@ -102,7 +102,7 @@ class Follow extends Component {
     }
 
 
-    _renderSwipeOutBtns(row,index) {
+    _renderSwipeOutBtns(row, index) {
         if (row.addedStatus == false || !this._checkStore(row)) {
             return (
                 [
@@ -116,7 +116,7 @@ class Follow extends Component {
                             if (__DEV__) {
                                 console.log("取消关注：", row.id);
                             }
-                            this.props.dispatch(followDelete(row.id,index))
+                            this.props.dispatch(followDelete(row.id, index))
                         }
                     }
                 ]
@@ -134,7 +134,7 @@ class Follow extends Component {
                             if (__DEV__) {
                                 console.log("取消关注：", row.id);
                             }
-                           this.props.dispatch(followDelete(row.id,index))
+                            this.props.dispatch(followDelete(row.id, index))
                         }
                     }, {
                     text: '加购物车',
@@ -165,28 +165,28 @@ class Follow extends Component {
     _renderItem = ({item, index}) => {
 
         return (
-            <SwipeOut right={this._renderSwipeOutBtns(item,index)}>
-            <TouchableOpacity key={index} style={styles.rowView} activeOpacity={0.8}
-                              onPress={() => {
-                                  msg.emit('route:goToNext', {sceneName: 'GoodsDetail', goodsInfoId: item.id})
-                              }}>
-                <View style={styles.imageView}>
-                    <Image style={styles.image} source={{uri: item.image}}/>
-                    {this._renderStatus(item)}
-                </View>
-                <View style={styles.textView}>
-                    <View style={styles.subRowFirst}>
-                        <Text style={{lineHeight: 20}} numberOfLines={2} allowFontScaling={false}>{item.name}</Text>
+            <SwipeOut right={this._renderSwipeOutBtns(item, index)}>
+                <TouchableOpacity key={index} style={styles.rowView} activeOpacity={0.8}
+                                  onPress={() => {
+                                      msg.emit('route:goToNext', {sceneName: 'GoodsDetail', goodsInfoId: item.id})
+                                  }}>
+                    <View style={styles.imageView}>
+                        <Image style={styles.image} source={{uri: item.image}}/>
+                        {this._renderStatus(item)}
                     </View>
-                    <View style={styles.subRowSecond}>
-                        <Text numberOfLines={1} style={styles.money}
-                              allowFontScaling={false}>￥{item.storeList ? item.storeList[0].price : item.preferPrice}</Text>
-                        {/*<Text*/}
-                        {/*style={styles.praiseInfo}*/}
-                        {/*allowFontScaling={false}>好评{Math.floor(Math.random() * 100 + 1) + '%'}&nbsp;{Math.floor(Math.random() * 1000 + 1)}人</Text>*/}
+                    <View style={styles.textView}>
+                        <View style={styles.subRowFirst}>
+                            <Text style={{lineHeight: 20}} numberOfLines={2} allowFontScaling={false}>{item.name}</Text>
+                        </View>
+                        <View style={styles.subRowSecond}>
+                            <Text numberOfLines={1} style={styles.money}
+                                  allowFontScaling={false}>￥{item.storeList ? item.storeList[0].price : item.preferPrice}</Text>
+                            {/*<Text*/}
+                            {/*style={styles.praiseInfo}*/}
+                            {/*allowFontScaling={false}>好评{Math.floor(Math.random() * 100 + 1) + '%'}&nbsp;{Math.floor(Math.random() * 1000 + 1)}人</Text>*/}
+                        </View>
                     </View>
-                </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
             </SwipeOut>
         );
     }
@@ -280,17 +280,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     noDataContainer: {
-        width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT,
+
         justifyContent: 'center',
         alignItems: 'center'
     },
     emptyIcon: {
         width: 110,
         height: 110,
-        marginBottom: 10
+        marginTop: 120,
+        marginBottom: 50
     },
     txt: {
+        flex: 1,
         fontSize: 16,
         color: '#666'
     },

@@ -69,6 +69,9 @@ export const DetailNumber = 'DetailNumber';
 export const SelectSpec = 'SelectSpec';
 export const DetailClean = 'DetailClean';
 export const DetailStock = 'DetailStock';
+export const FollowState = 'FollowState';
+export const FollowAdd = 'FollowAdd';
+export const FollowDelete = 'FollowDelete';
 /**
  *comment
  **/

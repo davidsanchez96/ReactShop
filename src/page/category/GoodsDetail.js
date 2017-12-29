@@ -27,6 +27,7 @@ import {DetailClean, DetailTab, SpecsDetailVisible} from "../../utils/actionType
 import {reset} from "../../action/goodsListActions";
 import Loading from "../components/Loading";
 import Immutable from "immutable";
+import {followType} from "../../action/followActions";
 
 const isAndroid = Platform.OS === 'android';
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -54,11 +55,11 @@ class GoodsDetail extends Component {
             // //查询商品图文详情
             // msg.emit("goods:goodsImageDetail", this.props.goodsInfoId);
             // //登录后执行
-            // if (window.token) {
-            //     msg.emit('goods:followerState', this.props.goodsInfoId);
-            //     //购车统计
-            //     msg.emit('goods:countShoppingCart');
-            // }
+            if (window.token) {
+                this.props.dispatch(followType(this.props.navigation.state.params.goodsInfoId,'get'));
+                //购车统计
+                // msg.emit('goods:countShoppingCart');
+            }
         });
     }
 
@@ -84,7 +85,7 @@ class GoodsDetail extends Component {
         //购物车图片状态
         //this._shoppingGoodsView = store.get('shoppingGoodsView');
         //关注状态
-        this._followerState = store.get('followerState');
+        const followerState = store.get('followerState');
         //商品规格参数
         this._spuParamItems = store.get('spuParamItems');
         //商品规格参数选中状态
@@ -187,10 +188,12 @@ class GoodsDetail extends Component {
                     shoppingCount={this._shoppingCartNum}
                     //goodsView={this._shoppingGoodsView}
                     goodsInfo={this._goodsInfo}
-                    follower={this._followerState}
+                    follower={followerState}
                     storeInfo={store.get('storeInfo')}
                     spec={this._spec}
                     region={this._region}
+                    dispatch={dispatch}
+                    navigation={navigation}
                     goodsInfoExist={this._goodsInfoExist}
                 />
                 <SlideMenu
