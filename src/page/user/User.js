@@ -13,7 +13,8 @@ import {
     Platform,
     Animated,
     Dimensions,
-    InteractionManager
+    InteractionManager,
+    RefreshControl,
 } from 'react-native';
 
 import {connect} from "react-redux";
@@ -34,6 +35,7 @@ class User extends Component {
         return !Immutable.is(Immutable.Map(this.props.userReducer), Immutable.Map(nextProps.userReducer)) ||
             !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
     }
+
     static navigationOptions = ({navigation}) => {
         return {
             tabBarLabel: '我的',
@@ -96,16 +98,34 @@ class User extends Component {
     }
 
     render() {
-        const {userReducer,navigation} = this.props;
-        const isLoading = userReducer.getIn('loading');
+        const {userReducer, navigation,dispatch} = this.props;
+        const isLoading = userReducer.get('loading');
 
         return (
-            <View style={styles.container}>
 
 
-                <ScrollView automaticallyAdjustContentInsets={false} bounces={false}>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isLoading}
+                            onRefresh={()=>{
+                                if (window.token) {
+                                    dispatch(user());
+                                    dispatch(userLevel());
+                                    dispatch(userFollow());
+                                    dispatch(userRecord());
+                                    dispatch(userStatus());
+                                    dispatch(userUnread());
+                                    dispatch(userOrder());
+                                } else {
+                                    dispatch(browse());
+                                }
+                            }}
+                        />
+                    }
+                >
 
-                    {this._renderImageContent(userReducer,navigation)}
+                    {this._renderImageContent(userReducer, navigation)}
 
                     {this._renderMyOrderContent()}
                     {/*待付款 + 待收货 + 退款退货*/}
@@ -120,15 +140,13 @@ class User extends Component {
 
                 </ScrollView>
 
-
-            </View>
         );
     }
 
     /**
      * 首页头部渲染
      */
-    _renderImageContent(userReducer,navigation) {
+    _renderImageContent(userReducer, navigation) {
         const store = userReducer;
         const followTotal = store.getIn(['follows', 'total']) || 0;
         const browserecordTotal = store.getIn(['browserecord', 'total']) || 0;
@@ -190,7 +208,7 @@ class User extends Component {
                                 <View style={styles.headLogin}>
                                     <View style={styles.imgBox}>
                                         <ImageBackground source={require('../components/img/unlogin_img.png')}
-                                               style={[styles.logo, {marginLeft: 0}]}>
+                                                         style={[styles.logo, {marginLeft: 0}]}>
                                             <Text style={styles.unlogin} allowFontScaling={false}>登录</Text>
                                         </ImageBackground>
                                     </View>
@@ -200,7 +218,7 @@ class User extends Component {
                 </View>
                 {/*关注 + 浏览记录*/}
                 <View style={styles.attention}>
-                    <TouchableOpacity onPress={()=>{
+                    <TouchableOpacity onPress={() => {
                         navigation.navigate('Follow')
                     }} style={styles.attentionColumn} activeOpacity={0.8}>
                         <Text style={styles.attentionColumnRow} allowFontScaling={false}>{followTotal}</Text>
