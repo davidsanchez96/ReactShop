@@ -31,7 +31,9 @@ export default function browseReducer(state = initialState, action) {
                 state.set('loadingMore', false);
                 state.deleteIn(['data', action.data],);
             });
-        case types.NetError:
+        case types.BrowseListClean:
+            return state.set('data', []).set('loading', false);
+         case types.NetError:
             return state.set('loading', false);
         case types.BrowseListShowMore:
             return state.set('loadingMore', true);

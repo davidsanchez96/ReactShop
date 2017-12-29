@@ -28,7 +28,7 @@ class FilterPanel extends Component {
             headerRight:
                 (
                     <TouchableOpacity style={{padding: 10}} activeOpacity={0.8}
-                                      onPress={navigation.state.params.onPress}>
+                                      onPress={()=>navigation.state.params.onPress()}>
                         <Text style={{color: '#999',}} allowFontScaling={false}>确定</Text>
                     </TouchableOpacity>
                 ),

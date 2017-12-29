@@ -8,7 +8,7 @@ import {
 
 import Immutable from "immutable";
 import {connect} from "react-redux";
-import {browseList} from "../../action/browseActions";
+import {browseClean, browseList} from "../../action/browseActions";
 
 
 let page = 0;
@@ -19,7 +19,8 @@ class Browse extends Component {
             title: '浏览记录',
             headerRight:
                 (
-                    <TouchableOpacity style={{padding: 10}} activeOpacity={0.8}>
+                    <TouchableOpacity style={{padding: 10}} activeOpacity={0.8}
+                                      onPress={()=>navigation.state.params.onPress()}>
                         <Text style={{color: '#999',}} allowFontScaling={false}>清空</Text>
                     </TouchableOpacity>
                 ),
@@ -44,7 +45,7 @@ class Browse extends Component {
         }
         this.props.navigation.setParams({
                 onPress: () => {
-
+                   dispatch(browseClean());
                 },
             }
         );

@@ -198,3 +198,4 @@ export const BrowseListLoading = 'BrowseListLoading';
 export const BrowseListShowMore = 'BrowseListShowMore';
 export const BrowseListLoaded = 'BrowseListLoaded';
 export const BrowseListDelete = 'BrowseListDelete';
+export const BrowseListClean = 'BrowseListClean';

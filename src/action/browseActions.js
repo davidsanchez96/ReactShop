@@ -1,8 +1,8 @@
 import NetUtils from "../utils/NetUtils";
-import {BrowseListUrl, FollowDeleteUrl, URL} from "../utils/Constant";
+import {BrowseCleanUrl, BrowseListUrl, FollowDeleteUrl, URL} from "../utils/Constant";
 import {
     BrowseListLoading, BrowseListShowMore, FollowAdd, FollowDelete, FollowListDelete, BrowseListLoaded, FollowState,
-    NetError
+    NetError, BrowseListClean
 } from "../utils/actionTypes";
 import {AsyncStorage,} from 'react-native';
 
@@ -37,6 +37,22 @@ export function browseList(pageNum) {
     }
 }
 
+export function browseClean() {
+    return (dispatch) => {
+        dispatch({type: BrowseListLoading});
+        NetUtils.delete(BrowseCleanUrl,
+            (result) => {
+                console.log(result);
+                dispatch({type: BrowseListClean,});
+            },
+            (error) => {
+                console.log(error);
+                dispatch({type: NetError});
+            });
+
+
+    }
+}
 export function followDelete(id,index) {
     return (dispatch) => {
 
