@@ -42,10 +42,10 @@ class Login extends Component {
     }
 
     componentDidUpdate() {
-        const {loginReducer, navigation, dispatch} = this.props;
+        const {loginReducer, navigation} = this.props;
         if (loginReducer.get('isSuccess')) {
+            navigation.state.params.loginBack();
             navigation.goBack();
-            dispatch({type: Refresh})
         }
     }
 

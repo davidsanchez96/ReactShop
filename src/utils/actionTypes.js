@@ -8,7 +8,6 @@ export const Address = 'Address';
 export const Show = 'show';
 export const Change = 'change';
 export const Number = 'Number';
-export const Refresh = 'Refresh';
 /**
  * category
  */

@@ -95,21 +95,6 @@ class User extends Component {
             toValue: 1,
             duration: 300
         }).start();
-        const {userReducer, dispatch} = this.props;
-        if (userReducer.get('refresh')) {
-            if (window.token) {
-                dispatch(user());
-                dispatch(userLevel());
-                dispatch(userFollow());
-                dispatch(userRecord());
-                dispatch(userStatus());
-                dispatch(userUnread());
-                dispatch(userOrder());
-            } else {
-                dispatch(browse());
-            }
-        }
-
     }
 
     render() {
@@ -140,7 +125,7 @@ class User extends Component {
                 }
             >
 
-                {this._renderImageContent(userReducer, navigation)}
+                {this._renderImageContent(userReducer, navigation, dispatch)}
 
                 {this._renderMyOrderContent()}
                 {/*待付款 + 待收货 + 退款退货*/}
@@ -161,7 +146,7 @@ class User extends Component {
     /**
      * 首页头部渲染
      */
-    _renderImageContent(userReducer, navigation) {
+    _renderImageContent(userReducer, navigation, dispatch) {
         const store = userReducer;
         const followTotal = store.getIn(['follows', 'total']) || 0;
         const browserecordTotal = store.getIn(['browserecord', 'total']) || 0;
@@ -186,7 +171,11 @@ class User extends Component {
                         window.token
                             ?
                             <TouchableOpacity onPress={() => {
-                                navigation.navigate('Account');
+                                navigation.navigate('Account', {
+                                    exitBack: () => {
+                                        dispatch(browse());
+                                    }
+                                });
                             }
                             } style={styles.head} activeOpacity={0.8}>
                                 <View style={styles.headRight}>
@@ -216,7 +205,17 @@ class User extends Component {
                             </TouchableOpacity>
                             :
                             <TouchableOpacity onPress={() => {
-                                navigation.navigate('Login');
+                                navigation.navigate('Login', {
+                                    loginBack: () => {
+                                        dispatch(user());
+                                        dispatch(userLevel());
+                                        dispatch(userFollow());
+                                        dispatch(userRecord());
+                                        dispatch(userStatus());
+                                        dispatch(userUnread());
+                                        dispatch(userOrder());
+                                    }
+                                });
                             }}
                                               style={styles.head}
                                               activeOpacity={0.8}>

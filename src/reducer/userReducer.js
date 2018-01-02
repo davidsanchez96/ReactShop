@@ -15,17 +15,14 @@ const initialState = Immutable.fromJS({
     storage: {},
     showDefault: false,
     pointIsOpen: false,
-    refresh: false,
 });
 
 export default function userReducer(state = initialState, action) {
     switch (action.type) {
         case types.UserLoading:
             return state.set('loading', true);
-        case types.Refresh:
-            return state.set('refresh', true);
         case types.UserLoaded:
-            return state.set('customer', Immutable.fromJS(action.data)).set('loading', false).set('refresh', false);
+            return state.set('customer', Immutable.fromJS(action.data)).set('loading', false);
         case types.UserLevel:
             return state.set('point', action.data);
         case types.UserFollow:
@@ -33,7 +30,7 @@ export default function userReducer(state = initialState, action) {
         case types.UserRecord:
             return state.set('browserecord', Immutable.fromJS(action.data));
         case types.UserBrowseRecord:
-            return state.set('refresh', false).setIn(['browserecord', 'total'], JSON.parse(action.data).map(function (t) {
+            return initialState.setIn(['browserecord', 'total'], JSON.parse(action.data).map(function (t) {
                 return t.goodsId
             }).filter(onlyUnique).length);
         case types.UserStatus:

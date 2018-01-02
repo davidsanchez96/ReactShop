@@ -166,7 +166,7 @@ class Account extends Component {
                             activeOpacity={0.8}
                             style={styles.btnContainer}
                             onPress={
-                                () => this._handleLogout(navigation,dispatch)
+                                () => this._handleLogout(navigation)
                             }>
                             <Text
                                 style={styles.text}
@@ -330,7 +330,7 @@ class Account extends Component {
      * 退出登录
      * @private
      */
-    async _handleLogout(navigation,dispatch) {
+    async _handleLogout(navigation) {
         try {
 
             if (__DEV__) {
@@ -350,7 +350,7 @@ class Account extends Component {
                 //     JPushModule.setBadge(0, (badgeNumber) => {
                 //     });
                 // }
-                dispatch({type: Refresh});
+                navigation.state.params.exitBack();
                 navigation.goBack();
 
             } catch (err) {
