@@ -233,7 +233,17 @@ class User extends Component {
                 {/*关注 + 浏览记录*/}
                 <View style={styles.attention}>
                     <TouchableOpacity onPress={() => {
-                        navigation.navigate('Follow')
+                        navigation.navigate('Follow',{
+                            loginBack: () => {
+                                dispatch(user());
+                                dispatch(userLevel());
+                                dispatch(userFollow());
+                                dispatch(userRecord());
+                                dispatch(userStatus());
+                                dispatch(userUnread());
+                                dispatch(userOrder());
+                            }
+                        });
                     }} style={styles.attentionColumn} activeOpacity={0.8}>
                         <Text style={styles.attentionColumnRow} allowFontScaling={false}>{followTotal}</Text>
                         <Text style={styles.attentionColumnRow} allowFontScaling={false}>关注的商品</Text>

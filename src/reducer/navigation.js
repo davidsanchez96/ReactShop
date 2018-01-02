@@ -11,10 +11,16 @@ const initialState = Immutable.Map(
 export default function nav(state = initialState, action) {
     switch (action.routeName) {
         case 'Follow':
-            return state.merge(AppNavigator.router.getStateForAction(
-                NavigationActions.navigate({routeName: 'Login'}),
-                state.toJS()
-            ));
+            if(window.token){
+                const newState = state.merge(AppNavigator.router.getStateForAction(action, state.toJS()));
+                return newState || state;
+            }else {
+                return state.merge(AppNavigator.router.getStateForAction(
+                    NavigationActions.navigate({routeName: 'Login',params: action.params,}),
+                    state.toJS()
+                ));
+            }
+
         default:
             const newState = state.merge(AppNavigator.router.getStateForAction(action, state.toJS()));
             return newState || state;

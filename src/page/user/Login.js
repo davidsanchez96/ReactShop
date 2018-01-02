@@ -44,7 +44,9 @@ class Login extends Component {
     componentDidUpdate() {
         const {loginReducer, navigation} = this.props;
         if (loginReducer.get('isSuccess')) {
-            navigation.state.params.loginBack();
+            if(navigation.state.params.loginBack){
+                navigation.state.params.loginBack();
+            }
             navigation.goBack();
         }
     }
