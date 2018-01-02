@@ -193,10 +193,16 @@ export const FollowListShowMore = 'FollowListShowMore';
 export const FollowListLoaded = 'FollowListLoaded';
 export const FollowListDelete = 'FollowListDelete';
 /**
- *follow
+ *Browse
  **/
 export const BrowseListLoading = 'BrowseListLoading';
 export const BrowseListShowMore = 'BrowseListShowMore';
 export const BrowseListLoaded = 'BrowseListLoaded';
 export const BrowseListDelete = 'BrowseListDelete';
 export const BrowseListClean = 'BrowseListClean';
+/**
+ *preDeposit
+ **/
+export const PreDepositLoading = 'PreDepositLoading';
+export const PreDepositLoaded = 'PreDepositLoaded';
+export const PreDepositCode = 'PreDepositCode';

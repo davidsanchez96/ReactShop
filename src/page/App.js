@@ -48,6 +48,7 @@ import ModifyPhoneSecond from "./user/account/ModifyPhoneSecond";
 import ModifyPhoneThird from "./user/account/ModifyPhoneThird";
 import Follow from "./user/Follow";
 import Browse from "./user/Browse";
+import PreDeposit from "./user/PreDeposit";
 
 
 const HomeNavigator = TabNavigator({
@@ -185,6 +186,9 @@ export const AppNavigator = StackNavigator({
         },
         Browse: {
             screen: Browse,
+        },
+        PreDeposit: {
+            screen: PreDeposit,
         },
     },
     {

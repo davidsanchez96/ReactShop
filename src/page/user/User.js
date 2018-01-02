@@ -133,7 +133,7 @@ class User extends Component {
 
                 {this._renderMyAssets()}
 
-                {this._renderAssets()}
+                {this._renderAssets(navigation,dispatch)}
 
                 {this._renderItemContent(userReducer)}
 
@@ -234,15 +234,7 @@ class User extends Component {
                 <View style={styles.attention}>
                     <TouchableOpacity onPress={() => {
                         navigation.navigate('Follow',{
-                            loginBack: () => {
-                                dispatch(user());
-                                dispatch(userLevel());
-                                dispatch(userFollow());
-                                dispatch(userRecord());
-                                dispatch(userStatus());
-                                dispatch(userUnread());
-                                dispatch(userOrder());
-                            }
+                            loginBack: ()=>this.loginBack(dispatch)
                         });
                     }} style={styles.attentionColumn} activeOpacity={0.8}>
                         <Text style={styles.attentionColumnRow} allowFontScaling={false}>{followTotal}</Text>
@@ -354,13 +346,17 @@ class User extends Component {
     }
 
 // 预存款 提现记录 积分 优惠券
-    _renderAssets() {
+    _renderAssets(navigation,dispatch) {
         return (
             <View style={styles.contentBox}>
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.contentItem}
-                    onPress={() => msg.emit('route:goToNext', {sceneName: 'PreDeposit'})}>
+                    onPress={() =>{
+                        navigation.navigate('PreDeposit',{
+                            loginBack: ()=>this.loginBack(dispatch)
+                        });
+                    }}>
                     <Image source={require('../components/img/pre-deposit.png')} style={styles.contentImage}/>
                     <Text allowFontScaling={false} style={styles.contentText}>预存款</Text>
                 </TouchableOpacity>
@@ -419,7 +415,15 @@ class User extends Component {
         )
     }
 
-
+    loginBack(dispatch){
+        dispatch(user());
+        dispatch(userLevel());
+        dispatch(userFollow());
+        dispatch(userRecord());
+        dispatch(userStatus());
+        dispatch(userUnread());
+        dispatch(userOrder());
+    };
     /**
      * 看浏览记录
      * @private
