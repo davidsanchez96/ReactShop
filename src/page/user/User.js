@@ -95,6 +95,21 @@ class User extends Component {
             toValue: 1,
             duration: 300
         }).start();
+        const {userReducer, dispatch} = this.props;
+        if (userReducer.get('refresh')) {
+            if (window.token) {
+                dispatch(user());
+                dispatch(userLevel());
+                dispatch(userFollow());
+                dispatch(userRecord());
+                dispatch(userStatus());
+                dispatch(userUnread());
+                dispatch(userOrder());
+            } else {
+                dispatch(browse());
+            }
+        }
+
     }
 
     render() {

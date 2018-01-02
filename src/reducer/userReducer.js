@@ -14,15 +14,18 @@ const initialState = Immutable.fromJS({
     guessUserLikeBarVisible: false,
     storage: {},
     showDefault: false,
-    pointIsOpen: false
+    pointIsOpen: false,
+    refresh: false,
 });
 
 export default function userReducer(state = initialState, action) {
     switch (action.type) {
         case types.UserLoading:
             return state.set('loading', true);
+        case types.Refresh:
+            return state.set('refresh', true);
         case types.UserLoaded:
-            return state.set('customer', Immutable.fromJS(action.data)).set('loading', false);
+            return state.set('customer', Immutable.fromJS(action.data)).set('loading', false).set('refresh', false);
         case types.UserLevel:
             return state.set('point', action.data);
         case types.UserFollow:
@@ -30,24 +33,15 @@ export default function userReducer(state = initialState, action) {
         case types.UserRecord:
             return state.set('browserecord', Immutable.fromJS(action.data));
         case types.UserBrowseRecord:
-            return state.setIn(['browserecord', 'total'], JSON.parse(action.data).map(function (t) {
+            return state.set('refresh', false).setIn(['browserecord', 'total'], JSON.parse(action.data).map(function (t) {
                 return t.goodsId
             }).filter(onlyUnique).length);
-
         case types.UserStatus:
             return state.set('orderCounts', Immutable.fromJS(action.data));
         case types.UserUnread:
             return state.set('message', action.data);
-        case types.LoginUser:
-            return state.set('user', action.user);
-        case types.LoginPass:
-            return state.set('isHide', !state.get('isHide'));
-        case types.LoginLoaded:
-            return state.set('loading', false).set('isSuccess', true);
         case types.NetError:
             return state.set('loading', false);
-        case types.LoginClean:
-            return initialState;
         default:
             return state;
     }

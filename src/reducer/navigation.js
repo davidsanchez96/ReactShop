@@ -10,7 +10,7 @@ const initialState = Immutable.Map(
 
 export default function nav(state = initialState, action) {
     switch (action.routeName) {
-        case '':
+        case 'Follow':
             return state.merge(AppNavigator.router.getStateForAction(
                 NavigationActions.navigate({routeName: 'Login'}),
                 state.toJS()

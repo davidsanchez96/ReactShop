@@ -2,21 +2,13 @@
 
 import React, {Component} from 'react';
 import {
+    AsyncStorage, Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity,
     View,
-    Text,
-    TextInput,
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-    AsyncStorage,
-    ScrollView,
-    Dimensions,
-    PixelRatio
 } from 'react-native';
 
 
 import {connect} from "react-redux";
-import {DetailClean, LoginClean, LoginPass, LoginPassword, LoginUser} from "../../utils/actionTypes";
+import {LoginClean, LoginPass, LoginPassword, LoginUser, Refresh} from "../../utils/actionTypes";
 import {login} from "../../action/loginActions";
 import Immutable from "immutable";
 import Loading from "../components/Loading";
@@ -49,102 +41,105 @@ class Login extends Component {
             !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
     }
 
-    componentWillUpdate() {
-        const {loginReducer, navigation} = this.props;
+    componentDidUpdate() {
+        const {loginReducer, navigation, dispatch} = this.props;
         if (loginReducer.get('isSuccess')) {
             navigation.goBack();
+            dispatch({type: Refresh})
         }
     }
+
     componentWillUnmount() {
         this.props.dispatch({type: LoginClean});
     }
+
     render() {
-        const {loginReducer, dispatch,navigation} = this.props;
+        const {loginReducer, dispatch, navigation} = this.props;
         const store = loginReducer;
         let disabled = true;
 
         return (
-                <View style={styles.loginContainer}>
-                    {/*帐号*/}
-                    <Loading visible={loginReducer.get('loading')}/>
-                    <Image style={styles.banner} source={require('../components/img/loginBanner.png')}/>
-                    <View style={styles.inputBox}>
-                        <View style={styles.inputItem}>
-                            <Text style={styles.label} allowFontScaling={false}>账号：</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder='用户名/手机号/邮箱'
-                                placeholderTextColor='#ddd'
-                                value={store.get('user')}
-                                underlineColorAndroid='transparent'
-                                onChangeText={(user) => {
-                                    dispatch({type: LoginUser, user: user})
-                                }}/>
-                        </View>
-
-                        {/*密码*/}
-                        <Image style={{width: SCREEN_WIDTH}} source={require('../components/img/line.png')}/>
-                        <View style={[styles.inputItem, {
-                            paddingTop: 10,
-                            paddingBottom: 10
-                        }]}>
-                            <Text style={styles.label} allowFontScaling={false}>密码：</Text>
-                            <TextInput
-                                style={styles.input}
-                                clearButtonMode='while-editing'
-                                placeholder='请输入密码'
-                                placeholderTextColor='#ddd'
-                                secureTextEntry={store.get('isHide')}
-                                value={store.get('password')}
-                                underlineColorAndroid='transparent'
-                                onChangeText={(password) => {
-                                    dispatch({type: LoginPassword, password: password})
-                                }}/>
-                            <TouchableOpacity
-                                activeOpacity={0.6}
-                                onPress={() => {
-                                    dispatch({type: LoginPass})
-                                }}>
-                                <Image
-                                    style={[styles.eye,]}
-                                    resizeMode='cover'
-                                    source={store.get('isHide')
-                                        ? require('../components/img/eye-close.png')
-                                        : require('../components/img/eye-open.png')}
-                                />
-                            </TouchableOpacity>
-                        </View>
+            <View style={styles.loginContainer}>
+                {/*帐号*/}
+                <Loading visible={loginReducer.get('loading')}/>
+                <Image style={styles.banner} source={require('../components/img/loginBanner.png')}/>
+                <View style={styles.inputBox}>
+                    <View style={styles.inputItem}>
+                        <Text style={styles.label} allowFontScaling={false}>账号：</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='用户名/手机号/邮箱'
+                            placeholderTextColor='#ddd'
+                            value={store.get('user')}
+                            underlineColorAndroid='transparent'
+                            onChangeText={(user) => {
+                                dispatch({type: LoginUser, user: user})
+                            }}/>
                     </View>
 
-                    {/*登录按钮*/}
-                    <View style={styles.wrap}>
-
+                    {/*密码*/}
+                    <Image style={{width: SCREEN_WIDTH}} source={require('../components/img/line.png')}/>
+                    <View style={[styles.inputItem, {
+                        paddingTop: 10,
+                        paddingBottom: 10
+                    }]}>
+                        <Text style={styles.label} allowFontScaling={false}>密码：</Text>
+                        <TextInput
+                            style={styles.input}
+                            clearButtonMode='while-editing'
+                            placeholder='请输入密码'
+                            placeholderTextColor='#ddd'
+                            secureTextEntry={store.get('isHide')}
+                            value={store.get('password')}
+                            underlineColorAndroid='transparent'
+                            onChangeText={(password) => {
+                                dispatch({type: LoginPassword, password: password})
+                            }}/>
                         <TouchableOpacity
-                            disabled={!(store.get('user') && store.get('password'))}
-                            activeOpacity={0.8}
-                            style={[styles.btnContainer, !(store.get('user') && store.get('password')) ? styles.disabled : {}]}
+                            activeOpacity={0.6}
                             onPress={() => {
-                                if (store.get('user') && store.get('password') && disabled) {
-                                    disabled = false;
-                                    dispatch(login(loginReducer.get('user'), loginReducer.get('password')))
-                                }
+                                dispatch({type: LoginPass})
                             }}>
-                            <Text
-                                style={[styles.btn, !(store.get('user') && store.get('password')) ? styles.disabledText : {}]}
-                                allowFontScaling={false}>
-                                登录
-                            </Text>
+                            <Image
+                                style={[styles.eye,]}
+                                resizeMode='cover'
+                                source={store.get('isHide')
+                                    ? require('../components/img/eye-close.png')
+                                    : require('../components/img/eye-open.png')}
+                            />
                         </TouchableOpacity>
-
-                        <View style={styles.quick}>
-                            {/*<Text style={styles.quickTitle} onPress={() => this._quickRegister()} allowFontScaling={false}>手机快速注册</Text>*/}
-                            <Text style={styles.quickTitle} onPress={() => {
-                                navigation.navigate('FindPasswordFirst');
-                            }}
-                                  allowFontScaling={false}>找回密码</Text>
-                        </View>
                     </View>
                 </View>
+
+                {/*登录按钮*/}
+                <View style={styles.wrap}>
+
+                    <TouchableOpacity
+                        disabled={!(store.get('user') && store.get('password'))}
+                        activeOpacity={0.8}
+                        style={[styles.btnContainer, !(store.get('user') && store.get('password')) ? styles.disabled : {}]}
+                        onPress={() => {
+                            if (store.get('user') && store.get('password') && disabled) {
+                                disabled = false;
+                                dispatch(login(loginReducer.get('user'), loginReducer.get('password')))
+                            }
+                        }}>
+                        <Text
+                            style={[styles.btn, !(store.get('user') && store.get('password')) ? styles.disabledText : {}]}
+                            allowFontScaling={false}>
+                            登录
+                        </Text>
+                    </TouchableOpacity>
+
+                    <View style={styles.quick}>
+                        {/*<Text style={styles.quickTitle} onPress={() => this._quickRegister()} allowFontScaling={false}>手机快速注册</Text>*/}
+                        <Text style={styles.quickTitle} onPress={() => {
+                            navigation.navigate('FindPasswordFirst');
+                        }}
+                              allowFontScaling={false}>找回密码</Text>
+                    </View>
+                </View>
+            </View>
 
 
         );
@@ -180,7 +175,6 @@ class Login extends Component {
     // },
 
 
-
 }
 
 
@@ -203,8 +197,8 @@ var styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingTop: 5,
         paddingBottom: 5,
-        borderTopWidth: 1 / PixelRatio.get(),
-        borderBottomWidth: 2 / PixelRatio.get(),
+        borderTopWidth: 1 ,
+        borderBottomWidth: 2 ,
         borderTopColor: '#eee',
         borderBottomColor: '#eee'
     },

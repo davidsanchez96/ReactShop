@@ -8,6 +8,7 @@ export const Address = 'Address';
 export const Show = 'show';
 export const Change = 'change';
 export const Number = 'Number';
+export const Refresh = 'Refresh';
 /**
  * category
  */
@@ -134,6 +135,7 @@ export const AddressValue = 'AddressValue';
 export const AddAddressSelect = 'AddAddressSelect';
 export const AddAddressClean = 'AddAddressClean';
 export const AddAddressGet = 'AddAddressGet';
+
 /**
  *security
  **/

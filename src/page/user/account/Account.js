@@ -9,7 +9,7 @@ import moment from 'moment';
 import {connect} from "react-redux";
 import NavItem from "../../components/NavItem";
 import {user} from "../../../action/userActions";
-import {GenderSet, NicknameSet} from "../../../utils/actionTypes";
+import {GenderSet, NicknameSet, Refresh} from "../../../utils/actionTypes";
 import DatePicker from 'react-native-datepicker';
 import {changeBirthday} from "../../../action/birthdayActions";
 import Immutable from "immutable";
@@ -35,7 +35,7 @@ class Account extends Component {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.props.dispatch(user());
+            // this.props.dispatch(user());
         })
     }
 
@@ -51,7 +51,6 @@ class Account extends Component {
             case '1':
                 gender = '男';
                 break;
-                ;
             case '2':
                 gender = '女';
                 break;
@@ -167,7 +166,7 @@ class Account extends Component {
                             activeOpacity={0.8}
                             style={styles.btnContainer}
                             onPress={
-                                () => this._handleLogout(navigation)
+                                () => this._handleLogout(navigation,dispatch)
                             }>
                             <Text
                                 style={styles.text}
@@ -331,7 +330,7 @@ class Account extends Component {
      * 退出登录
      * @private
      */
-    async _handleLogout(navigation) {
+    async _handleLogout(navigation,dispatch) {
         try {
 
             if (__DEV__) {
@@ -351,8 +350,9 @@ class Account extends Component {
                 //     JPushModule.setBadge(0, (badgeNumber) => {
                 //     });
                 // }
-
+                dispatch({type: Refresh});
                 navigation.goBack();
+
             } catch (err) {
                 if (__DEV__) {
                     console.log(err);
