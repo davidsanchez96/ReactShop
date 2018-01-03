@@ -376,7 +376,11 @@ class User extends Component {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.contentItem}
-                    onPress={() => msg.emit('route:goToNext', {sceneName: 'MyIntegral'})}>
+                    onPress={() => {
+                        navigation.navigate('Integration', {
+                            loginBack: () => this.loginBack(dispatch)
+                        });
+                    }}>
                     <Image source={require('../components/img/integral.png')} style={styles.contentImage}/>
                     <Text allowFontScaling={false} style={styles.contentText}>积分</Text>
                 </TouchableOpacity>

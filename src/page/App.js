@@ -1,17 +1,6 @@
 import React from 'react';
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    Image,
-    StyleSheet,
-} from 'react-native'
-import {
-    TabNavigator,
-    StackNavigator,
-    NavigationActions,
-    addNavigationHelpers
-} from 'react-navigation';
+import {BackHandler, Image, StyleSheet, TouchableOpacity, View,} from 'react-native'
+import {addNavigationHelpers, NavigationActions, StackNavigator, TabNavigator} from 'react-navigation';
 import Main from './main/Main';
 import Goods from './category/Category';
 import {connect} from 'react-redux';
@@ -19,7 +8,6 @@ import GoodsDetail from "./category/GoodsDetail";
 import Shopping from "./shopping/Shopping";
 import User from "./user/User";
 import Search from "./components/Search";
-import {BackHandler} from "react-native";
 import GoodsList from "./category/GoodsList";
 import FilterPanel from "./category/FilterPanel";
 import Address from "./category/Address";
@@ -50,6 +38,7 @@ import Follow from "./user/Follow";
 import Browse from "./user/Browse";
 import PreDeposit from "./user/PreDeposit";
 import TradeDetail from "./user/TradeDetail";
+import Integration from "./user/Integration";
 
 
 const HomeNavigator = TabNavigator({
@@ -193,6 +182,9 @@ export const AppNavigator = StackNavigator({
         },
         TradeDetail: {
             screen: TradeDetail,
+        },
+        Integration: {
+            screen: Integration,
         },
     },
     {

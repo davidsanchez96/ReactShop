@@ -213,3 +213,11 @@ export const TradeDetailLoading = 'TradeDetailLoading';
 export const TradeDetailLoaded = 'TradeDetailLoaded';
 export const TradeDetailShowMore = 'TradeDetailShowMore';
 export const TradeDetailType = 'TradeDetailType';
+/**
+ *integration
+ **/
+export const IntegrationLoading = 'IntegrationLoading';
+export const IntegrationLoaded = 'IntegrationLoaded';
+export const IntegrationShowMore = 'IntegrationShowMore';
+export const IntegrationType = 'IntegrationType';
+export const IntegrationTotal = 'IntegrationTotal';

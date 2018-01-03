@@ -31,6 +31,8 @@ import followReducer from "./followReducer";
 import browseReducer from "./browseReducer";
 import preDepositReducer from "./preDepositReducer";
 import tradeDetailReducer from "./tradeDetailReducer";
+import integrationReducer from "./integrationReducer";
+
 export default combineReducers({
     nav,
     categoryReducer,
@@ -64,4 +66,5 @@ export default combineReducers({
     browseReducer,
     preDepositReducer,
     tradeDetailReducer,
+    integrationReducer,
 });
