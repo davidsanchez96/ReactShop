@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
 import {CategoryUrl} from "../utils/Constant";
-import {CategoryLoaded, CategorySelected, NetError, CategoryLoading} from "../utils/actionTypes";
+import {CategoryLoaded, CategoryLoading, CategorySelected, NetError} from "../utils/actionTypes";
 
 export function get() {
     return (dispatch) => {

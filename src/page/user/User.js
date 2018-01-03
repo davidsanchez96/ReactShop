@@ -388,7 +388,11 @@ class User extends Component {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.contentItem}
-                    onPress={() => msg.emit('route:goToNext', {sceneName: 'MyCoupon'})}>
+                    onPress={() => {
+                        navigation.navigate('Coupon', {
+                            loginBack: () => this.loginBack(dispatch)
+                        });
+                    }}>
                     <Image source={require('../components/img/coupon.png')} style={styles.contentImage}/>
                     <Text allowFontScaling={false} style={styles.contentText}>优惠券</Text>
                 </TouchableOpacity>

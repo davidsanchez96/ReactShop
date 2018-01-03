@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
 import {DetailUrl} from "../utils/Constant";
-import {CommentLoaded, CommentLoading, GoodsListLoaded, NetError} from "../utils/actionTypes";
+import {CommentLoaded, CommentLoading, NetError} from "../utils/actionTypes";
 
 export function comment(goodsInfoId,commentsType,page) {
     return (dispatch) => {

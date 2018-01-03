@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
-import {BirthdayUrl, NicknameUrl} from "../utils/Constant";
-import {BirthdaySet, NetError, NicknameLoaded, NicknameLoading} from "../utils/actionTypes";
+import {BirthdayUrl} from "../utils/Constant";
+import {BirthdaySet, NetError} from "../utils/actionTypes";
 
 export function changeBirthday(birthday) {
     return (dispatch) => {

@@ -221,3 +221,8 @@ export const IntegrationLoaded = 'IntegrationLoaded';
 export const IntegrationShowMore = 'IntegrationShowMore';
 export const IntegrationType = 'IntegrationType';
 export const IntegrationTotal = 'IntegrationTotal';
+/**
+ *coupon
+ **/
+export const CouponLoading = 'CouponLoading';
+export const CouponLoaded = 'CouponLoaded';

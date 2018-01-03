@@ -1,9 +1,8 @@
 import NetUtils from "../utils/NetUtils";
-import {IntegrationListUrl, IntegrationTotalUrl, TradeListUrl} from "../utils/Constant";
+import {IntegrationListUrl, IntegrationTotalUrl} from "../utils/Constant";
 import {
-    IntegrationLoaded,
-    IntegrationShowMore, IntegrationLoading, NetError, TradeDetailLoaded, TradeDetailLoading,
-    TradeDetailShowMore, IntegrationTotal
+    IntegrationLoaded, IntegrationLoading, IntegrationShowMore, IntegrationTotal,
+    NetError
 } from "../utils/actionTypes";
 
 

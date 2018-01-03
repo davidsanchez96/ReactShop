@@ -1,8 +1,8 @@
 import NetUtils from "../utils/NetUtils";
 import {SearchUrl} from "../utils/Constant";
 import {
-    NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore, GoodsListSearch, GoodsListReset,
-    GoodsListDescending
+    GoodsListDescending, GoodsListLoaded, GoodsListLoading, GoodsListReset, GoodsListSearch, GoodsListShow,
+    GoodsListShowMore, NetError
 } from "../utils/actionTypes";
 
 const BASIC_PROP_NAMES = ['brands', 'added', 'thirdStatus', 'thirdShopId', 'showStock', 'freeShipment',

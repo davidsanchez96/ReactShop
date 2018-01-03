@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
-import {GenderUrl, NicknameUrl} from "../utils/Constant";
-import {GenderLoaded, GenderLoading, NetError, NicknameLoaded, NicknameLoading} from "../utils/actionTypes";
+import {GenderUrl} from "../utils/Constant";
+import {GenderLoaded, GenderLoading, NetError} from "../utils/actionTypes";
 
 export function changeGender(gender) {
     return (dispatch) => {

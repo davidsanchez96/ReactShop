@@ -54,5 +54,6 @@ export const CheckDepositUrl=URL+'/chargewithdraw/checkBalanceCanBeUsed';
 export const TradeListUrl=URL+'/trandeInfo/findAll/';
 export const IntegrationListUrl=URL+'/customers/point?type=';
 export const IntegrationTotalUrl=URL+'/customers/point/total';
+export const CouponListUrl=URL+'/store/coupons?codeStatus=';
 
 

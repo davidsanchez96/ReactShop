@@ -1,8 +1,6 @@
 import NetUtils from "../utils/NetUtils";
 import {FilterUrl} from "../utils/Constant";
-import {
-    NetError, FilterLoading, FilterLoaded
-} from "../utils/actionTypes";
+import {FilterLoaded, FilterLoading, NetError} from "../utils/actionTypes";
 
 
 export function filter(params,catePara) {

@@ -1,13 +1,10 @@
 import NetUtils from "../utils/NetUtils";
-import {FollowDeleteUrl, FollowListUrl, SearchUrl, URL} from "../utils/Constant";
+import {FollowDeleteUrl, FollowListUrl, URL} from "../utils/Constant";
 import {
-    NetError, GoodsListLoading, GoodsListLoaded, GoodsListShow, GoodsListShowMore, GoodsListSearch, GoodsListReset,
-    GoodsListDescending, FollowListShowMore, FollowListLoading, FollowListLoaded, FollowListDelete, FollowState,
-    FollowAdd, FollowDelete
+    FollowAdd, FollowDelete, FollowListDelete, FollowListLoaded, FollowListLoading, FollowListShowMore, FollowState,
+    NetError
 } from "../utils/actionTypes";
-import {
-    AsyncStorage,
-} from 'react-native';
+import {AsyncStorage,} from 'react-native';
 
 
 export function followList(pageNum) {

@@ -1,17 +1,13 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {
-    ActivityIndicator, Dimensions, FlatList, InteractionManager, StyleSheet, Text, TouchableOpacity,
-    View
-} from 'react-native';
+import {ActivityIndicator, Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import moment from 'moment';
 
 
 import Immutable from "immutable";
 import {connect} from "react-redux";
-import {browseList} from "../../action/browseActions";
 import {tradeList} from "../../action/tradeDetailActions";
 import {TradeDetailType} from "../../utils/actionTypes";
 

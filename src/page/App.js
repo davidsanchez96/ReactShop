@@ -39,6 +39,8 @@ import Browse from "./user/Browse";
 import PreDeposit from "./user/PreDeposit";
 import TradeDetail from "./user/TradeDetail";
 import Integration from "./user/Integration";
+import Coupon from "./user/Coupon";
+import CouponDetail from "./user/CouponDetail";
 
 
 const HomeNavigator = TabNavigator({
@@ -185,6 +187,12 @@ export const AppNavigator = StackNavigator({
         },
         Integration: {
             screen: Integration,
+        },
+        Coupon: {
+            screen: Coupon,
+        },
+        CouponDetail: {
+            screen: CouponDetail,
         },
     },
     {
