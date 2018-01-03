@@ -206,3 +206,10 @@ export const BrowseListClean = 'BrowseListClean';
 export const PreDepositLoading = 'PreDepositLoading';
 export const PreDepositLoaded = 'PreDepositLoaded';
 export const PreDepositCode = 'PreDepositCode';
+/**
+ *trade detail
+ **/
+export const TradeDetailLoading = 'TradeDetailLoading';
+export const TradeDetailLoaded = 'TradeDetailLoaded';
+export const TradeDetailShowMore = 'TradeDetailShowMore';
+export const TradeDetailType = 'TradeDetailType';

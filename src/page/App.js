@@ -49,6 +49,7 @@ import ModifyPhoneThird from "./user/account/ModifyPhoneThird";
 import Follow from "./user/Follow";
 import Browse from "./user/Browse";
 import PreDeposit from "./user/PreDeposit";
+import TradeDetail from "./user/TradeDetail";
 
 
 const HomeNavigator = TabNavigator({
@@ -189,6 +190,9 @@ export const AppNavigator = StackNavigator({
         },
         PreDeposit: {
             screen: PreDeposit,
+        },
+        TradeDetail: {
+            screen: TradeDetail,
         },
     },
     {

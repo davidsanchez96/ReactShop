@@ -58,7 +58,6 @@ class Browse extends Component {
         const hasMore = browseReducer.hasMore;
         const loadingMore = browseReducer.loadingMore;
 
-        // if (window.token) {//已登录
             return (
                 <View style={styles.container}>
 
@@ -114,46 +113,7 @@ class Browse extends Component {
 
                 </View>
             );
-        // } else {//未登录
-            // if (this.dataSource.toJS().length > 0) {
-            //     return (
-            //         <View style={styles.container}>
-            //             <QMHeader title="浏览记录"
-            //                       onLeftMenuPress={this._backToMemberCenter}
-            //                       renderRight={() => {
-            //                           return (
-            //                               <View>
-            //                                   <Text
-            //                                       style={styles.text}
-            //                                       onPress={() => this._clearWithOutLogin()}
-            //                                       allowFontScaling={false}
-            //                                   >清空</Text>
-            //                               </View>
-            //                           )
-            //                       }}/>
-            //             <ListView style={{flex: 1}}
-            //                       dataSource={ds.cloneWithRows(this.dataSource.toJS())}
-            //                       renderRow={this._renderRow}
-            //             />
-            //         </View>
-            //     );
-            // } else {
-            //     return (
-            //         <View style={styles.container}>
-            //             <QMHeader title="浏览记录" onLeftMenuPress={this._backToMemberCenter}/>
-            //             {
-            //                 store.get('isLoading')
-            //                     ?
-            //                     <QMLoading/>
-            //                     :
-            //                     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            //                         <Text style={{padding: 10}} allowFontScaling={false}>浏览记录为空</Text>
-            //                     </View>
-            //             }
-            //         </View>
-            //     );
-            // }
-        // }
+
 
     }
 

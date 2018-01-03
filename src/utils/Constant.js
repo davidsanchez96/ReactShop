@@ -51,6 +51,6 @@ export const BrowseGetUrl=URL+'/customers/browserecord/visitors';//获取浏览
 
 export const PreDepositUrl=URL+'/depositInfo/queryDepositInfoByCustomerId';
 export const CheckDepositUrl=URL+'/chargewithdraw/checkBalanceCanBeUsed';
-export const PhoneDepositUrl=URL+'/customers';
+export const TradeListUrl=URL+'/trandeInfo/findAll/';
 
 

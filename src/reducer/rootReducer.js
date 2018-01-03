@@ -30,6 +30,7 @@ import modifyPhoneSecondReducer from "./modifyPhoneSecondReducer";
 import followReducer from "./followReducer";
 import browseReducer from "./browseReducer";
 import preDepositReducer from "./preDepositReducer";
+import tradeDetailReducer from "./tradeDetailReducer";
 export default combineReducers({
     nav,
     categoryReducer,
@@ -62,4 +63,5 @@ export default combineReducers({
     followReducer,
     browseReducer,
     preDepositReducer,
+    tradeDetailReducer,
 });

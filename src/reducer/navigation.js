@@ -12,6 +12,7 @@ export default function nav(state = initialState, action) {
     switch (action.routeName) {
         case 'Follow':
         case 'PreDeposit':
+        case 'TradeDetail':
             if (window.token) {
                 const newState = state.merge(AppNavigator.router.getStateForAction(action, state.toJS()));
                 return newState || state;

@@ -19,7 +19,7 @@ export function followList(pageNum) {
         }
 
         AsyncStorage.getItem('KStoreApp@defaultRegion', (error, result) => {
-            NetUtils.get(FollowListUrl + JSON.parse(result).districtId,
+            NetUtils.get(FollowListUrl + JSON.parse(result).districtId+'&pageNum='+pageNum,
                 (result) => {
                     // console.log(result);
                     let hasMore = false;

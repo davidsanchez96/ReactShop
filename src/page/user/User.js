@@ -133,7 +133,7 @@ class User extends Component {
 
                 {this._renderMyAssets()}
 
-                {this._renderAssets(navigation,dispatch)}
+                {this._renderAssets(navigation, dispatch)}
 
                 {this._renderItemContent(userReducer)}
 
@@ -233,8 +233,8 @@ class User extends Component {
                 {/*关注 + 浏览记录*/}
                 <View style={styles.attention}>
                     <TouchableOpacity onPress={() => {
-                        navigation.navigate('Follow',{
-                            loginBack: ()=>this.loginBack(dispatch)
+                        navigation.navigate('Follow', {
+                            loginBack: () => this.loginBack(dispatch)
                         });
                     }} style={styles.attentionColumn} activeOpacity={0.8}>
                         <Text style={styles.attentionColumnRow} allowFontScaling={false}>{followTotal}</Text>
@@ -346,15 +346,15 @@ class User extends Component {
     }
 
 // 预存款 提现记录 积分 优惠券
-    _renderAssets(navigation,dispatch) {
+    _renderAssets(navigation, dispatch) {
         return (
             <View style={styles.contentBox}>
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.contentItem}
-                    onPress={() =>{
-                        navigation.navigate('PreDeposit',{
-                            loginBack: ()=>this.loginBack(dispatch)
+                    onPress={() => {
+                        navigation.navigate('PreDeposit', {
+                            loginBack: () => this.loginBack(dispatch)
                         });
                     }}>
                     <Image source={require('../components/img/pre-deposit.png')} style={styles.contentImage}/>
@@ -364,7 +364,11 @@ class User extends Component {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.contentItem}
-                    onPress={() => msg.emit('route:goToNext', {sceneName: 'AccountDetail'})}>
+                    onPress={() => {
+                        navigation.navigate('TradeDetail', {
+                            loginBack: () => this.loginBack(dispatch)
+                        });
+                    }}>
                     <Image source={require('../components/img/present-record.png')} style={styles.contentImage}/>
                     <Text allowFontScaling={false} style={styles.contentText}>账户明细</Text>
                 </TouchableOpacity>
@@ -415,7 +419,7 @@ class User extends Component {
         )
     }
 
-    loginBack(dispatch){
+    loginBack(dispatch) {
         dispatch(user());
         dispatch(userLevel());
         dispatch(userFollow());
@@ -424,6 +428,7 @@ class User extends Component {
         dispatch(userUnread());
         dispatch(userOrder());
     };
+
     /**
      * 看浏览记录
      * @private
