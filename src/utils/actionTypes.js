@@ -226,3 +226,11 @@ export const IntegrationTotal = 'IntegrationTotal';
  **/
 export const CouponLoading = 'CouponLoading';
 export const CouponLoaded = 'CouponLoaded';
+/**
+ *order
+ **/
+export const OrderListLoading = 'OrderListLoading';
+export const OrderListLoaded = 'OrderListLoaded';
+export const OrderListShowMore = 'OrderListShowMore';
+export const OrderListSetting = 'OrderListSetting';
+export const OrderListClean = 'OrderListClean';

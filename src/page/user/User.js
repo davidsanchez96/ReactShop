@@ -127,9 +127,9 @@ class User extends Component {
 
                 {this._renderImageContent(userReducer, navigation, dispatch)}
 
-                {this._renderMyOrderContent()}
+                {this._renderMyOrderContent(navigation, dispatch)}
                 {/*待付款 + 待收货 + 退款退货*/}
-                {this._renderOrderContent(userReducer)}
+                {this._renderOrderContent(userReducer, navigation, dispatch)}
 
                 {this._renderMyAssets()}
 
@@ -257,12 +257,20 @@ class User extends Component {
      * @returns {XML}
      * @private
      */
-    _renderOrderContent(userReducer) {
+    _renderOrderContent(userReducer, navigation, dispatch) {
         const store = userReducer;
         const orderCounts = store.get('orderCounts') || [];
         return (
             <View style={styles.orderTotal}>
-                <TouchableOpacity onPress={this._clickOrder.bind(this, 0)} style={{flex: 1}} activeOpacity={0.8}>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('Order', {
+                            title: '待付款订单',
+                            status: 0,
+                            loginBack: () => this.loginBack(dispatch)
+                        });
+                    }}
+                    style={{flex: 1}} activeOpacity={0.8}>
                     <View style={[styles.orderColumnImage]}>
                         <Image source={require('../components/img/c_pay.png')} style={styles.orderImage}/>
                         {
@@ -280,7 +288,16 @@ class User extends Component {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this._clickOrder.bind(this, 2)} style={{flex: 1}} activeOpacity={0.8}>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('Order', {
+                            title: '待收货订单',
+                            status: 2,
+                            loginBack: () => this.loginBack(dispatch)
+                        });
+                    }}
+                    style={{flex: 1}}
+                    activeOpacity={0.8}>
                     <View style={[styles.orderColumnImage]}>
                         <Image source={require('../components/img/c_notconsign.png')} style={styles.orderImage}/>
                         {
@@ -298,7 +315,16 @@ class User extends Component {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this._clickOrder.bind(this, 3)} style={{flex: 1}} activeOpacity={0.8}>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('Order', {
+                            title: '待评价订单',
+                            status: 3,
+                            loginBack: () => this.loginBack(dispatch)
+                        });
+                    }}
+                    style={{flex: 1}}
+                    activeOpacity={0.8}>
                     <View style={styles.orderColumnImage}>
                         <Image source={require('../components/img/c_comment.png')} style={styles.orderImage}/>
 
@@ -323,13 +349,16 @@ class User extends Component {
     }
 
 //我的订单
-    _renderMyOrderContent() {
+    _renderMyOrderContent(navigation, dispatch) {
         return (
             <NavItem title='我的订单'
                      content='查看全部订单'
                      imageSource={require('../components/img/c_order.png')}
                      onPress={() => {
-                         this._handelOrders()
+                         navigation.navigate('Order', {
+                             title: '全部订单',
+                             loginBack: () => this.loginBack(dispatch)
+                         });
                      }}
             />
         )
@@ -349,29 +378,29 @@ class User extends Component {
     _renderAssets(navigation, dispatch) {
         return (
             <View style={styles.contentBox}>
-                <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={styles.contentItem}
-                    onPress={() => {
-                        navigation.navigate('PreDeposit', {
-                            loginBack: () => this.loginBack(dispatch)
-                        });
-                    }}>
-                    <Image source={require('../components/img/pre-deposit.png')} style={styles.contentImage}/>
-                    <Text allowFontScaling={false} style={styles.contentText}>预存款</Text>
-                </TouchableOpacity>
+                {/*<TouchableOpacity*/}
+                {/*activeOpacity={0.8}*/}
+                {/*style={styles.contentItem}*/}
+                {/*onPress={() => {*/}
+                {/*navigation.navigate('PreDeposit', {*/}
+                {/*loginBack: () => this.loginBack(dispatch)*/}
+                {/*});*/}
+                {/*}}>*/}
+                {/*<Image source={require('../components/img/pre-deposit.png')} style={styles.contentImage}/>*/}
+                {/*<Text allowFontScaling={false} style={styles.contentText}>预存款</Text>*/}
+                {/*</TouchableOpacity>*/}
 
-                <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={styles.contentItem}
-                    onPress={() => {
-                        navigation.navigate('TradeDetail', {
-                            loginBack: () => this.loginBack(dispatch)
-                        });
-                    }}>
-                    <Image source={require('../components/img/present-record.png')} style={styles.contentImage}/>
-                    <Text allowFontScaling={false} style={styles.contentText}>账户明细</Text>
-                </TouchableOpacity>
+                {/*<TouchableOpacity*/}
+                {/*activeOpacity={0.8}*/}
+                {/*style={styles.contentItem}*/}
+                {/*onPress={() => {*/}
+                {/*navigation.navigate('TradeDetail', {*/}
+                {/*loginBack: () => this.loginBack(dispatch)*/}
+                {/*});*/}
+                {/*}}>*/}
+                {/*<Image source={require('../components/img/present-record.png')} style={styles.contentImage}/>*/}
+                {/*<Text allowFontScaling={false} style={styles.contentText}>账户明细</Text>*/}
+                {/*</TouchableOpacity>*/}
 
                 <TouchableOpacity
                     activeOpacity={0.8}

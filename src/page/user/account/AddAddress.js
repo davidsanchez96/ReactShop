@@ -213,13 +213,7 @@ const
             color: '#fff',
         },
     });
-const
-    mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
         addAddressReducer: state.get('addAddressReducer')
     });
-export default connect(mapStateToProps)
-
-(
-    AddAddress
-)
-;
+export default connect(mapStateToProps)(AddAddress);

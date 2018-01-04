@@ -41,6 +41,8 @@ import TradeDetail from "./user/TradeDetail";
 import Integration from "./user/Integration";
 import Coupon from "./user/Coupon";
 import CouponDetail from "./user/CouponDetail";
+import SecurityTip from "./user/account/SecurityTip";
+import Order from "./user/Order";
 
 
 const HomeNavigator = TabNavigator({
@@ -140,6 +142,9 @@ export const AppNavigator = StackNavigator({
         Security: {
             screen: Security,
         },
+        SecurityTip: {
+            screen: SecurityTip,
+        },
         ModifyPasswordFirst: {
             screen: ModifyPasswordFirst,
         },
@@ -193,6 +198,9 @@ export const AppNavigator = StackNavigator({
         },
         CouponDetail: {
             screen: CouponDetail,
+        },
+        Order: {
+            screen: Order,
         },
     },
     {
