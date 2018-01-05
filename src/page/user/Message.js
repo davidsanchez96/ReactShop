@@ -8,14 +8,10 @@ import Immutable, {OrderedSet} from 'immutable'
 import {connect} from "react-redux";
 import {messageList} from "../../action/messageListActions";
 import MessageItem from "../components/MessageItem";
-import {verifyPhone} from "../../action/findPasswordSecondActions";
-import Toast from "react-native-root-toast";
-import {MessageListClean, MessageListEdit, OrderListClean} from "../../utils/actionTypes";
+import {MessageListClean, MessageListEdit} from "../../utils/actionTypes";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
-
-let page = 0;
 
 class Message extends Component {
     static navigationOptions = ({navigation}) => {
@@ -47,13 +43,14 @@ class Message extends Component {
     }
 
     componentWillUnmount() {
-        this.props.dispatch({type:MessageListClean})
+        this.props.dispatch({type: MessageListClean})
     }
+
     componentDidMount() {
+        const {messageListReducer, dispatch, navigation} = this.props;
         InteractionManager.runAfterInteractions(() => {
-            page = 0;
-            this.props.dispatch(messageList(page));
-            this.props.navigation.setParams({
+            dispatch(messageList(messageListReducer.page));
+            navigation.setParams({
                 handleSave: this._handleSave
             });
         });
@@ -61,7 +58,7 @@ class Message extends Component {
 
     _handleSave = () => {
         const {messageListReducer, dispatch, navigation} = this.props;
-        dispatch({type:MessageListEdit});
+        dispatch({type: MessageListEdit});
         navigation.setParams({editable: !navigation.state.params.editable});
     }
 
@@ -137,7 +134,7 @@ class Message extends Component {
 
 
                 <FlatList
-                    renderItem={({item, index}) => this._renderItem(item, index, messageListReducer,dispatch)}
+                    renderItem={({item, index}) => this._renderItem(item, index, messageListReducer, dispatch)}
                     ListEmptyComponent={() => {
                         if (loading || reloading) {
                             return null;
@@ -174,14 +171,12 @@ class Message extends Component {
                     removeClippedSubviews={false}
                     data={messageListReducer.data}
                     onRefresh={() => {
-                        page = 0;
-                        dispatch(messageList(page));
+                        dispatch(messageList(0));
                     }}
                     refreshing={loading}
                     onEndReached={() => {
                         if (hasMore && !loading && !loadingMore) {
-                            page++;
-                            dispatch(messageList(page));
+                            dispatch(messageList(messageListReducer.page+1));
                         }
                     }}
                     onEndReachedThreshold={10}
@@ -200,7 +195,7 @@ class Message extends Component {
      * @returns {XML}
      * @private
      */
-    _renderItem(item, index, messageListReducer,dispatch) {
+    _renderItem(item, index, messageListReducer, dispatch) {
 
         return (
             <MessageItem
@@ -310,6 +305,17 @@ const styles = StyleSheet.create({
     },
     disabledText: {
         color: '#999'
+    },
+    txt: {
+        flex: 1,
+        fontSize: 16,
+        color: '#666'
+    },
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10,
     },
 });
 

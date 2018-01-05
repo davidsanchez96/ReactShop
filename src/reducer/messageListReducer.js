@@ -3,6 +3,7 @@ import Immutable, {OrderedSet} from 'immutable';
 
 const initialState = Immutable.fromJS({
     loading: true,
+    page:0,
     reloading: false,
     loadingMore: false,
     hasMore: false,
@@ -17,10 +18,10 @@ export default function messageListReducer(state = initialState, action) {
             return state.set('loading', true);
         case types.MessageListLoaded:
             if (action.page === 0) {
-                return state.set('loading', false).set('loadingMore', false)
+                return state.set('loading', false).set('loadingMore', false).set('page',action.page)
                     .set('hasMore', action.hasMore).set('data', Immutable.fromJS(action.data));
             } else {
-                return state.set('loading', false).set('loadingMore', false)
+                return state.set('loading', false).set('loadingMore', false).set('page',action.page)
                     .set('hasMore', action.hasMore).set('data', state.get('data').concat(Immutable.fromJS(action.data)));
             }
         case types.NetError:

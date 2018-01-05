@@ -58,5 +58,9 @@ export const CouponListUrl=URL+'/store/coupons?codeStatus=';
 
 export const OrderListUrl=URL+'/orders';
 export const MessageListUrl=URL+'/customers/messages';
+export const MessageReadUrl=URL+'/customers/read/messages/';
+export const MessageReadAllUrl=URL+'/customers/read/messages/_all';
+export const MessageRemoveUrl=URL+'/customers/messages/';
+export const MessageRemoveAllUrl=URL+'/customers/clean/messages';
 
 
