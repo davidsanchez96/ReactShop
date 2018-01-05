@@ -234,3 +234,13 @@ export const OrderListLoaded = 'OrderListLoaded';
 export const OrderListShowMore = 'OrderListShowMore';
 export const OrderListSetting = 'OrderListSetting';
 export const OrderListClean = 'OrderListClean';
+/**
+ *message
+ **/
+export const MessageListLoading = 'MessageListLoading';
+export const MessageListLoaded = 'MessageListLoaded';
+export const MessageListShowMore = 'MessageListShowMore';
+export const MessageListTotal = 'MessageListTotal';
+export const MessageListEdit = 'MessageListEdit';
+export const MessageListItem = 'MessageListItem';
+export const MessageListClean = 'MessageListClean';

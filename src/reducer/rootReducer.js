@@ -34,6 +34,8 @@ import tradeDetailReducer from "./tradeDetailReducer";
 import integrationReducer from "./integrationReducer";
 import couponReducer from "./couponReducer";
 import orderListReducer from "./orderListReducer";
+import messageListReducer from "./messageListReducer";
+
 
 export default combineReducers({
     nav,
@@ -71,4 +73,5 @@ export default combineReducers({
     integrationReducer,
     couponReducer,
     orderListReducer,
+    messageListReducer,
 });

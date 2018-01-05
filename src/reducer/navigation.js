@@ -2,6 +2,7 @@ import React from 'react';
 import {AppNavigator} from "../page/App";
 import Immutable from 'immutable';
 import {NavigationActions} from 'react-navigation';
+import MessageManager from "../page/user/Message";
 
 
 const initialState = Immutable.Map(
@@ -15,6 +16,8 @@ export default function nav(state = initialState, action) {
         case 'TradeDetail':
         case 'Integration':
         case 'Coupon':
+        case 'Order':
+        case 'Message':
             if (window.token) {
                 const newState = state.merge(AppNavigator.router.getStateForAction(action, state.toJS()));
                 return newState || state;

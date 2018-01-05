@@ -57,5 +57,6 @@ export const IntegrationTotalUrl=URL+'/customers/point/total';
 export const CouponListUrl=URL+'/store/coupons?codeStatus=';
 
 export const OrderListUrl=URL+'/orders';
+export const MessageListUrl=URL+'/customers/messages';
 
 

@@ -135,7 +135,7 @@ class User extends Component {
 
                 {this._renderAssets(navigation, dispatch)}
 
-                {this._renderItemContent(userReducer)}
+                {this._renderItemContent(userReducer,navigation)}
 
 
             </ScrollView>
@@ -435,7 +435,7 @@ class User extends Component {
      * @returns {XML}
      * @private
      */
-    _renderItemContent(userReducer) {
+    _renderItemContent(userReducer,navigation) {
         const store = userReducer;
         return (
             <View style={styles.spanner}>
@@ -449,7 +449,12 @@ class User extends Component {
                                      :
                                      ''
                              }
-                             onPress={() => msg.emit('route:goToNext', {sceneName: 'MessageCenter'})}
+                             onPress={() => {
+                                 navigation.navigate('Message', {
+                                     loginBack: () => this.loginBack(dispatch)
+                                 });
+                             }
+                             }
                     />
                 }
             </View>

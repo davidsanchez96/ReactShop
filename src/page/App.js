@@ -43,6 +43,7 @@ import Coupon from "./user/Coupon";
 import CouponDetail from "./user/CouponDetail";
 import SecurityTip from "./user/account/SecurityTip";
 import Order from "./user/Order";
+import Message from "./user/Message";
 
 
 const HomeNavigator = TabNavigator({
@@ -201,6 +202,9 @@ export const AppNavigator = StackNavigator({
         },
         Order: {
             screen: Order,
+        },
+        Message: {
+            screen: Message,
         },
     },
     {
