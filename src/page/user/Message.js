@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
-    ActivityIndicator, Dimensions, findNodeHandle, FlatList, Image, InteractionManager, StyleSheet, Text,
-    TouchableOpacity, View, Alert,
+    ActivityIndicator, Alert, Dimensions, findNodeHandle, FlatList, Image, InteractionManager, StyleSheet, Text,
+    TouchableOpacity, View,
 } from 'react-native';
 
 import Immutable, {OrderedSet} from 'immutable'
@@ -12,7 +12,6 @@ import {
 } from "../../action/messageListActions";
 import MessageItem from "../components/MessageItem";
 import {MessageListClean, MessageListEdit} from "../../utils/actionTypes";
-import {deleteAddress} from "../../action/receiveAddressActions";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -62,8 +61,11 @@ class Message extends Component {
 
     _handleSave = () => {
         const {messageListReducer, dispatch, navigation} = this.props;
-        dispatch({type: MessageListEdit});
-        navigation.setParams({editable: !navigation.state.params.editable});
+        if (messageListReducer.checkedList.length > 0) {
+            dispatch({type: MessageListEdit});
+            navigation.setParams({editable: !navigation.state.params.editable});
+        }
+
     }
 
     render() {
@@ -82,7 +84,7 @@ class Message extends Component {
 
 
                 {/* 内容区域 */}
-                {this._renderContent(messageListReducer, dispatch)}
+                {this._renderContent(messageListReducer, dispatch, navigation)}
 
                 {/* 按钮区域 */}
                 {
@@ -97,7 +99,7 @@ class Message extends Component {
                                         dispatch(messageReadAll())
                                     } else {
                                         const ids = checkedList.toArray().join(',');
-                                        dispatch(messageRead(ids))
+                                        dispatch(messageRead(ids, true))
                                     }
                                     this._handleSave();
                                 }}>
@@ -157,7 +159,7 @@ class Message extends Component {
      * @returns {*}
      * @private
      */
-    _renderContent(messageListReducer, dispatch) {
+    _renderContent(messageListReducer, dispatch, navigation) {
         const loading = messageListReducer.loading;
         const reloading = messageListReducer.reloading;
         const hasMore = messageListReducer.hasMore;
@@ -167,14 +169,14 @@ class Message extends Component {
 
 
                 <FlatList
-                    renderItem={({item, index}) => this._renderItem(item, index, messageListReducer, dispatch)}
+                    renderItem={({item, index}) => this._renderItem(item, index, messageListReducer, dispatch, navigation)}
                     ListEmptyComponent={() => {
                         if (loading || reloading) {
                             return null;
                         } else {
                             return <Text style={styles.txt}
                                          allowFontScaling={false}>
-                                '亲，您暂时没有消息'
+                                亲，您暂时没有消息
                             </Text>
 
                         }
@@ -228,11 +230,12 @@ class Message extends Component {
      * @returns {XML}
      * @private
      */
-    _renderItem(item, index, messageListReducer, dispatch) {
+    _renderItem(item, index, messageListReducer, dispatch, navigation) {
 
         return (
             <MessageItem
                 dispatch={dispatch}
+                navigation={navigation}
                 onSwipe={this._onSwipe}
                 isEdit={messageListReducer.editable}
                 checkedList={OrderedSet(messageListReducer.checkedList)}
@@ -240,43 +243,6 @@ class Message extends Component {
                 data={Immutable.fromJS(item)}
                 key={index}/>
         )
-    }
-
-
-    _handleDelete() {
-        const checkedList = appStore.data().get('checkedList');
-        if (checkedList.size === 0) {
-            msg.emit('app:alert', {
-                title: '提示',
-                msgContent: '确定要清空吗?',
-                okHandle: () => {
-                    msg.emit('message:clean')
-                }
-            });
-        } else {
-            msg.emit('app:alert', {
-                title: '提示',
-                msgContent: '确定要删除选择的消息吗?',
-                okHandle: () => {
-                    msg.emit('message:removeCheckedItem')
-                }
-            });
-        }
-    }
-
-
-    _handleRead() {
-        const checkedList = appStore.data().get('checkedList');
-        if (checkedList.size === 0) {
-            msg.emit('message:setAllReaded');
-        } else {
-            msg.emit('message:setCheckedItemToReaded');
-        }
-    }
-
-
-    _onDataReceive(res) {
-        msg.emit('message:setTotal', res.total);
     }
 
 
@@ -342,7 +308,9 @@ const styles = StyleSheet.create({
     txt: {
         flex: 1,
         fontSize: 16,
-        color: '#666'
+        color: '#666',
+        alignSelf: 'center',
+        marginTop: 120,
     },
     footer: {
         flexDirection: 'row',

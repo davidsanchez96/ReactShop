@@ -13,6 +13,7 @@ import {
 
 import SwipeOut from 'react-native-swipeout';
 import {MessageListItem} from "../../utils/actionTypes";
+import {messageDelete, messageRead} from "../../action/messageListActions";
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -61,7 +62,7 @@ export default class MessageItem extends Component {
                         console.log("已读：", this._messageId);
                     }
                     this.setState({'isRead': true});
-                    msg.emit('message:setReaded', this._messageId);
+                    this.props.dispatch(messageRead(this._messageId,false));
                 }
             });
         }
@@ -70,10 +71,7 @@ export default class MessageItem extends Component {
             text: '删除',
             backgroundColor: '#e63a59',
             onPress: () => {
-                if (__DEV__) {
-                    console.log("删除：", this._messageId);
-                }
-                msg.emit('message:remove', this._messageId);
+                this.props.dispatch(messageDelete(this._messageId));
             }
         });
 
@@ -161,11 +159,7 @@ export default class MessageItem extends Component {
             }
         } else {
             this.setState({'isRead': true});
-            msg.emit('route:goToNext', {
-                sceneName: 'MessageDetail',
-                index: index,
-                data: this.props.data
-            });
+            this.props.navigation.navigate('MessageDetail',{data:this.props.data});
         }
     }
 

@@ -37,13 +37,16 @@ export function messageList(pageNum) {
     }
 }
 
-export function messageRead(id) {
+export function messageRead(id,refresh) {
     return (dispatch) => {
         NetUtils.put(MessageReadUrl + id, null,
             (result) => {
                 console.log(result);
-                dispatch({type: MessageListClean});
-                dispatch(messageList(0));
+                if(refresh){
+                    dispatch({type: MessageListClean});
+                    dispatch(messageList(0));
+                }
+
             },
             (error) => {
                 console.log(error);

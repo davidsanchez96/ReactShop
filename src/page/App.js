@@ -44,6 +44,7 @@ import CouponDetail from "./user/CouponDetail";
 import SecurityTip from "./user/account/SecurityTip";
 import Order from "./user/Order";
 import Message from "./user/Message";
+import MessageDetail from "./user/MessageDetail";
 
 
 const HomeNavigator = TabNavigator({
@@ -205,6 +206,9 @@ export const AppNavigator = StackNavigator({
         },
         Message: {
             screen: Message,
+        },
+        MessageDetail: {
+            screen: MessageDetail,
         },
     },
     {
