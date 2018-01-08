@@ -35,6 +35,7 @@ import integrationReducer from "./integrationReducer";
 import couponReducer from "./couponReducer";
 import orderListReducer from "./orderListReducer";
 import messageListReducer from "./messageListReducer";
+import orderDetailReducer from "./orderDetailReducer";
 
 
 export default combineReducers({
@@ -74,4 +75,5 @@ export default combineReducers({
     couponReducer,
     orderListReducer,
     messageListReducer,
+    orderDetailReducer,
 });

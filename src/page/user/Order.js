@@ -54,7 +54,7 @@ class Order extends Component {
      *
      * @private
      */
-    rowPressed(orderInfo) {
+    rowPressed(orderInfo,navigation) {
         let status = orderInfo.orderStatus;
         let isBack = orderInfo.isBack;
         //所有的退款状态
@@ -74,9 +74,11 @@ class Order extends Component {
             msg.emit('route:goToNext', {sceneName: 'BackGoodsDetail', orderId: orderInfo.orderId});
         } else if (status === '3' && this.props.status == 3) {
             //如果是从待评价页面过去的,需要加个flag标志进行区分,只展示评价按钮
-            msg.emit('route:goToNext', {sceneName: 'OrderDetail', orderId: orderInfo.orderId, status: status, flag: 1});
+            // msg.emit('route:goToNext', {sceneName: 'OrderDetail', orderId: orderInfo.orderId, status: status, flag: 1});
+            navigation.navigate('OrderDetail',{id: orderInfo.orderId, status: status,flag: 1})
         } else {
-            msg.emit('route:goToNext', {sceneName: 'OrderDetail', orderId: orderInfo.orderId, status: status});
+            // msg.emit('route:goToNext', {sceneName: 'OrderDetail', orderId: orderInfo.orderId, status: status});
+            navigation.navigate('OrderDetail',{id: orderInfo.orderId, status: status})
         }
 
     }
@@ -186,7 +188,7 @@ class Order extends Component {
         // } else {
         //     titlename = '全部订单';
         // }
-        const {orderListReducer, dispatch} = this.props;
+        const {orderListReducer, dispatch,navigation} = this.props;
         const loading = orderListReducer.loading;
         const reloading = orderListReducer.reloading;
         const hasMore = orderListReducer.hasMore;
@@ -194,7 +196,7 @@ class Order extends Component {
         return (
             <View style={{flex: 1, backgroundColor: '#eee'}}>
                 <FlatList
-                    renderItem={({item}) => this._renderItem(item, orderListReducer)}
+                    renderItem={({item}) => this._renderItem(item, orderListReducer,navigation)}
                     ListEmptyComponent={() => {
                         if (loading || reloading) {
                             return null;
@@ -254,7 +256,7 @@ class Order extends Component {
     /**
      * 订单row row表示当前行记录的对象
      */
-    _renderItem(row, orderListReducer) {
+    _renderItem(row, orderListReducer,navigation) {
         let status = orderDataDict.getOrderStatusDesc(row);
         var buttonContents;
 
@@ -561,7 +563,7 @@ class Order extends Component {
         return (
             <View style={{marginBottom: 10, backgroundColor: '#fff'}}>
                 <TouchableOpacity
-                    onPress={() => this.rowPressed(row)}
+                    onPress={() => this.rowPressed(row,navigation)}
                     activeOpacity={0.8}
                     style={styles.orderBox}>
                     <View>

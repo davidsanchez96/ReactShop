@@ -234,6 +234,11 @@ export const OrderListLoaded = 'OrderListLoaded';
 export const OrderListShowMore = 'OrderListShowMore';
 export const OrderListSetting = 'OrderListSetting';
 export const OrderListClean = 'OrderListClean';
+export const OrderDetailClean = 'OrderDetailClean';
+export const OrderDetailLoading = 'OrderDetailLoading';
+export const OrderDetailLoaded = 'OrderDetailLoaded';
+export const OrderDetailStatus = 'OrderDetailStatus';
+export const OrderDetailSetting = 'OrderDetailSetting';
 /**
  *message
  **/
