@@ -1,5 +1,8 @@
 import NetUtils from "../utils/NetUtils";
-import {MessageListUrl, MessageReadUrl} from "../utils/Constant";
+import {
+    MessageDeleteAllUrl, MessageDeleteUrl, MessageListUrl, MessageReadAllUrl,
+    MessageReadUrl
+} from "../utils/Constant";
 import {
     MessageListClean,
     MessageListEdit,
@@ -37,6 +40,51 @@ export function messageList(pageNum) {
 export function messageRead(id) {
     return (dispatch) => {
         NetUtils.put(MessageReadUrl + id, null,
+            (result) => {
+                console.log(result);
+                dispatch({type: MessageListClean});
+                dispatch(messageList(0));
+            },
+            (error) => {
+                console.log(error);
+                dispatch({type: NetError});
+            });
+    }
+}
+
+export function messageReadAll() {
+    return (dispatch) => {
+        NetUtils.put(MessageReadAllUrl, null,
+            (result) => {
+                console.log(result);
+                dispatch({type: MessageListClean});
+                dispatch(messageList(0));
+            },
+            (error) => {
+                console.log(error);
+                dispatch({type: NetError});
+            });
+    }
+}
+
+export function messageDelete(id) {
+    return (dispatch) => {
+        NetUtils.delete(MessageDeleteUrl + id,
+            (result) => {
+                console.log(result);
+                dispatch({type: MessageListClean});
+                dispatch(messageList(0));
+            },
+            (error) => {
+                console.log(error);
+                dispatch({type: NetError});
+            });
+    }
+}
+
+export function messageDeleteAll() {
+    return (dispatch) => {
+        NetUtils.delete(MessageDeleteAllUrl,
             (result) => {
                 console.log(result);
                 dispatch({type: MessageListClean});

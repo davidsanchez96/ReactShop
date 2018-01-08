@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
 import {
     ActivityIndicator, Dimensions, findNodeHandle, FlatList, Image, InteractionManager, StyleSheet, Text,
-    TouchableOpacity, View,
+    TouchableOpacity, View, Alert,
 } from 'react-native';
 
 import Immutable, {OrderedSet} from 'immutable'
 import {connect} from "react-redux";
-import {messageList} from "../../action/messageListActions";
+import {
+    messageDelete, messageDeleteAll, messageList, messageRead,
+    messageReadAll
+} from "../../action/messageListActions";
 import MessageItem from "../components/MessageItem";
 import {MessageListClean, MessageListEdit} from "../../utils/actionTypes";
+import {deleteAddress} from "../../action/receiveAddressActions";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -89,7 +93,13 @@ class Message extends Component {
                                 activeOpacity={0.8}
                                 style={[styles.btnContainer, styles.btn, messageListReducer.total === 0 ? styles.btnDisabled : {}]}
                                 onPress={() => {
-
+                                    if (checkedList.size === 0) {
+                                        dispatch(messageReadAll())
+                                    } else {
+                                        const ids = checkedList.toArray().join(',');
+                                        dispatch(messageRead(ids))
+                                    }
+                                    this._handleSave();
                                 }}>
                                 <Text
                                     style={[styles.text, messageListReducer.total === 0 ? styles.disabledText : {}]}
@@ -102,7 +112,30 @@ class Message extends Component {
                                 activeOpacity={0.8}
                                 style={[styles.btnContainer, styles.btn, messageListReducer.total === 0 ? styles.btnDisabled : {}]}
                                 onPress={() => {
+                                    if (checkedList.size === 0) {
+                                        Alert.alert('提示', '确定要清空吗?', [
+                                            {text: '取消'},
+                                            {
+                                                text: '确定', onPress: () => {
+                                                    dispatch(messageDeleteAll());
+                                                    this._handleSave();
+                                                }
+                                            }
+                                        ]);
 
+                                    } else {
+                                        const ids = checkedList.toArray().join(',');
+                                        Alert.alert('提示', '确定要删除选择的消息吗?', [
+                                            {text: '取消'},
+                                            {
+                                                text: '确定', onPress: () => {
+                                                    dispatch(messageDelete(ids));
+                                                    this._handleSave();
+                                                }
+                                            }
+                                        ]);
+
+                                    }
                                 }}>
                                 <Text
                                     style={[styles.text, messageListReducer.total === 0 ? styles.disabledText : {}]}
@@ -176,7 +209,7 @@ class Message extends Component {
                     refreshing={loading}
                     onEndReached={() => {
                         if (hasMore && !loading && !loadingMore) {
-                            dispatch(messageList(messageListReducer.page+1));
+                            dispatch(messageList(messageListReducer.page + 1));
                         }
                     }}
                     onEndReachedThreshold={10}
