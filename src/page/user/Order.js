@@ -167,9 +167,14 @@ class Order extends Component {
     /**
      * 评价
      */
-    waitAppraise(orderId, viewable) {
-        //调用原生的
-        msg.emit('route:goToNext', {sceneName: 'MakeComment', orderId: orderId, viewable: viewable ? true : false});
+    waitAppraise(navigation, dispatch,orderId, viewable) {
+        navigation.navigate('CommentDetail', {
+            id: orderId, viewable: viewable ? true : false, callBack: () => {
+                page = 0;
+                dispatch(orderList(page,status));
+            }
+        });
+       // msg.emit('route:goToNext', {sceneName: 'MakeComment', orderId: orderId, viewable: viewable ? true : false});
     }
 
     render() {
@@ -351,7 +356,7 @@ class Order extends Component {
                         activeOpacity={0.8}
                         style={[styles.btnContainer, styles.button]}
                         onPress={() => {
-                            this.waitAppraise.bind(this, row.orderId)
+                            this.waitAppraise(navigation, dispatch, row.orderId)
                         }}>
                         <Text
                             style={[styles.text, styles.buttonText]}
@@ -390,7 +395,7 @@ class Order extends Component {
                                     activeOpacity={0.8}
                                     style={[styles.btnContainer, styles.button]}
                                     onPress={() => {
-                                        this.waitAppraise.bind(this, row.orderId)
+                                        this.waitAppraise(navigation, dispatch, row.orderId)
                                     }}>
                                     <Text
                                         style={[styles.text, styles.buttonText]}
@@ -418,7 +423,7 @@ class Order extends Component {
                                     activeOpacity={0.8}
                                     style={[styles.btnContainer, styles.button]}
                                     onPress={() => {
-                                        this.waitAppraise.bind(this, row.orderId)
+                                        this.waitAppraise(navigation, dispatch, row.orderId)
                                     }}>
                                     <Text
                                         style={[styles.text, styles.buttonText]}
@@ -449,7 +454,7 @@ class Order extends Component {
                                     activeOpacity={0.8}
                                     style={[styles.btnContainer, styles.expressbutton]}
                                     onPress={() => {
-                                        this.waitAppraise.bind(this, row.orderId, true)
+                                        this.waitAppraise(navigation, dispatch, row.orderId, true)
                                     }}>
                                     <Text
                                         style={[styles.text, styles.expressbuttonText]}
@@ -477,7 +482,7 @@ class Order extends Component {
                                     activeOpacity={0.8}
                                     style={[styles.btnContainer, styles.expressbutton]}
                                     onPress={() => {
-                                        this.waitAppraise.bind(this, row.orderId, true)
+                                        this.waitAppraise(navigation, dispatch, row.orderId, true)
                                     }}>
                                     <Text
                                         style={[styles.text, styles.expressbuttonText]}

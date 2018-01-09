@@ -76,6 +76,8 @@ export const FollowDelete = 'FollowDelete';
  *comment
  **/
 export const CommentLoading = 'CommentLoading';
+export const CommentDetailLoading = 'CommentDetailLoading';
+export const CommentDetailLoaded = 'CommentDetailLoaded';
 export const CommentLoaded = 'CommentLoaded';
 export const CommentType = 'CommentType';
 export const CommentClean = 'CommentClean';

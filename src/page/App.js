@@ -47,6 +47,7 @@ import Message from "./user/Message";
 import MessageDetail from "./user/MessageDetail";
 import OrderDetail from "./user/OrderDetail";
 import OrderCancel from "./user/OrderCancel";
+import CommentDetail from "./user/CommentDetail";
 
 
 const HomeNavigator = TabNavigator({
@@ -115,6 +116,9 @@ export const AppNavigator = StackNavigator({
         },
         Comment: {
             screen: Comment,
+        },
+        CommentDetail: {
+            screen: CommentDetail,
         },
         Login: {
             screen: Login,
