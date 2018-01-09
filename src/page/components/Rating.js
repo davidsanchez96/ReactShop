@@ -1,7 +1,7 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {View, Image, StyleSheet, PanResponder} from 'react-native';
+import {View, Image,ImageBackground, StyleSheet, PanResponder} from 'react-native';
 
 export default class Rating extends Component {
     constructor(props) {
@@ -66,7 +66,7 @@ export default class Rating extends Component {
   render() {
     return (
       <View {... this.props.editable ?this._panResponder.panHandlers : {}}>
-        <Image
+        <ImageBackground
           style={[styles.ratingBar, this.props.style]}
           source={require('./img/stars.png')}>
           <View style={[styles.ratingWrapper, {width: this.state.starWidth}]}>
@@ -74,7 +74,7 @@ export default class Rating extends Component {
               style={styles.ratingContent}
               source={require('./img/stars.png')}/>
           </View>
-        </Image>
+        </ImageBackground>
       </View>
     )
   }
@@ -83,14 +83,14 @@ export default class Rating extends Component {
 const styles = StyleSheet.create({
   ratingBar: {
     width: 120,
-    height: 18
+    height: 22
   },
   ratingWrapper: {
     overflow: 'hidden'
   },
   ratingContent: {
     width: 120,
-    height: 18,
+    height: 22,
     tintColor: '#e63a59'
   }
 });

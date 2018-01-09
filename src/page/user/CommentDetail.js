@@ -348,7 +348,7 @@ class CommentDetail extends Component {
         let imageComps;
         if (!persistentShare && !this.props.viewable) {
             imageComps = new Array(imageNum).fill(0).map(function (_, i) {
-                return (<View>
+                return (<View key={i}>
                     {
                         (picArray[i] === undefined || picArray[i] == '') ?
                             <TouchableOpacity
@@ -383,7 +383,7 @@ class CommentDetail extends Component {
             else {
                 imageComps = picArray.map(function (picUrl) {
                     return (
-                        <View style={{marginRight: 20}}>
+                        <View style={{marginRight: 20}} key={picUrl}>
                             <TouchableOpacity onPress={() => _this._showBigImg(picUrl)}>
                                 <Image source={{uri: _this._formatPicUrl(picUrl)}} style={styles.pic}/>
                             </TouchableOpacity>
