@@ -73,7 +73,7 @@ class Order extends Component {
             });
         } else if (status === '8') {//填写回寄信息
             msg.emit('route:goToNext', {sceneName: 'BackGoodsDetail', orderId: orderInfo.orderId});
-        } else if (status === '3' && this.props.status == 3) {
+        } else if (status === '3' && navigation.state.params.status == 3) {
             //如果是从待评价页面过去的,需要加个flag标志进行区分,只展示评价按钮
             // msg.emit('route:goToNext', {sceneName: 'OrderDetail', orderId: orderInfo.orderId, status: status, flag: 1});
             navigation.navigate('OrderDetail',{id: orderInfo.orderId, status: status,flag: 1})
@@ -350,7 +350,7 @@ class Order extends Component {
             //先判断是否是待评价页面,flag 不为空表示进入待评价页面
             //flag =1 表示进入待评价页面,2 表示进入退款对货页面(不能有评价按钮),3 表示进入全部订单(可以有评价按钮,评价后可以查看)
 
-            if (this.props.flag == 1) {
+            if (navigation.state.params.flag == 1) {
                 buttonContents = (
                     <TouchableOpacity
                         activeOpacity={0.8}
@@ -365,7 +365,7 @@ class Order extends Component {
                         </Text>
                     </TouchableOpacity>
                 )
-            } else if (this.props.flag == 2) {
+            } else if (navigation.state.params.flag == 2) {
 
                 buttonContents = (
                     orderListReducer.orderSetting.canBackOrder == '1'

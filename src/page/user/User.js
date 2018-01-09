@@ -320,6 +320,7 @@ class User extends Component {
                         navigation.navigate('Order', {
                             title: '待评价订单',
                             status: 3,
+                            flag: 1,
                             loginBack: () => this.loginBack(dispatch)
                         });
                     }}
@@ -357,6 +358,7 @@ class User extends Component {
                      onPress={() => {
                          navigation.navigate('Order', {
                              title: '全部订单',
+                             flag: 3,
                              loginBack: () => this.loginBack(dispatch)
                          });
                      }}
