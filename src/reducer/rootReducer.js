@@ -36,6 +36,7 @@ import couponReducer from "./couponReducer";
 import orderListReducer from "./orderListReducer";
 import messageListReducer from "./messageListReducer";
 import orderDetailReducer from "./orderDetailReducer";
+import orderCancelReducer from "./orderCancelReducer";
 
 
 export default combineReducers({
@@ -76,4 +77,5 @@ export default combineReducers({
     orderListReducer,
     messageListReducer,
     orderDetailReducer,
+    orderCancelReducer,
 });

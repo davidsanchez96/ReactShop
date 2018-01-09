@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import {orderList, orderSetting} from "../../action/orderListActions";
 import {orderDataDict} from "../../utils/orderstatus";
 import {OrderListClean} from "../../utils/actionTypes";
+import {orderDetailSetting} from "../../action/orderDetailActions";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 //dp: 相当于数据字典
@@ -133,8 +134,15 @@ class Order extends Component {
      * 取消订单
      * @param orderInfo
      */
-    orderCancel(orderId) {
-        msg.emit('route:goToNext', {sceneName: 'CancelOrder', orderId: orderId, level: 1});
+    orderCancel(navigation, dispatch,orderId) {
+        navigation.navigate('OrderCancel', {
+            orderId: orderId, level: 1, callBack: () => {
+                page = 0;
+                dispatch(orderList(page,status));
+            }
+        });
+
+        // msg.emit('route:goToNext', {sceneName: 'OrderCancel', orderId: orderId, level: 1});
     }
 
     /**
@@ -196,7 +204,7 @@ class Order extends Component {
         return (
             <View style={{flex: 1, backgroundColor: '#eee'}}>
                 <FlatList
-                    renderItem={({item}) => this._renderItem(item, orderListReducer,navigation)}
+                    renderItem={({item}) => this._renderItem(item, orderListReducer,navigation,dispatch)}
                     ListEmptyComponent={() => {
                         if (loading || reloading) {
                             return null;
@@ -256,7 +264,7 @@ class Order extends Component {
     /**
      * 订单row row表示当前行记录的对象
      */
-    _renderItem(row, orderListReducer,navigation) {
+    _renderItem(row, orderListReducer,navigation,dispatch) {
         let status = orderDataDict.getOrderStatusDesc(row);
         var buttonContents;
 
@@ -321,7 +329,7 @@ class Order extends Component {
                     activeOpacity={0.8}
                     style={[styles.btnContainer, styles.expressbutton]}
                     onPress={() => {
-                        this.orderCancel(row.orderId)
+                        this.orderCancel(navigation, dispatch,row.orderId)
                     }}>
                     <Text
                         style={[styles.text, styles.expressbuttonText]}

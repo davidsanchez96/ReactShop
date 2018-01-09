@@ -46,6 +46,7 @@ import Order from "./user/Order";
 import Message from "./user/Message";
 import MessageDetail from "./user/MessageDetail";
 import OrderDetail from "./user/OrderDetail";
+import OrderCancel from "./user/OrderCancel";
 
 
 const HomeNavigator = TabNavigator({
@@ -207,6 +208,9 @@ export const AppNavigator = StackNavigator({
         },
         OrderDetail: {
             screen: OrderDetail,
+        },
+        OrderCancel: {
+            screen: OrderCancel,
         },
         Message: {
             screen: Message,

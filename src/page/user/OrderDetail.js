@@ -2,8 +2,8 @@
 
 import React, {Component} from 'react';
 import {
-    Dimensions, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity,
-    View,Alert,
+    Alert, Dimensions, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity,
+    View,
 } from 'react-native';
 import Immutable from "immutable";
 import {connect} from "react-redux";
@@ -12,7 +12,6 @@ import {orderSetting} from "../../action/orderListActions";
 import {orderDataDict} from "../../utils/orderstatus";
 import Loading from "../components/Loading";
 import {OrderDetailClean} from "../../utils/actionTypes";
-import {messageDeleteAll} from "../../action/messageListActions";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -45,8 +44,9 @@ class OrderDetail extends Component {
         });
 
     }
+
     componentWillUnmount() {
-        this.props.dispatch({type:OrderDetailClean})
+        this.props.dispatch({type: OrderDetailClean})
     }
 
     /**
@@ -91,8 +91,13 @@ class OrderDetail extends Component {
      * 取消订单
      * @param orderInfo
      */
-    orderCancel(orderId) {
-        msg.emit('route:goToNext', {sceneName: 'CancelOrder', orderId: orderId, level: 2});
+    orderCancel(navigation, dispatch, orderId) {
+        navigation.navigate('OrderCancel', {
+            orderId: orderId, level: 2, callBack: () => {
+                dispatch(orderDetailSetting('4'));
+            }
+        });
+        // msg.emit('route:goToNext', {sceneName: 'OrderCancel', orderId: orderId, level: 2});
     }
 
     /**
@@ -127,7 +132,7 @@ class OrderDetail extends Component {
                         activeOpacity={0.8}
                         style={[styles.btnContainer, styles.expressbutton]}
                         onPress={() => {
-                            this.orderCancel(orderDetail.orderId)
+                            this.orderCancel(navigation,dispatch, orderDetail.orderId)
                         }}>
                         <Text
                             style={[styles.text, styles.expressbuttonText]}
@@ -182,7 +187,7 @@ class OrderDetail extends Component {
                     activeOpacity={0.8}
                     style={[styles.btnContainer, styles.expressbutton]}
                     onPress={() => {
-                        this.orderCancel(orderDetail.orderId)
+                        this.orderCancel(navigation, dispatch,orderDetail.orderId)
                     }}>
                     <Text
                         style={[styles.text, styles.expressbuttonText]}
