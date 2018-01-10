@@ -46,6 +46,9 @@ class OrderCancel extends Component {
         }
     }
 
+    componentWillMount() {
+       console.log('componentWillMount')
+    }
 
     /**
      * 处理radio点击事件
@@ -78,10 +81,10 @@ class OrderCancel extends Component {
     componentDidUpdate() {
         const {orderCancelReducer, navigation} = this.props;
         if (orderCancelReducer.get('isSuccess')) {
+            navigation.goBack();
             if (navigation.state.params.callBack) {
                 navigation.state.params.callBack();
             }
-            navigation.goBack();
         }
     }
 

@@ -37,15 +37,19 @@ class CommentDetail extends Component {
 
     componentDidMount() {
         const {navigation, dispatch} = this.props;
-        InteractionManager.runAfterInteractions(() => {
-            dispatch(commentDetail(navigation.state.params.id))
-        });
+        if(navigation.state.params.id){
+            InteractionManager.runAfterInteractions(() => {
+                dispatch(commentDetail(navigation.state.params.id))
+            });
+        }
+
     }
     componentDidUpdate() {
         const {commentDetailReducer, navigation} = this.props;
         if(commentDetailReducer.get('isSuccess')){
             if (navigation.state.params.callBack) {
                 navigation.state.params.callBack();
+                navigation.setParams({id:null});
             }
             navigation.goBack();
         }

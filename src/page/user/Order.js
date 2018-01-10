@@ -10,7 +10,6 @@ import {connect} from "react-redux";
 import {orderList, orderSetting} from "../../action/orderListActions";
 import {orderDataDict} from "../../utils/orderstatus";
 import {OrderListClean} from "../../utils/actionTypes";
-import {orderDetailSetting} from "../../action/orderDetailActions";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 //dp: 相当于数据字典
@@ -18,7 +17,7 @@ const PAY_STATUS = {
     1: '在线支付',
     0: '货到付款',
 };
-let page = 0,status;
+let page = 0, status;
 
 class Order extends Component {
     static navigationOptions = ({navigation}) => ({
@@ -35,10 +34,10 @@ class Order extends Component {
      */
     componentDidMount() {
         page = 0;
-        status=this.props.navigation.state.params.status;
+        status = this.props.navigation.state.params.status;
         this.props.dispatch(orderSetting());
         InteractionManager.runAfterInteractions(() => {
-            this.props.dispatch(orderList(page,status))
+            this.props.dispatch(orderList(page, status))
         });
     }
 
@@ -46,7 +45,7 @@ class Order extends Component {
      * destroy
      */
     componentWillUnmount() {
-        this.props.dispatch({type:OrderListClean})
+        this.props.dispatch({type: OrderListClean})
     }
 
 
@@ -55,7 +54,7 @@ class Order extends Component {
      *
      * @private
      */
-    rowPressed(orderInfo,navigation) {
+    rowPressed(orderInfo, navigation) {
         let status = orderInfo.orderStatus;
         let isBack = orderInfo.isBack;
         //所有的退款状态
@@ -76,10 +75,10 @@ class Order extends Component {
         } else if (status === '3' && navigation.state.params.status == 3) {
             //如果是从待评价页面过去的,需要加个flag标志进行区分,只展示评价按钮
             // msg.emit('route:goToNext', {sceneName: 'OrderDetail', orderId: orderInfo.orderId, status: status, flag: 1});
-            navigation.navigate('OrderDetail',{id: orderInfo.orderId, status: status,flag: 1})
+            navigation.navigate('OrderDetail', {id: orderInfo.orderId, status: status, flag: 1})
         } else {
             // msg.emit('route:goToNext', {sceneName: 'OrderDetail', orderId: orderInfo.orderId, status: status});
-            navigation.navigate('OrderDetail',{id: orderInfo.orderId, status: status})
+            navigation.navigate('OrderDetail', {id: orderInfo.orderId, status: status})
         }
 
     }
@@ -134,11 +133,11 @@ class Order extends Component {
      * 取消订单
      * @param orderInfo
      */
-    orderCancel(navigation, dispatch,orderId) {
+    orderCancel(navigation, dispatch, orderId) {
         navigation.navigate('OrderCancel', {
             orderId: orderId, level: 1, callBack: () => {
                 page = 0;
-                dispatch(orderList(page,status));
+                dispatch(orderList(page, status));
             }
         });
 
@@ -167,14 +166,16 @@ class Order extends Component {
     /**
      * 评价
      */
-    waitAppraise(navigation, dispatch,orderId, viewable) {
+    waitAppraise(navigation, dispatch, orderId, viewable) {
         navigation.navigate('CommentDetail', {
             id: orderId, viewable: viewable ? true : false, callBack: () => {
-                page = 0;
-                dispatch(orderList(page,status));
+                InteractionManager.runAfterInteractions(() => {
+                    page = 0;
+                    dispatch(orderList(page, status));
+                });
             }
         });
-       // msg.emit('route:goToNext', {sceneName: 'MakeComment', orderId: orderId, viewable: viewable ? true : false});
+        // msg.emit('route:goToNext', {sceneName: 'MakeComment', orderId: orderId, viewable: viewable ? true : false});
     }
 
     render() {
@@ -201,7 +202,7 @@ class Order extends Component {
         // } else {
         //     titlename = '全部订单';
         // }
-        const {orderListReducer, dispatch,navigation} = this.props;
+        const {orderListReducer, dispatch, navigation} = this.props;
         const loading = orderListReducer.loading;
         const reloading = orderListReducer.reloading;
         const hasMore = orderListReducer.hasMore;
@@ -209,17 +210,17 @@ class Order extends Component {
         return (
             <View style={{flex: 1, backgroundColor: '#eee'}}>
                 <FlatList
-                    renderItem={({item}) => this._renderItem(item, orderListReducer,navigation,dispatch)}
+                    renderItem={({item}) => this._renderItem(item, orderListReducer, navigation, dispatch)}
                     ListEmptyComponent={() => {
                         if (loading || reloading) {
                             return null;
                         } else {
                             return <View style={styles.noDataContainer}>
-                                    <Image style={styles.emptyIcon}
-                                           source={require('../components/img/list.png')}/>
-                                    <Text style={styles.txt}
-                                          allowFontScaling={false}>暂无相关订单！</Text>
-                                </View>
+                                <Image style={styles.emptyIcon}
+                                       source={require('../components/img/list.png')}/>
+                                <Text style={styles.txt}
+                                      allowFontScaling={false}>暂无相关订单！</Text>
+                            </View>
 
                         }
                     }}
@@ -249,13 +250,13 @@ class Order extends Component {
                     data={orderListReducer.data}
                     onRefresh={() => {
                         page = 0;
-                        dispatch(orderList(page,status));
+                        dispatch(orderList(page, status));
                     }}
                     refreshing={loading}
                     onEndReached={() => {
                         if (hasMore && !loading && !loadingMore) {
                             page++;
-                            dispatch(orderList(page,status));
+                            dispatch(orderList(page, status));
                         }
                     }}
                     onEndReachedThreshold={10}
@@ -269,7 +270,7 @@ class Order extends Component {
     /**
      * 订单row row表示当前行记录的对象
      */
-    _renderItem(row, orderListReducer,navigation,dispatch) {
+    _renderItem(row, orderListReducer, navigation, dispatch) {
         let status = orderDataDict.getOrderStatusDesc(row);
         var buttonContents;
 
@@ -334,7 +335,7 @@ class Order extends Component {
                     activeOpacity={0.8}
                     style={[styles.btnContainer, styles.expressbutton]}
                     onPress={() => {
-                        this.orderCancel(navigation, dispatch,row.orderId)
+                        this.orderCancel(navigation, dispatch, row.orderId)
                     }}>
                     <Text
                         style={[styles.text, styles.expressbuttonText]}
@@ -576,7 +577,7 @@ class Order extends Component {
         return (
             <View style={{marginBottom: 10, backgroundColor: '#fff'}}>
                 <TouchableOpacity
-                    onPress={() => this.rowPressed(row,navigation)}
+                    onPress={() => this.rowPressed(row, navigation)}
                     activeOpacity={0.8}
                     style={styles.orderBox}>
                     <View>
@@ -585,7 +586,7 @@ class Order extends Component {
                             <Text numberOfLines={1} style={{color: '#E43A58'}} allowFontScaling={false}>{status}</Text>
                         </View>
                         <View style={styles.orderCont}>
-                            {row.orderGoodsList?row.orderGoodsList.map((v, k) => {
+                            {row.orderGoodsList ? row.orderGoodsList.map((v, k) => {
                                 if (row.orderGoodsList.length > 1) {
                                     return (
                                         k < 4 ?
@@ -605,7 +606,7 @@ class Order extends Component {
                                         </View>
                                     );
                                 }
-                            }):null}
+                            }) : null}
                         </View>
                     </View>
                 </TouchableOpacity>
