@@ -8,7 +8,7 @@ import {
 import Immutable from "immutable";
 import {connect} from "react-redux";
 import {orderDetail, orderDetailSetting, orderUpdateStatus} from "../../action/orderDetailActions";
-import {orderSetting} from "../../action/orderListActions";
+import {orderList, orderSetting} from "../../action/orderListActions";
 import {orderDataDict} from "../../utils/orderstatus";
 import Loading from "../components/Loading";
 import {OrderDetailClean} from "../../utils/actionTypes";
@@ -103,9 +103,15 @@ class OrderDetail extends Component {
     /**
      * 评价
      */
-    waitAppraise(orderId) {
+    waitAppraise(navigation, dispatch, orderId) {
         //调用原生的
-        msg.emit('route:goToNext', {sceneName: 'MakeComment', orderId: orderId, level: 2});
+        navigation.navigate('CommentDetail', {
+            id: orderId, level: 2, callBack: () => {
+                dispatch(orderDetailSetting('1'));
+            }
+        });
+
+        //msg.emit('route:goToNext', {sceneName: 'MakeComment', orderId: orderId, level: 2});
     }
 
 
@@ -207,7 +213,7 @@ class OrderDetail extends Component {
                             activeOpacity={0.8}
                             style={[styles.btnContainer, styles.buttonNew]}
                             onPress={() => {
-                                this.waitAppraise.bind(this, orderDetail.orderId)
+                                this.waitAppraise(navigation, dispatch, orderDetail.orderId)
                             }}>
                             <Text
                                 style={[styles.text, styles.buttonTextNew]}
@@ -227,7 +233,7 @@ class OrderDetail extends Component {
                                     activeOpacity={0.8}
                                     style={[styles.btnContainer, styles.expressbutton]}
                                     onPress={() => {
-                                        this.waitAppraise.bind(this, orderDetail.orderId)
+                                        this.waitAppraise(navigation, dispatch, orderDetail.orderId)
                                     }}>
                                     <Text
                                         style={[styles.text, styles.expressbuttonText]}
@@ -269,7 +275,7 @@ class OrderDetail extends Component {
                                 activeOpacity={0.8}
                                 style={[styles.btnContainer, styles.buttonNew]}
                                 onPress={() => {
-                                    this.waitAppraise.bind(this, orderDetail.orderId)
+                                    this.waitAppraise(navigation, dispatch, orderDetail.orderId)
                                 }}>
                                 <Text
                                     style={[styles.text, styles.buttonTextNew]}
