@@ -2,25 +2,15 @@
 
 import React, {Component} from 'react';
 import {
-    View,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    Image,
-    PixelRatio,
-    StyleSheet,
-    InteractionManager,
-    NativeModules,
-    Dimensions,
-    Platform
+    Dimensions, Image, InteractionManager, PixelRatio, Platform, ScrollView, StyleSheet, Text, TextInput,
+    TouchableOpacity, View
 } from 'react-native';
-import Immutable from "immutable";
-import {CommentDetailScore, OrderDetailClean} from "../../utils/actionTypes";
+import {CommentDetailClean, CommentDetailScore} from "../../utils/actionTypes";
 import {connect} from "react-redux";
-import {commentDetail} from "../../action/commentDetailActions";
+import {commentDetail, submitComment} from "../../action/commentDetailActions";
 import Loading from "../components/Loading";
 import Rating from "../components/Rating";
+import Toast from 'react-native-root-toast';
 
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -43,10 +33,6 @@ class CommentDetail extends Component {
         }
     }
 
-    static defaultProps = {
-        viewable: false,
-        orderId: null
-    };
 
 
     componentDidMount() {
@@ -55,9 +41,17 @@ class CommentDetail extends Component {
             dispatch(commentDetail(navigation.state.params.id))
         });
     }
-
+    componentDidUpdate() {
+        const {commentDetailReducer, navigation} = this.props;
+        if(commentDetailReducer.get('isSuccess')){
+            if (navigation.state.params.callBack) {
+                navigation.state.params.callBack();
+            }
+            navigation.goBack();
+        }
+    }
     componentWillUnmount() {
-        this.props.dispatch({type: OrderDetailClean})
+        this.props.dispatch({type: CommentDetailClean})
     }
 
     render() {
@@ -110,8 +104,8 @@ class CommentDetail extends Component {
                                                 <Rating
                                                     rating={scoreValue}
                                                     style={{marginTop: 5}}
-                                                    editable={!comment.persistentComment && !this.props.viewable}
-                                                    callbackParent={(newState) => this.onChildChanged(dispatch,newState, v.orderGoodsId, v.goodsId,pic_map)}
+                                                    editable={!comment.persistentComment && !navigation.state.params.viewable}
+                                                    callbackParent={(newState) => this.onChildChanged(dispatch, newState, v.orderGoodsId, v.goodsId, pic_map)}
                                                 />
                                             </View>
                                         </View>
@@ -125,11 +119,11 @@ class CommentDetail extends Component {
                                                 underlineColorAndroid='transparent'
                                                 multiline={true}
                                                 value={content}
-                                                editable={!comment.persistentComment && !this.props.viewable}
+                                                editable={!comment.persistentComment && !navigation.state.params.viewable}
                                                 ref={component => this['_textInput' + k] = component}
                                                 onFocus={() => this._changeScrollView(this['_textInput' + k])}
                                                 onBlur={() => this._changeScrollHide(this['_textInput' + k])}
-                                                onChangeText={(text) => this.onContentChanged(dispatch,text, v.orderGoodsId, v.goodsId)}/>
+                                                onChangeText={(text) => this.onContentChanged(dispatch, text, v.orderGoodsId, v.goodsId)}/>
                                             :
                                             <TextInput
                                                 style={styles.commentInput}
@@ -138,12 +132,12 @@ class CommentDetail extends Component {
                                                 underlineColorAndroid='transparent'
                                                 multiline={true}
                                                 value={content}
-                                                editable={!comment.persistentComment && !this.props.viewable}
-                                                onChangeText={(text) => this.onContentChanged(dispatch,text, v.orderGoodsId, v.goodsId)}/>
+                                                editable={!comment.persistentComment && !navigation.state.params.viewable}
+                                                onChangeText={(text) => this.onContentChanged(dispatch, text, v.orderGoodsId, v.goodsId)}/>
                                     }
                                     <View style={styles.addImg}>
                                         <Text
-                                            allowFontScaling={false}>{!comment.persistentComment && !this.props.viewable ? '添加晒单图片' : '晒单图片'}</Text>
+                                            allowFontScaling={false}>{!comment.persistentComment && !navigation.state.params.viewable ? '添加晒单图片' : '晒单图片'}</Text>
                                         {/* 用之前的应该就行了吧 */}
                                         <View style={{marginTop: 10, flexDirection: 'row'}}>
                                             {
@@ -157,11 +151,11 @@ class CommentDetail extends Component {
                     }
                 </ScrollView>
 
-                {!this.props.viewable ?
+                {!navigation.state.params.viewable ?
                     <TouchableOpacity
                         style={styles.button}
                         activeOpacity={0.8}
-                        onPress={this._handleSubmit}>
+                        onPress={()=>this._handleSubmit(dispatch,navigation)}>
                         <Text style={styles.buttonText} allowFontScaling={false}>提交</Text>
                     </TouchableOpacity>
                     : null
@@ -183,15 +177,15 @@ class CommentDetail extends Component {
         )
     }
 
-    onChildChanged(dispatch,newState, orderGoodsId, goodsId,pic_map) {
-       let parames= {score: newState, orderGoodsId: orderGoodsId, goodsId: goodsId};
+    onChildChanged(dispatch, newState, orderGoodsId, goodsId, pic_map) {
+        let parames = {score: newState, orderGoodsId: orderGoodsId, goodsId: goodsId};
         let orderInfos = pic_map.get(parames.orderGoodsId);
         if (orderInfos === undefined || orderInfos == null) {
             orderInfos = {'pic': [], 'score': 1, 'text': '', 'goodsId': parames.goodsId};
         }
         orderInfos.score = parames.score;
         pic_map.set(parames.orderGoodsId, orderInfos);
-        dispatch({type:CommentDetailScore,data:pic_map});
+        dispatch({type: CommentDetailScore, data: pic_map});
         // appStore.cursor().set('picMaps', pic_map);
         // msg.emit('order:comment:score', {score: newState, orderGoodsId: orderGoodsId, goodsId: goodsId});
     }
@@ -199,16 +193,16 @@ class CommentDetail extends Component {
     /**
      * 内容填写
      */
-    onContentChanged(dispatch,text, orderGoodsId, goodsId) {
-        let pic_map=this.props.commentDetailReducer.get('picMaps');
-        let parames=  {text: text, orderGoodsId: orderGoodsId, goodsId: goodsId};
+    onContentChanged(dispatch, text, orderGoodsId, goodsId) {
+        let pic_map = this.props.commentDetailReducer.get('picMaps');
+        let parames = {text: text, orderGoodsId: orderGoodsId, goodsId: goodsId};
         let orderInfos = pic_map.get(parames.orderGoodsId);
         if (orderInfos === undefined || orderInfos == null) {
             orderInfos = {'pic': [], 'score': 1, 'text': '', 'goodsId': parames.goodsId};
         }
         orderInfos.text = parames.text;
         pic_map.set(parames.orderGoodsId, orderInfos);
-        dispatch({type:CommentDetailScore,data:pic_map});
+        dispatch({type: CommentDetailScore, data: pic_map});
 
         // msg.emit('order:comment:content', {text: text, orderGoodsId: orderGoodsId, goodsId: goodsId});
     }
@@ -217,8 +211,61 @@ class CommentDetail extends Component {
      * 提交评论
      * @private
      */
-    _handleSubmit() {
-        msg.emit('order:comment:submit', {orderId: this.props.orderId, level: this.props.level});
+    _handleSubmit(dispatch,navigation) {
+
+        let resultMap = this.props.commentDetailReducer.get('picMaps');
+        if (resultMap.size > 0) {
+            let parames = [];
+            let index = 0;
+            let mustWrite = false;//评价内容必填
+            let contentLength = false;//评价内容长度
+
+            resultMap.forEach((v, k) => {
+                if (v.text == '' || v.text == null) {
+                    mustWrite = true;
+                } else {
+                    if (v.text.length > 500) {
+                        contentLength = true;
+                    }
+                }
+
+                parames[index] = {
+                    orderGoodsId: k,
+                    score: v.score,
+                    imageNames: v.pic,
+                    content: v.text,
+                    goodsId: v.goodsId
+                };
+                index++;
+            });
+
+            if (mustWrite) {
+                Toast.show('请填写评价内容!');
+
+            }
+
+            else if (contentLength) {
+                Toast.show('填写内容的长度不能超过500个!');
+
+            }else {
+                dispatch(submitComment(navigation.state.params.id,parames))
+                // //如果是从订单详情页过来,则重新跳转到订单详情页
+                // if (paramesObj.level === 2) {
+                //     //查询订单基础信息(重新刷新订单详细)
+                //     msg.emit('order:evaluateFlag', '1');
+                // }
+                // msg.emit('route:backToLast');
+                // msg.emit('order:list:refresh');
+                // msg.emit('customers:account');
+            }
+
+
+        } else {
+            Toast.show( '请填写评价内容!');
+        }
+
+
+        // msg.emit('order:comment:submit', {orderId: this.props.orderId, level: this.props.level});
     }
 
     /**
@@ -360,7 +407,7 @@ class CommentDetail extends Component {
     _getShareComps(orderGoodsInfo, picArray, persistentShare, imageNum) {
         let _this = this;
         let imageComps;
-        if (!persistentShare && !this.props.viewable) {
+        if (!persistentShare && !this.props.navigation.state.params.viewable) {
             imageComps = new Array(imageNum).fill(0).map(function (_, i) {
                 return (<View key={i}>
                     {

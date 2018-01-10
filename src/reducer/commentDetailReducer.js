@@ -10,7 +10,8 @@ const initialState = Immutable.fromJS({
     //图片url
     picMaps: new Map(),
     //每个商品晒图数目
-    imageNum: 5
+    imageNum: 5,
+    isSuccess: false,
 
 });
 export default function commentDetailReducer(state = initialState, action) {
@@ -25,9 +26,9 @@ export default function commentDetailReducer(state = initialState, action) {
             });
         case types.CommentDetailScore:
             return state.set('picMaps', action.data);
-        case types.CommentDetailContent:
-            return state.set('status', action.status);
-        case types.OrderDetailClean:
+        case types.CommentDetailSuccess:
+            return state.set('isSuccess', true).set('loading', false);
+        case types.CommentDetailClean:
             return initialState;
         case types.NetError:
             return state.set('loading', false);

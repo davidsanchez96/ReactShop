@@ -1,6 +1,9 @@
 import NetUtils from "../utils/NetUtils";
-import {DetailUrl, OrderDetailUrl} from "../utils/Constant";
-import {CommentDetailLoaded, CommentDetailLoading, CommentLoaded, CommentLoading, NetError} from "../utils/actionTypes";
+import {CategoryUrl, OrderDetailUrl} from "../utils/Constant";
+import {
+    CommentDetailLoaded, CommentDetailLoading, CommentDetailSuccess, CouponLoaded,
+    NetError
+} from "../utils/actionTypes";
 import {fromJS} from "immutable";
 
 export function commentDetail(orderId) {
@@ -54,3 +57,18 @@ export function commentDetail(orderId) {
     }
 }
 
+export function submitComment(orderId,data) {
+    return (dispatch) => {
+        dispatch({type: CommentDetailLoading});
+        let url = OrderDetailUrl + `/${orderId}/share`;
+        NetUtils.post(url,data,
+            (result) => {
+                console.log(CategoryUrl+result);
+                dispatch({type: CommentDetailSuccess});
+            },
+            (error) => {
+                console.log(error);
+                dispatch({type: NetError});
+            });
+    }
+}
