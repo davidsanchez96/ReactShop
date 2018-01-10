@@ -4,10 +4,8 @@ import {OrderDetailLoading} from "../utils/actionTypes";
 
 const initialState = Immutable.fromJS({
     loading: true,
-    status: undefined,
     //订单详情
     orderGoods: [],
-    orderSetting: {},
     isLoading: true,
     //图片url
     picMaps: new Map(),
@@ -25,9 +23,9 @@ export default function commentDetailReducer(state = initialState, action) {
                 cursor.set('loading', false);
                 cursor.set('picMaps', action.map);
             });
-        case types.OrderDetailSetting:
-            return state.set('orderSetting', action.data).set('status', action.status);
-        case types.OrderDetailStatus:
+        case types.CommentDetailScore:
+            return state.set('picMaps', action.data);
+        case types.CommentDetailContent:
             return state.set('status', action.status);
         case types.OrderDetailClean:
             return initialState;

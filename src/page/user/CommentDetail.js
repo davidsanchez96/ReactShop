@@ -16,7 +16,7 @@ import {
     Platform
 } from 'react-native';
 import Immutable from "immutable";
-import {OrderDetailClean} from "../../utils/actionTypes";
+import {CommentDetailScore, OrderDetailClean} from "../../utils/actionTypes";
 import {connect} from "react-redux";
 import {commentDetail} from "../../action/commentDetailActions";
 import Loading from "../components/Loading";
@@ -33,11 +33,6 @@ class CommentDetail extends Component {
     static navigationOptions = ({navigation}) => ({
         title: navigation.state.params.viewable ? '评价' : '发表评价',
     });
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return !Immutable.is(this.props.commentDetailReducer, nextProps.commentDetailReducer) ||
-            !Immutable.is(Immutable.Map(this.state), Immutable.Map(nextState));
-    }
 
     constructor(props) {
         super(props);
@@ -116,7 +111,7 @@ class CommentDetail extends Component {
                                                     rating={scoreValue}
                                                     style={{marginTop: 5}}
                                                     editable={!comment.persistentComment && !this.props.viewable}
-                                                    callbackParent={(newState) => this.onChildChanged(newState, v.orderGoodsId, v.goodsId)}
+                                                    callbackParent={(newState) => this.onChildChanged(dispatch,newState, v.orderGoodsId, v.goodsId,pic_map)}
                                                 />
                                             </View>
                                         </View>
@@ -134,7 +129,7 @@ class CommentDetail extends Component {
                                                 ref={component => this['_textInput' + k] = component}
                                                 onFocus={() => this._changeScrollView(this['_textInput' + k])}
                                                 onBlur={() => this._changeScrollHide(this['_textInput' + k])}
-                                                onChangeText={(text) => this.onContentChanged(text, v.orderGoodsId, v.goodsId)}/>
+                                                onChangeText={(text) => this.onContentChanged(dispatch,text, v.orderGoodsId, v.goodsId)}/>
                                             :
                                             <TextInput
                                                 style={styles.commentInput}
@@ -144,7 +139,7 @@ class CommentDetail extends Component {
                                                 multiline={true}
                                                 value={content}
                                                 editable={!comment.persistentComment && !this.props.viewable}
-                                                onChangeText={(text) => this.onContentChanged(text, v.orderGoodsId, v.goodsId)}/>
+                                                onChangeText={(text) => this.onContentChanged(dispatch,text, v.orderGoodsId, v.goodsId)}/>
                                     }
                                     <View style={styles.addImg}>
                                         <Text
@@ -188,15 +183,34 @@ class CommentDetail extends Component {
         )
     }
 
-    onChildChanged(newState, orderGoodsId, goodsId) {
-        msg.emit('order:comment:score', {score: newState, orderGoodsId: orderGoodsId, goodsId: goodsId});
+    onChildChanged(dispatch,newState, orderGoodsId, goodsId,pic_map) {
+       let parames= {score: newState, orderGoodsId: orderGoodsId, goodsId: goodsId};
+        let orderInfos = pic_map.get(parames.orderGoodsId);
+        if (orderInfos === undefined || orderInfos == null) {
+            orderInfos = {'pic': [], 'score': 1, 'text': '', 'goodsId': parames.goodsId};
+        }
+        orderInfos.score = parames.score;
+        pic_map.set(parames.orderGoodsId, orderInfos);
+        dispatch({type:CommentDetailScore,data:pic_map});
+        // appStore.cursor().set('picMaps', pic_map);
+        // msg.emit('order:comment:score', {score: newState, orderGoodsId: orderGoodsId, goodsId: goodsId});
     }
 
     /**
      * 内容填写
      */
-    onContentChanged(text, orderGoodsId, goodsId) {
-        msg.emit('order:comment:content', {text: text, orderGoodsId: orderGoodsId, goodsId: goodsId});
+    onContentChanged(dispatch,text, orderGoodsId, goodsId) {
+        let pic_map=this.props.commentDetailReducer.get('picMaps');
+        let parames=  {text: text, orderGoodsId: orderGoodsId, goodsId: goodsId};
+        let orderInfos = pic_map.get(parames.orderGoodsId);
+        if (orderInfos === undefined || orderInfos == null) {
+            orderInfos = {'pic': [], 'score': 1, 'text': '', 'goodsId': parames.goodsId};
+        }
+        orderInfos.text = parames.text;
+        pic_map.set(parames.orderGoodsId, orderInfos);
+        dispatch({type:CommentDetailScore,data:pic_map});
+
+        // msg.emit('order:comment:content', {text: text, orderGoodsId: orderGoodsId, goodsId: goodsId});
     }
 
     /**
