@@ -1,6 +1,6 @@
 import * as types from '../utils/actionTypes';
 import Immutable from 'immutable';
-import {OrderDetailLoading} from "../utils/actionTypes";
+
 const initialState = Immutable.fromJS({
     loading: true,
     status: undefined,

@@ -1,6 +1,9 @@
 import NetUtils from "../utils/NetUtils";
-import {OrderListUrl} from "../utils/Constant";
-import {NetError, OrderListLoaded, OrderListLoading, OrderListSetting, OrderListShowMore} from "../utils/actionTypes";
+import {OrderDetailUrl, OrderListUrl} from "../utils/Constant";
+import {
+    NetError, OrderDetailLoading, OrderDetailStatus, OrderListLoaded, OrderListLoading, OrderListSetting,
+    OrderListShowMore, OrderListStatus
+} from "../utils/actionTypes";
 import {
     AsyncStorage,
 } from 'react-native';
@@ -13,18 +16,35 @@ export function orderList(pageNum, status) {
         } else {
             dispatch({type: OrderListLoading});
         }
-        let url ;
-        if (status  === undefined) {
+        let url;
+        if (status === undefined) {
             url = OrderListUrl + '?pageNum=' + pageNum;
         } else if (status === 3) {
-            url = OrderListUrl +'/unappraised?pageNum=' + pageNum;
+            url = OrderListUrl + '/unappraised?pageNum=' + pageNum;
         } else {
-            url = OrderListUrl +'/'+status+'?pageNum=' + pageNum;
+            url = OrderListUrl + '/' + status + '?pageNum=' + pageNum;
         }
         NetUtils.get(url,
             (result) => {
                 console.log(result);
                 dispatch({type: OrderListLoaded, data: result.data, hasMore: result.data.length >= 10, page: pageNum});
+            },
+            (error) => {
+                console.log(error);
+                dispatch({type: NetError});
+            });
+
+
+    }
+}
+
+export function orderListUpdateStatus(id, status) {
+    return (dispatch) => {
+        let url = OrderDetailUrl + `/${id}/status/${status}`;
+        NetUtils.put(url, null,
+            (result) => {
+                console.log(result);
+                dispatch({type: OrderListStatus});
             },
             (error) => {
                 console.log(error);

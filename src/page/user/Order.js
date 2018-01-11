@@ -2,14 +2,16 @@
 import React, {Component} from 'react';
 import {
     ActivityIndicator, Dimensions, FlatList, Image, InteractionManager, StyleSheet, Text, TouchableOpacity,
-    View,
+    View, Alert,
 } from 'react-native';
 
 import Immutable from "immutable";
 import {connect} from "react-redux";
-import {orderList, orderSetting} from "../../action/orderListActions";
+import {orderList, orderListUpdateStatus, orderSetting} from "../../action/orderListActions";
 import {orderDataDict} from "../../utils/orderstatus";
 import {OrderListClean} from "../../utils/actionTypes";
+import {messageDeleteAll} from "../../action/messageListActions";
+import {orderUpdateStatus} from "../../action/orderDetailActions";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 //dp: 相当于数据字典
@@ -39,6 +41,15 @@ class Order extends Component {
         InteractionManager.runAfterInteractions(() => {
             this.props.dispatch(orderList(page, status))
         });
+    }
+
+    componentDidUpdate() {
+        if (this.props.orderListReducer.refresh) {
+            page = 0;
+            InteractionManager.runAfterInteractions(() => {
+                this.props.dispatch(orderList(page, status))
+            });
+        }
     }
 
     /**
@@ -112,13 +123,24 @@ class Order extends Component {
      * @param orderId
      */
     affirmGoods(orderId, status) {
-        msg.emit('app:alert', {
-            title: '提示',
-            msgContent: '是否确认收货?',
-            okHandle: () => {
-                msg.emit('order:list:update', {orderId: orderId, status: status});
+
+        Alert.alert('提示', '是否确认收货?', [
+            {text: '取消'},
+            {
+                text: '确定', onPress: () => {
+                    dispatch(orderListUpdateStatus(orderId, status));
+                }
             }
-        });
+        ]);
+
+
+        // msg.emit('app:alert', {
+        //     title: '提示',
+        //     msgContent: '是否确认收货?',
+        //     okHandle: () => {
+        //         msg.emit('order:list:update', {orderId: orderId, status: status});
+        //     }
+        // });
     }
 
     /**
@@ -523,7 +545,14 @@ class Order extends Component {
                         activeOpacity={0.8}
                         style={[styles.btnContainer, styles.button]}
                         onPress={() => {
-                            this.affirmGoods.bind(this, row.orderId, 3)
+                            Alert.alert('提示', '是否确认收货?', [
+                                {text: '取消'},
+                                {
+                                    text: '确定', onPress: () => {
+                                        dispatch(orderListUpdateStatus(row.orderId, 3));
+                                    }
+                                }
+                            ]);
                         }}>
                         <Text
                             style={[styles.text, styles.buttonText]}

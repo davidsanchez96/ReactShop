@@ -239,6 +239,7 @@ export const OrderListLoaded = 'OrderListLoaded';
 export const OrderListShowMore = 'OrderListShowMore';
 export const OrderListSetting = 'OrderListSetting';
 export const OrderListClean = 'OrderListClean';
+export const OrderListStatus = 'OrderListStatus';
 export const OrderDetailClean = 'OrderDetailClean';
 export const OrderDetailLoading = 'OrderDetailLoading';
 export const OrderCancelLoading = 'OrderCancelLoading';

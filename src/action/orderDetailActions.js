@@ -26,9 +26,8 @@ export function orderDetail(id) {
 }
 export function orderUpdateStatus(id,status) {
     return (dispatch) => {
-        dispatch({type: OrderDetailLoading});
         let url = OrderDetailUrl + `/${id}/status/${status}`;
-        NetUtils.get(url,
+        NetUtils.put(url,null,
             (result) => {
                 console.log(result);
                 dispatch({type: OrderDetailStatus, status: status});
