@@ -5,7 +5,7 @@ import {
     OrderDetailStatus
 } from "../utils/actionTypes";
 import {AsyncStorage,} from 'react-native';
-
+import {DeviceEventEmitter} from 'react-native';
 
 export function orderDetail(id) {
     return (dispatch) => {
@@ -31,6 +31,7 @@ export function orderUpdateStatus(id,status) {
             (result) => {
                 console.log(result);
                 dispatch({type: OrderDetailStatus, status: status});
+                DeviceEventEmitter.emit('userRefresh');
             },
             (error) => {
                 console.log(error);

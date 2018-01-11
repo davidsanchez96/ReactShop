@@ -1,13 +1,11 @@
 import NetUtils from "../utils/NetUtils";
 import {OrderDetailUrl, OrderListUrl} from "../utils/Constant";
 import {
-    NetError, OrderDetailLoading, OrderDetailStatus, OrderListLoaded, OrderListLoading, OrderListSetting,
-    OrderListShowMore, OrderListStatus
-} from "../utils/actionTypes";
-import {
-    AsyncStorage,
-} from 'react-native';
+    NetError, OrderListLoaded, OrderListLoading, OrderListSetting, OrderListShowMore,
 
+} from "../utils/actionTypes";
+import {AsyncStorage,} from 'react-native';
+import {DeviceEventEmitter} from 'react-native';
 
 export function orderList(pageNum, status) {
     return (dispatch) => {
@@ -44,7 +42,7 @@ export function orderListUpdateStatus(id, status) {
         NetUtils.put(url, null,
             (result) => {
                 console.log(result);
-                dispatch({type: OrderListStatus});
+                DeviceEventEmitter.emit('userRefresh');
             },
             (error) => {
                 console.log(error);

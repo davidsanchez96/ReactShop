@@ -43,7 +43,10 @@ class OrderDetail extends Component {
             dispatch(orderDetail(navigation.state.params.id))
         });
         this.listener= DeviceEventEmitter.addListener('userRefresh',(state)=>{
-            dispatch(orderDetailSetting(state));
+            if(state){
+                dispatch(orderDetailSetting(state));
+            }
+
         });
     }
 

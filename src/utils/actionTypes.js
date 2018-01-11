@@ -237,7 +237,6 @@ export const CouponLoaded = 'CouponLoaded';
 export const OrderListLoading = 'OrderListLoading';
 export const OrderListLoaded = 'OrderListLoaded';
 export const OrderListShowMore = 'OrderListShowMore';
-export const OrderListStatus = 'OrderListStatus';
 export const OrderListSetting = 'OrderListSetting';
 export const OrderListClean = 'OrderListClean';
 export const OrderDetailClean = 'OrderDetailClean';

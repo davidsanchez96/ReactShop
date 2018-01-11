@@ -6,7 +6,6 @@ const initialState = Immutable.Map({
     reloading: false,
     loadingMore: false,
     hasMore: false,
-    refresh:false,
     data: [],
     orders: [],
     orderSetting: {},
@@ -25,13 +24,13 @@ const initialState = Immutable.Map({
 export default function orderListReducer(state = initialState, action) {
     switch (action.type) {
         case types.OrderListLoading:
-            return state.set('loading', true).set('refresh', false);
+            return state.set('loading', true);
         case types.OrderListLoaded:
             if (action.page === 0) {
-                return state.set('loading', false).set('loadingMore', false).set('refresh', false)
+                return state.set('loading', false).set('loadingMore', false)
                     .set('hasMore', action.hasMore).set('data', Immutable.fromJS(action.data));
             } else {
-                return state.set('loading', false).set('loadingMore', false).set('refresh', false)
+                return state.set('loading', false).set('loadingMore', false)
                     .set('hasMore', action.hasMore).set('data', state.get('data').concat(Immutable.fromJS(action.data)));
             }
         case types.NetError:
@@ -39,9 +38,7 @@ export default function orderListReducer(state = initialState, action) {
         case types.OrderListSetting:
             return state.set('orderSetting', action.data);
         case types.OrderListShowMore:
-            return state.set('loadingMore', true).set('refresh', false);
-        case types.OrderListStatus:
-            return state.set('refresh', true);
+            return state.set('loadingMore', true);
         case types.OrderListClean:
             return initialState;
         default:
