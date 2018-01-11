@@ -34,26 +34,21 @@ class CommentDetail extends Component {
     }
 
 
-
     componentDidMount() {
         const {navigation, dispatch} = this.props;
-        if(navigation.state.params.id){
-            InteractionManager.runAfterInteractions(() => {
-                dispatch(commentDetail(navigation.state.params.id))
-            });
-        }
+        InteractionManager.runAfterInteractions(() => {
+            dispatch(commentDetail(navigation.state.params.id))
+        });
 
     }
+
     componentDidUpdate() {
         const {commentDetailReducer, navigation} = this.props;
-        if(commentDetailReducer.get('isSuccess')){
-            if (navigation.state.params.callBack) {
-                navigation.state.params.callBack();
-                navigation.setParams({id:null});
-            }
+        if (commentDetailReducer.get('isSuccess')) {
             navigation.goBack();
         }
     }
+
     componentWillUnmount() {
         this.props.dispatch({type: CommentDetailClean})
     }
@@ -159,7 +154,7 @@ class CommentDetail extends Component {
                     <TouchableOpacity
                         style={styles.button}
                         activeOpacity={0.8}
-                        onPress={()=>this._handleSubmit(dispatch,navigation)}>
+                        onPress={() => this._handleSubmit(dispatch, navigation)}>
                         <Text style={styles.buttonText} allowFontScaling={false}>提交</Text>
                     </TouchableOpacity>
                     : null
@@ -215,7 +210,7 @@ class CommentDetail extends Component {
      * 提交评论
      * @private
      */
-    _handleSubmit(dispatch,navigation) {
+    _handleSubmit(dispatch, navigation) {
 
         let resultMap = this.props.commentDetailReducer.get('picMaps');
         if (resultMap.size > 0) {
@@ -251,8 +246,8 @@ class CommentDetail extends Component {
             else if (contentLength) {
                 Toast.show('填写内容的长度不能超过500个!');
 
-            }else {
-                dispatch(submitComment(navigation.state.params.id,parames))
+            } else {
+                dispatch(submitComment(navigation.state.params.id, parames))
                 // //如果是从订单详情页过来,则重新跳转到订单详情页
                 // if (paramesObj.level === 2) {
                 //     //查询订单基础信息(重新刷新订单详细)
@@ -265,7 +260,7 @@ class CommentDetail extends Component {
 
 
         } else {
-            Toast.show( '请填写评价内容!');
+            Toast.show('请填写评价内容!');
         }
 
 

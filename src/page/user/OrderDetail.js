@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import {
     Alert, Dimensions, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity,
-    View,
+    View,DeviceEventEmitter,
 } from 'react-native';
 import Immutable from "immutable";
 import {connect} from "react-redux";
@@ -42,11 +42,14 @@ class OrderDetail extends Component {
         InteractionManager.runAfterInteractions(() => {
             dispatch(orderDetail(navigation.state.params.id))
         });
-
+        DeviceEventEmitter.addListener('userRefresh',()=>{
+            dispatch(orderDetailSetting('1'));
+        });
     }
 
     componentWillUnmount() {
-        this.props.dispatch({type: OrderDetailClean})
+        this.props.dispatch({type: OrderDetailClean});
+        DeviceEventEmitter.remove();
     }
 
     /**
@@ -106,9 +109,7 @@ class OrderDetail extends Component {
     waitAppraise(navigation, dispatch, orderId) {
         //调用原生的
         navigation.navigate('CommentDetail', {
-            id: orderId, level: 2, callBack: () => {
-                dispatch(orderDetailSetting('1'));
-            }
+            id: orderId, level: 2,
         });
 
         //msg.emit('route:goToNext', {sceneName: 'MakeComment', orderId: orderId, level: 2});

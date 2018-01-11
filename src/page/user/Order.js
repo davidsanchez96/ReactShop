@@ -1,8 +1,8 @@
 'use strict'
 import React, {Component} from 'react';
 import {
-    ActivityIndicator, Dimensions, FlatList, Image, InteractionManager, StyleSheet, Text, TouchableOpacity,
-    View, Alert,
+    ActivityIndicator, Alert, Dimensions, FlatList, Image, InteractionManager, StyleSheet, Text, TouchableOpacity,
+    View,  DeviceEventEmitter,
 } from 'react-native';
 
 import Immutable from "immutable";
@@ -10,8 +10,7 @@ import {connect} from "react-redux";
 import {orderList, orderListUpdateStatus, orderSetting} from "../../action/orderListActions";
 import {orderDataDict} from "../../utils/orderstatus";
 import {OrderListClean} from "../../utils/actionTypes";
-import {messageDeleteAll} from "../../action/messageListActions";
-import {orderUpdateStatus} from "../../action/orderDetailActions";
+import {user, userFollow, userLevel, userOrder, userRecord, userStatus, userUnread} from "../../action/userActions";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 //dp: 相当于数据字典
@@ -41,6 +40,11 @@ class Order extends Component {
         InteractionManager.runAfterInteractions(() => {
             this.props.dispatch(orderList(page, status))
         });
+
+        DeviceEventEmitter.addListener('userRefresh',()=>{
+            page = 0;
+            this.props.dispatch(orderList(page, status))
+        });
     }
 
     componentDidUpdate() {
@@ -56,7 +60,8 @@ class Order extends Component {
      * destroy
      */
     componentWillUnmount() {
-        this.props.dispatch({type: OrderListClean})
+        this.props.dispatch({type: OrderListClean});
+        DeviceEventEmitter.remove();
     }
 
 
@@ -190,12 +195,7 @@ class Order extends Component {
      */
     waitAppraise(navigation, dispatch, orderId, viewable) {
         navigation.navigate('CommentDetail', {
-            id: orderId, viewable: viewable ? true : false, callBack: () => {
-                InteractionManager.runAfterInteractions(() => {
-                    page = 0;
-                    dispatch(orderList(page, status));
-                });
-            }
+            id: orderId, viewable: viewable ? true : false
         });
         // msg.emit('route:goToNext', {sceneName: 'MakeComment', orderId: orderId, viewable: viewable ? true : false});
     }
