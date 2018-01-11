@@ -1,13 +1,11 @@
 import NetUtils from "../utils/NetUtils";
 import {CategoryUrl, OrderDetailUrl} from "../utils/Constant";
 import {
-    CommentDetailLoaded, CommentDetailLoading, CommentDetailSuccess, CouponLoaded,
-    NetError, UserRefresh
+    CommentDetailLoaded, CommentDetailLoading, CommentDetailSuccess, NetError,
+    UserRefresh
 } from "../utils/actionTypes";
 import {fromJS} from "immutable";
-import {
-    DeviceEventEmitter
-} from 'react-native';
+import {DeviceEventEmitter} from 'react-native';
 
 export function commentDetail(orderId) {
     return (dispatch) => {
