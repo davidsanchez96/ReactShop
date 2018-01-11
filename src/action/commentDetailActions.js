@@ -68,7 +68,7 @@ export function submitComment(orderId, data) {
             (result) => {
                 console.log(CategoryUrl + result);
                 dispatch({type: CommentDetailSuccess});
-                DeviceEventEmitter.emit('userRefresh');
+                DeviceEventEmitter.emit('userRefresh','1');
             },
             (error) => {
                 console.log(error);

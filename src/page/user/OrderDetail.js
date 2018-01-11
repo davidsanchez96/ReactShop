@@ -42,14 +42,14 @@ class OrderDetail extends Component {
         InteractionManager.runAfterInteractions(() => {
             dispatch(orderDetail(navigation.state.params.id))
         });
-        DeviceEventEmitter.addListener('userRefresh',()=>{
-            dispatch(orderDetailSetting('1'));
+        this.listener= DeviceEventEmitter.addListener('userRefresh',(state)=>{
+            dispatch(orderDetailSetting(state));
         });
     }
 
     componentWillUnmount() {
         this.props.dispatch({type: OrderDetailClean});
-        DeviceEventEmitter.remove();
+        this.listener.remove();
     }
 
     /**
@@ -96,9 +96,10 @@ class OrderDetail extends Component {
      */
     orderCancel(navigation, dispatch, orderId) {
         navigation.navigate('OrderCancel', {
-            orderId: orderId, level: 2, callBack: () => {
-                dispatch(orderDetailSetting('4'));
-            }
+            orderId: orderId, level: 2,
+            // callBack: () => {
+            //     dispatch(orderDetailSetting('4'));
+            // }
         });
         // msg.emit('route:goToNext', {sceneName: 'OrderCancel', orderId: orderId, level: 2});
     }

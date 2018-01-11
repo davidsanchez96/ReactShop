@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {
     ActivityIndicator, Alert, Dimensions, FlatList, Image, InteractionManager, StyleSheet, Text, TouchableOpacity,
-    View,  DeviceEventEmitter,
+    View, DeviceEventEmitter,
 } from 'react-native';
 
 import Immutable from "immutable";
@@ -41,7 +41,7 @@ class Order extends Component {
             this.props.dispatch(orderList(page, status))
         });
 
-        DeviceEventEmitter.addListener('userRefresh',()=>{
+        this.listener = DeviceEventEmitter.addListener('userRefresh', () => {
             page = 0;
             this.props.dispatch(orderList(page, status))
         });
@@ -61,7 +61,7 @@ class Order extends Component {
      */
     componentWillUnmount() {
         this.props.dispatch({type: OrderListClean});
-        DeviceEventEmitter.remove();
+        this.listener.remove()
     }
 
 
@@ -162,10 +162,7 @@ class Order extends Component {
      */
     orderCancel(navigation, dispatch, orderId) {
         navigation.navigate('OrderCancel', {
-            orderId: orderId, level: 1, callBack: () => {
-                page = 0;
-                dispatch(orderList(page, status));
-            }
+            orderId: orderId, level: 1
         });
 
         // msg.emit('route:goToNext', {sceneName: 'OrderCancel', orderId: orderId, level: 1});

@@ -85,7 +85,7 @@ class User extends Component {
         });
         // }
 
-        DeviceEventEmitter.addListener('userRefresh',()=>{
+        this.listener=DeviceEventEmitter.addListener('userRefresh',()=>{
             if (window.token) {
                 this.props.dispatch(user());
                 this.props.dispatch(userLevel());
@@ -112,7 +112,7 @@ class User extends Component {
         }
     }
     componentWillUnmount(){
-        DeviceEventEmitter.remove();
+        this.listener.remove();
     }
     componentDidUpdate() {
         Animated.timing(this._opacity, {
