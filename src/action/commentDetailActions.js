@@ -2,9 +2,12 @@ import NetUtils from "../utils/NetUtils";
 import {CategoryUrl, OrderDetailUrl} from "../utils/Constant";
 import {
     CommentDetailLoaded, CommentDetailLoading, CommentDetailSuccess, CouponLoaded,
-    NetError
+    NetError, UserRefresh
 } from "../utils/actionTypes";
 import {fromJS} from "immutable";
+import {
+    DeviceEventEmitter
+} from 'react-native';
 
 export function commentDetail(orderId) {
     return (dispatch) => {
@@ -57,14 +60,15 @@ export function commentDetail(orderId) {
     }
 }
 
-export function submitComment(orderId,data) {
+export function submitComment(orderId, data) {
     return (dispatch) => {
         dispatch({type: CommentDetailLoading});
         let url = OrderDetailUrl + `/${orderId}/share`;
-        NetUtils.post(url,data,
+        NetUtils.post(url, data,
             (result) => {
-                console.log(CategoryUrl+result);
+                console.log(CategoryUrl + result);
                 dispatch({type: CommentDetailSuccess});
+                DeviceEventEmitter.emit('userRefresh');
             },
             (error) => {
                 console.log(error);

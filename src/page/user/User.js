@@ -15,6 +15,7 @@ import {
     Dimensions,
     InteractionManager,
     RefreshControl,
+    DeviceEventEmitter,
 } from 'react-native';
 
 import {connect} from "react-redux";
@@ -83,13 +84,36 @@ class User extends Component {
             //     JPushModule.setBadge(0, (badgeNumber) => {
         });
         // }
+
+        DeviceEventEmitter.addListener('userRefresh',()=>{
+            if (window.token) {
+                this.props.dispatch(user());
+                this.props.dispatch(userLevel());
+                this.props.dispatch(userFollow());
+                this.props.dispatch(userRecord());
+                this.props.dispatch(userStatus());
+                this.props.dispatch(userUnread());
+                this.props.dispatch(userOrder());
+            }
+        });
     }
 
     componentWillMount() {
         this._opacity = new Animated.Value(0);
         // msg.emit('customers:pointConfig');
+        if (this.props.userReducer.get('refresh') && window.token) {
+            this.props.dispatch(user());
+            this.props.dispatch(userLevel());
+            this.props.dispatch(userFollow());
+            this.props.dispatch(userRecord());
+            this.props.dispatch(userStatus());
+            this.props.dispatch(userUnread());
+            this.props.dispatch(userOrder());
+        }
     }
-
+    componentWillUnmount(){
+        DeviceEventEmitter.remove();
+    }
     componentDidUpdate() {
         Animated.timing(this._opacity, {
             toValue: 1,
@@ -135,7 +159,7 @@ class User extends Component {
 
                 {this._renderAssets(navigation, dispatch)}
 
-                {this._renderItemContent(userReducer,navigation)}
+                {this._renderItemContent(userReducer, navigation)}
 
 
             </ScrollView>
@@ -437,7 +461,7 @@ class User extends Component {
      * @returns {XML}
      * @private
      */
-    _renderItemContent(userReducer,navigation) {
+    _renderItemContent(userReducer, navigation) {
         const store = userReducer;
         return (
             <View style={styles.spanner}>

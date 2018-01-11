@@ -417,10 +417,11 @@ class OrderDetail extends Component {
                                 key={k}
                                 activeOpacity={0.8}
                                 style={styles.box}
-                                onPress={() => msg.emit('route:goToNext', {
-                                    sceneName: 'GoodsDetail',
-                                    goodsInfoId: v.goodsInfoId
-                                })}>
+                                onPress={() => {
+                                    navigation.navigate('GoodsDetail', {
+                                        goodsInfoId:v.goodsInfoId,
+                                    });
+                                }}>
                                 <View style={{flex: 5, flexDirection: 'row'}}>
                                     <Image key={v} style={styles.thumb} source={{uri: v.goodsImg}}/>
                                     <View style={{flex: 1}}>
