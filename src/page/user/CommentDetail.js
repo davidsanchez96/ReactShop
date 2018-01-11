@@ -36,9 +36,12 @@ class CommentDetail extends Component {
 
     componentDidMount() {
         const {navigation, dispatch} = this.props;
-        InteractionManager.runAfterInteractions(() => {
-            dispatch(commentDetail(navigation.state.params.id))
-        });
+        if (navigation.state.params.id) {
+            InteractionManager.runAfterInteractions(() => {
+                dispatch(commentDetail(navigation.state.params.id))
+            });
+        }
+
 
     }
 
@@ -46,6 +49,7 @@ class CommentDetail extends Component {
         const {commentDetailReducer, navigation} = this.props;
         if (commentDetailReducer.get('isSuccess')) {
             navigation.goBack();
+            navigation.setParams({id:null})
         }
     }
 
@@ -55,7 +59,10 @@ class CommentDetail extends Component {
 
     render() {
         const {commentDetailReducer, dispatch, navigation} = this.props;
-        var order_Goods = commentDetailReducer.get('orderGoods') == null ? [] : commentDetailReducer.get('orderGoods').toJS();
+        if (!navigation.state.params.id) {
+            return
+        }
+        let order_Goods = commentDetailReducer.get('orderGoods') == null ? [] : commentDetailReducer.get('orderGoods').toJS();
         let imageNum = commentDetailReducer.get('imageNum');
 
         //上传的图片信息

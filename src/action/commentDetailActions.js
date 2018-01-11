@@ -2,7 +2,6 @@ import NetUtils from "../utils/NetUtils";
 import {CategoryUrl, OrderDetailUrl} from "../utils/Constant";
 import {
     CommentDetailLoaded, CommentDetailLoading, CommentDetailSuccess, NetError,
-    UserRefresh
 } from "../utils/actionTypes";
 import {fromJS} from "immutable";
 import {DeviceEventEmitter} from 'react-native';
@@ -47,7 +46,6 @@ export function commentDetail(orderId) {
                         'persistentShare': persistentShare
                     });
                 });
-
 
                 dispatch({type: CommentDetailLoaded, data: orderGoodsList, map: resultMap});
             },
