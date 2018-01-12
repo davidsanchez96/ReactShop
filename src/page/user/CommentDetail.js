@@ -5,12 +5,15 @@ import {
     Dimensions, Image, InteractionManager, PixelRatio, Platform, ScrollView, StyleSheet, Text, TextInput,
     TouchableOpacity, View
 } from 'react-native';
-import {CommentDetailClean, CommentDetailScore} from "../../utils/actionTypes";
+import {AddAddressLoaded, CommentDetailClean, CommentDetailScore, NetError} from "../../utils/actionTypes";
 import {connect} from "react-redux";
 import {commentDetail, submitComment} from "../../action/commentDetailActions";
 import Loading from "../components/Loading";
 import Rating from "../components/Rating";
 import Toast from 'react-native-root-toast';
+import ImagePicker from 'react-native-image-picker';
+import NetUtils from "../../utils/NetUtils";
+import {OrderDetailUrl, RETURN_GOODS_PROOF_SIZE} from "../../utils/Constant";
 
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -288,9 +291,9 @@ class CommentDetail extends Component {
         };
 
         //显示按钮
-        UIImagePickerManager.showImagePicker(options, async (didCancel, response) => {
+        ImagePicker.showImagePicker(options, async (response) => {
 
-            if (didCancel) {
+            if (response.didCancel) {
 
             } else { //点击'拍照'或者'我的相册'或者'自定义按钮'
                 if (response.customButton) {
@@ -311,8 +314,8 @@ class CommentDetail extends Component {
                             if (Platform.OS !== 'ios') {
                                 path = 'file://' + path;
                             }
-                            const result = await ImageCrop.crop(path);
-                            this._fileTransfer(result, index, orderGoodsId, goodsId);
+                            // const result = await ImageCrop.crop(path);
+                            this._fileTransfer(path, index, orderGoodsId, goodsId);
                         } catch (err) {
                             if (__DEV__) {
                                 console.log(err);
@@ -338,45 +341,68 @@ class CommentDetail extends Component {
         }
         const fileName = uri.substring(uri.lastIndexOf('/') + 1);
         //FileUpload
-        const obj = {
-            uploadUrl: `${QMConfig.HOST}/order/proof/upload`,
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + (window.token || '')
-            },
-            fields: {},
-            files: [{
-                name: 'image',
-                filename: fileName,
-                filepath: uri.replace('file://', ''),
-            }]
+        // const obj = {
+        //     uploadUrl: `${QMConfig.HOST}/order/proof/upload`,
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Authorization': 'Bearer ' + (window.token || '')
+        //     },
+        //     fields: {},
+        //     files: [{
+        //         name: 'image',
+        //         filename: fileName,
+        //         filepath: uri.replace('file://', ''),
+        //     }]
+        // };
+        let data = {
+            fileName: fileName,
+            filePath: uri.replace('file://', ''),
         };
-        msg.emit('app:tip', '正在上传请稍后...');
-        FileUpload.upload(obj, function (err, result) {
-            if (__DEV__) {
-                console.log('upload:', err);
-                console.log('upload:', result);
-            }
-            if (err) {
-                msg.emit('app:tip', '上传失败');
-            } else if (result && (result.status > 400 || result.status == 0)) {
-                if (result.data != "") {
-                    const errData = JSON.parse(result.data);
-                    msg.emit('app:tip', errData.message);
-                } else {
-                    msg.emit('app:tip', '图片过大或者网络异常');
+        Toast.show('正在上传请稍后...');
+        NetUtils.uploadFile(OrderDetailUrl + '/proof/upload', data,
+            (result) => {
+                Toast.show('上传成功!')
+                let pic_map = this.props.commentDetailReducer.get('picMaps');
+                let orderInfos = pic_map.get(orderGoodsId);
+                if (orderInfos === undefined || orderInfos == null) {
+                    orderInfos = {'pic': [], 'score': 1, 'text': '', 'goodsId': goodsId};
                 }
-            } else if (result) {
-                msg.emit('app:tip', '上传成功!');
-                msg.emit('order:comment:img:show', {
-                    picUrl: JSON.parse(result.data).data,
-                    index: index,
-                    orderGoodsId: orderGoodsId,
-                    goodsId: goodsId
-                });
-            }
-        })
+                orderInfos.pic[index] = result.data;
+                pic_map.set(orderGoodsId, orderInfos);
+                this.props.dispatch({type: CommentDetailScore, data: pic_map});
+
+                // console.log(result);
+            },
+            (error) => {
+                console.log(error);
+                Toast.show('上传失败')
+            })
+        // msg.emit('app:tip', '正在上传请稍后...');
+        // FileUpload.upload(obj, function (err, result) {
+        //     if (__DEV__) {
+        //         console.log('upload:', err);
+        //         console.log('upload:', result);
+        //     }
+        //     if (err) {
+        //         msg.emit('app:tip', '上传失败');
+        //     } else if (result && (result.status > 400 || result.status == 0)) {
+        //         if (result.data != "") {
+        //             const errData = JSON.parse(result.data);
+        //             msg.emit('app:tip', errData.message);
+        //         } else {
+        //             msg.emit('app:tip', '图片过大或者网络异常');
+        //         }
+        //     } else if (result) {
+        //         msg.emit('app:tip', '上传成功!');
+        //         msg.emit('order:comment:img:show', {
+        //             picUrl: JSON.parse(result.data).data,
+        //             index: index,
+        //             orderGoodsId: orderGoodsId,
+        //             goodsId: goodsId
+        //         });
+        //     }
+        // })
     }
 
     /**
@@ -394,7 +420,7 @@ class CommentDetail extends Component {
             return originPicUrl;
         }
 
-        return originPicUrl + '!' + QMConfig.RETURN_GOODS_PROOF_SIZE;
+        return originPicUrl + '!' + RETURN_GOODS_PROOF_SIZE;
     }
 
     /**

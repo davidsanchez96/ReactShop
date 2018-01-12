@@ -37,6 +37,10 @@
 			</dict>
 		</dict>
 	</dict>
+  <key>NSCameraUsageDescription</key>
+  <string>和兴惠客需要调用您的摄像头</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>和兴惠客需要调用您的照片库</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>

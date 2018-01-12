@@ -243,6 +243,47 @@ export default NetUtils = {
                 Toast.show('您的网络不给力:(');
             });
     },
+    /**
+     *上传图片
+     */
+    uploadFile: (url, data,successCallback, failCallback) => {
+        let formData = new FormData();
+        let file = {uri: data.filePath, type: 'multipart/form-data', name: data.fileName, };
+        formData.append("image", file);
+
+        let fetchOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + (window.token || ''),
+                'Accept': 'application/json',
+                'Content-Type':'multipart/form-data',
+            },
+            body: formData,
+        };
+
+        fetch(url, fetchOptions)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.code && responseJson.code !== 'K-000000') {
+                    if ('K-000002' === responseJson.code) {
+                        Toast.show('账号信息错误!');
+                    } else if ('K-000001' === responseJson.code) {
+                        Toast.show('您的网络不给力:(');
+                    } else {
+                        Toast.show(responseJson.message);
+                    }
+                    failCallback(responseJson.code);
+                } else {
+                    successCallback(responseJson);
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+                failCallback();
+                Toast.show('您的网络不给力:(');
+            });
+    },
 
 
 }
