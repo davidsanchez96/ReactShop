@@ -7,13 +7,15 @@ import {
 } from 'react-native';
 import {AddAddressLoaded, CommentDetailClean, CommentDetailScore, NetError} from "../../utils/actionTypes";
 import {connect} from "react-redux";
-import {commentDetail, submitComment} from "../../action/commentDetailActions";
+import {commentDetail, submitComment, uploadImage} from "../../action/commentDetailActions";
 import Loading from "../components/Loading";
 import Rating from "../components/Rating";
 import Toast from 'react-native-root-toast';
-import ImagePicker from 'react-native-image-picker';
+// import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
+import ActionSheet from 'react-native-actionsheet';
 import NetUtils from "../../utils/NetUtils";
-import {OrderDetailUrl, RETURN_GOODS_PROOF_SIZE} from "../../utils/Constant";
+import {Buttons, OrderDetailUrl, RETURN_GOODS_PROOF_SIZE} from "../../utils/Constant";
 
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -79,6 +81,37 @@ class CommentDetail extends Component {
         return (
             <View style={styles.container}>
                 <Loading visible={commentDetailReducer.get('loading')}/>
+                <ActionSheet
+                    ref={o => this.ActionSheet = o}
+                    options={Buttons}
+                    cancelButtonIndex={0}
+                    onPress={(i) => {
+                        switch (i) {
+                            case 1:
+                                ImagePicker.openCamera({
+                                    width: 300,
+                                    height: 300,
+                                    mediaType: 'photo',
+                                    cropping: true
+                                }).then(image => {
+                                    console.log(image);
+                                    this._fileTransfer(image.path)
+                                });
+                                break;
+                            case 2:
+                                ImagePicker.openPicker({
+                                    width: 300,
+                                    height: 300,
+                                    mediaType: 'photo',
+                                    cropping: true,
+                                }).then(image => {
+                                    console.log(image);
+                                    this._fileTransfer(image.path)
+                                });
+                                break;
+                        }
+                    }}
+                />
                 <ScrollView bounces={false} style={{flex: 1}}
                             ref={(scrollView) => this._scrollView = scrollView}>
 
@@ -145,7 +178,7 @@ class CommentDetail extends Component {
                                         {/* 用之前的应该就行了吧 */}
                                         <View style={{marginTop: 10, flexDirection: 'row'}}>
                                             {
-                                                this._getShareComps(v, picArray, comment.persistentComment, imageNum)
+                                                this._getShareComps(v, picArray, comment.persistentComment, imageNum,pic_map,dispatch)
                                             }
                                         </View>
                                     </View>
@@ -276,58 +309,63 @@ class CommentDetail extends Component {
      * 上传图片
      */
     uploadPic(index, orderGoodsId, goodsId) {
+        this.index = index;
+        this.orderGoodsId = orderGoodsId;
+        this.goodsId = goodsId;
+        this.ActionSheet.show();
+
         //图片选项
-        const options = {
-            title: '',
-            cancelButtonTitle: '取消',
-            takePhotoButtonTitle: '拍照',
-            chooseFromLibraryButtonTitle: '我的相册',
-            customButtons: {},
-            quality: 0.2,
-            storageOptions: {
-                skipBackup: true,
-                path: 'images'
-            }
-        };
+        // const options = {
+        //     title: '',
+        //     cancelButtonTitle: '取消',
+        //     takePhotoButtonTitle: '拍照',
+        //     chooseFromLibraryButtonTitle: '我的相册',
+        //     customButtons: {},
+        //     quality: 0.2,
+        //     storageOptions: {
+        //         skipBackup: true,
+        //         path: 'images'
+        //     }
+        // };
 
         //显示按钮
-        ImagePicker.showImagePicker(options, async (response) => {
-
-            if (response.didCancel) {
-
-            } else { //点击'拍照'或者'我的相册'或者'自定义按钮'
-                if (response.customButton) {
-                } else {
-                    if (__DEV__) {
-                        console.log('response => ', response);
-                    }
-                    if (response.notImage) {
-                        msg.emit('app:tip', "图片格式有误,请重新选择!");
-                        return;
-                    } else {
-                        if (__DEV__) {
-                            console.log('response uri ==>', response.uri);
-                        }
-                        try {
-                            let path = response.uri.replace('file://', '');
-
-                            if (Platform.OS !== 'ios') {
-                                path = 'file://' + path;
-                            }
-                            // const result = await ImageCrop.crop(path);
-                            this._fileTransfer(path, index, orderGoodsId, goodsId);
-                        } catch (err) {
-                            if (__DEV__) {
-                                console.log(err);
-                            }
-                            if (err.message != 'cancel') {
-                                msg.emit('app:tip', '系统错误，请重试!');
-                            }
-                        }
-                    }
-                }
-            }
-        });
+        // ImagePicker.showImagePicker(options, async (response) => {
+        //
+        //     if (response.didCancel) {
+        //
+        //     } else { //点击'拍照'或者'我的相册'或者'自定义按钮'
+        //         if (response.customButton) {
+        //         } else {
+        //             if (__DEV__) {
+        //                 console.log('response => ', response);
+        //             }
+        //             if (response.notImage) {
+        //                 msg.emit('app:tip', "图片格式有误,请重新选择!");
+        //                 return;
+        //             } else {
+        //                 if (__DEV__) {
+        //                     console.log('response uri ==>', response.uri);
+        //                 }
+        //                 try {
+        //                     let path = response.uri.replace('file://', '');
+        //
+        //                     if (Platform.OS !== 'ios') {
+        //                         path = 'file://' + path;
+        //                     }
+        //                     // const result = await ImageCrop.crop(path);
+        //                     this._fileTransfer(path, index, orderGoodsId, goodsId);
+        //                 } catch (err) {
+        //                     if (__DEV__) {
+        //                         console.log(err);
+        //                     }
+        //                     if (err.message != 'cancel') {
+        //                         msg.emit('app:tip', '系统错误，请重试!');
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // });
     }
 
     /**
@@ -335,7 +373,7 @@ class CommentDetail extends Component {
      * @param uri
      * @private
      */
-    _fileTransfer(uri, index, orderGoodsId, goodsId) {
+    _fileTransfer(uri) {
         if (__DEV__) {
             console.log('uri======>', uri);
         }
@@ -360,24 +398,25 @@ class CommentDetail extends Component {
             filePath: uri.replace('file://', ''),
         };
         Toast.show('正在上传请稍后...');
-        NetUtils.uploadFile(OrderDetailUrl + '/proof/upload', data,
-            (result) => {
-                Toast.show('上传成功!')
-                let pic_map = this.props.commentDetailReducer.get('picMaps');
-                let orderInfos = pic_map.get(orderGoodsId);
-                if (orderInfos === undefined || orderInfos == null) {
-                    orderInfos = {'pic': [], 'score': 1, 'text': '', 'goodsId': goodsId};
-                }
-                orderInfos.pic[index] = result.data;
-                pic_map.set(orderGoodsId, orderInfos);
-                this.props.dispatch({type: CommentDetailScore, data: pic_map});
-
-                // console.log(result);
-            },
-            (error) => {
-                console.log(error);
-                Toast.show('上传失败')
-            })
+        this.props.dispatch(uploadImage(data, this.index, this.orderGoodsId, this.goodsId, this.props.commentDetailReducer.get('picMaps')));
+        // NetUtils.uploadFile(OrderDetailUrl + '/proof/upload', data,
+        //     (result) => {
+        //         Toast.show('上传成功!')
+        //         let pic_map = this.props.commentDetailReducer.get('picMaps');
+        //         let orderInfos = pic_map.get(orderGoodsId);
+        //         if (orderInfos === undefined || orderInfos == null) {
+        //             orderInfos = {'pic': [], 'score': 1, 'text': '', 'goodsId': goodsId};
+        //         }
+        //         orderInfos.pic[index] = result.data;
+        //         pic_map.set(orderGoodsId, orderInfos);
+        //         this.props.dispatch({type: CommentDetailScore, data: pic_map});
+        //
+        //         // console.log(result);
+        //     },
+        //     (error) => {
+        //         console.log(error);
+        //         Toast.show('上传失败')
+        //     })
         // msg.emit('app:tip', '正在上传请稍后...');
         // FileUpload.upload(obj, function (err, result) {
         //     if (__DEV__) {
@@ -431,7 +470,7 @@ class CommentDetail extends Component {
      * @param imageNum
      * @private
      */
-    _getShareComps(orderGoodsInfo, picArray, persistentShare, imageNum) {
+    _getShareComps(orderGoodsInfo, picArray, persistentShare, imageNum,pic_map,dispatch) {
         let _this = this;
         let imageComps;
         if (!persistentShare && !this.props.navigation.state.params.viewable) {
@@ -450,10 +489,19 @@ class CommentDetail extends Component {
                                     <Image source={{uri: _this._formatPicUrl(picArray[i])}} style={styles.pic}/>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.deletePic} activeOpacity={0.8} onPress={() => {
-                                    msg.emit('order:comment:img:show', {
-                                        picUrl: '', index: i,
-                                        orderGoodsId: orderGoodsInfo.orderGoodsId, goodsId: orderGoodsInfo.goodsId
-                                    });
+
+                                    let orderInfos = pic_map.get(orderGoodsInfo.orderGoodsId);
+                                    if (orderInfos === undefined || orderInfos == null) {
+                                        orderInfos = {'pic': [], 'score': 1, 'text': '', 'goodsId': orderGoodsInfo.goodsId};
+                                    }
+                                    orderInfos.pic[i] = '';
+                                    pic_map.set(orderGoodsInfo.orderGoodsId, orderInfos);
+                                    // appStore.cursor().set('picMaps', pic_map);
+                                    dispatch({type: CommentDetailScore, data: pic_map});
+                                    // msg.emit('order:comment:img:show', {
+                                    //     picUrl: '', index: i,
+                                    //     orderGoodsId: orderGoodsInfo.orderGoodsId, goodsId: orderGoodsInfo.goodsId
+                                    // });
                                 }}>
                                     <Image style={styles.deleteIcon} source={require('../components/img/plus.png')}/>
                                 </TouchableOpacity>

@@ -1,10 +1,12 @@
 import NetUtils from "../utils/NetUtils";
-import {CategoryUrl, OrderDetailUrl} from "../utils/Constant";
+import {CategoryUrl, OrderDetailUrl, UserUrl} from "../utils/Constant";
 import {
-    CommentDetailLoaded, CommentDetailLoading, CommentDetailSuccess, NetError,
+    CommentDetailLoaded, CommentDetailLoading, CommentDetailScore, CommentDetailSuccess, NetError,
 } from "../utils/actionTypes";
 import {fromJS} from "immutable";
 import {DeviceEventEmitter} from 'react-native';
+import {user} from "./userActions";
+import Toast from "react-native-root-toast";
 
 export function commentDetail(orderId) {
     return (dispatch) => {
@@ -70,5 +72,28 @@ export function submitComment(orderId, data) {
                 console.log(error);
                 dispatch({type: NetError});
             });
+    }
+}
+
+export function uploadImage(data,index, orderGoodsId, goodsId,pic_map) {
+    return (dispatch) => {
+        NetUtils.uploadFile(OrderDetailUrl + '/proof/upload', data,
+            (result) => {
+                Toast.show('上传成功!');
+                // let pic_map = commentDetailReducer.get('picMaps');
+                let orderInfos = pic_map.get(orderGoodsId);
+                if (orderInfos === undefined || orderInfos == null) {
+                    orderInfos = {'pic': [], 'score': 1, 'text': '', 'goodsId': goodsId};
+                }
+                orderInfos.pic[index] = result.data;
+                pic_map.set(orderGoodsId, orderInfos);
+                dispatch({type: CommentDetailScore, data: pic_map});
+                console.log(result);
+            },
+            (error) => {
+                console.log(error);
+                Toast.show('修改失败')
+            })
+
     }
 }

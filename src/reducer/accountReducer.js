@@ -1,7 +1,5 @@
 import * as types from '../utils/actionTypes';
 import Immutable from 'immutable';
-import {UserLoaded} from "../utils/actionTypes";
-import {UserLoading} from "../utils/actionTypes";
 
 const initialState = Immutable.Map({
     loading: true,

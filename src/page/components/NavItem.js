@@ -44,6 +44,7 @@ export default class NavItem extends Component {
 
                 <RightArrow
                     text={this.props.content}
+                    imageSource={this.props.imageSource}
                     imageSourceLocal={this.props.imageSourceLocal}
                     picStyle={{width: 10, height: 10}}
                     showImageSource={this.props.showImageSource}
@@ -57,10 +58,8 @@ export default class NavItem extends Component {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        paddingLeft: 20,
-        paddingRight: 20,
+        padding: 20,
         backgroundColor: '#FFF',
-        height: 50,
         justifyContent: 'flex-end',
         alignItems: 'center',
         borderBottomWidth: 1 ,

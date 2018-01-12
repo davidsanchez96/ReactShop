@@ -1,5 +1,11 @@
 export const URL = 'https://elife.hk0472.com';//'http://192.168.1.240:8080'//'http://api.hk0472.com';//
 export const RETURN_GOODS_PROOF_SIZE = 56;
+export const Buttons = [
+    '取消',
+    '拍照',
+    '我的相册',
+];
+
 export const CategoryUrl = URL + '/goods/mobcates';
 export const SuggestionUrl = URL + '/suggestions/completion?size=10&queryString=';
 

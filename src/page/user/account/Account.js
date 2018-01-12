@@ -8,20 +8,19 @@ import {
 import moment from 'moment';
 import {connect} from "react-redux";
 import NavItem from "../../components/NavItem";
-import {user} from "../../../action/userActions";
-import {GenderSet, NicknameSet, Refresh} from "../../../utils/actionTypes";
+import {GenderSet, NicknameSet} from "../../../utils/actionTypes";
 import DatePicker from 'react-native-datepicker';
 import {changeBirthday} from "../../../action/birthdayActions";
 import Immutable from "immutable";
 import Toast from 'react-native-root-toast';
+import ActionSheet from 'react-native-actionsheet';
+import ImagePicker from 'react-native-image-crop-picker';
+import {uploadAvatar} from "../../../action/userActions";
+import {Buttons} from "../../../utils/Constant";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
-const _buttons = [
-    '拍照',
-    '我的相册',
-    '取消',
-];
+
 
 class Account extends Component {
     static navigationOptions = {
@@ -60,22 +59,45 @@ class Account extends Component {
         let image = store.getIn(['customer', 'image']);
         return (
             <View style={styles.container}>
+                <ActionSheet
+                    ref={o => this.ActionSheet = o}
+                    options={Buttons}
+                    cancelButtonIndex={0}
+                    onPress={(i) => {
+                       switch (i){
+                           case 1:
+                               ImagePicker.openCamera({
+                                   width: 300,
+                                   height: 300,
+                                   mediaType:'photo',
+                                   cropping: true
+                               }).then(image => {
+                                   console.log(image);
+                                   this._fileTransfer(image.path)
+                               });
+                               break;
+                           case 2:
+                               ImagePicker.openPicker({
+                                   width: 300,
+                                   height: 300,
+                                   cropping: true,
+                                   mediaType:'photo'
+                               }).then(image => {
+                                   console.log(image);
+                                   this._fileTransfer(image.path)
+                               });
+                               break;
+                       }
+                    }}
+                />
                 <View style={{flex: 1}}>
                     {
-                        store.get('showDefault')
-                            ?
-                            <NavItem
-                                title='头像'
-                                showImageSource={false}
-                                showLeftImage={false}
-                                componentHeight={80}
-                                onPress={() => this._changeUserImage()}
-                            />
-                            :
                             image
                                 ?
                                 <NavItem
+                                    style={{paddingTop:10,paddingBottom:10}}
                                     title='头像'
+                                    showLeftImage={false}
                                     showImageSource={true}
                                     imageSource={image}
                                     componentHeight={80}
@@ -155,8 +177,10 @@ class Account extends Component {
                             showLeftImage={false}
                             content='可修改密码'
                             onPress={() => {
-                                navigation.navigate('Security',{ phone:accountReducer.getIn(['customer', 'mobile']),
-                                    mobileVerifyStatus: accountReducer.getIn(['customer', 'mobileVerifyStatus'])})
+                                navigation.navigate('Security', {
+                                    phone: accountReducer.getIn(['customer', 'mobile']),
+                                    mobileVerifyStatus: accountReducer.getIn(['customer', 'mobileVerifyStatus'])
+                                })
                             }}/>
                     </View>
 
@@ -191,106 +215,116 @@ class Account extends Component {
      * @private
      */
     _changeUserImage() {
-        //图片选项
-        const options = {
-            title: '',
-            cancelButtonTitle: '取消',
-            takePhotoButtonTitle: '拍照',
-            chooseFromLibraryButtonTitle: '我的相册',
-            customButtons: {},
-            quality: 0.2,
-            storageOptions: {
-                skipBackup: true,
-                path: 'images'
-            }
-        };
 
-        //显示按钮
-        UIImagePickerManager.showImagePicker(options, async (didCancel, response) => {
+        this.ActionSheet.show()
 
-            if (didCancel) {
 
-            } else { //点击'拍照'或者'我的相册'或者'自定义按钮'
-                if (response.customButton) {
-                } else {
-                    if (__DEV__) {
-                        console.log('response => ', response);
-                    }
-                    if (response.notImage) {
-                        msg.emit('app:tip', "图片格式有误,请重新选择!");
-                        return;
-                    } else {
-                        if (__DEV__) {
-                            console.log('response uri ==>', response.uri);
-                        }
-                        try {
-                            let path = response.uri.replace('file://', '');
-                            msg.emit('account:isLoading:change', true);
-
-                            if (Platform.OS !== 'ios') {
-                                path = 'file://' + path;
-                            }
-                            const result = await ImageCrop.crop(path);
-                            if (__DEV__) {
-                                console.log('result => ', result);
-                            }
-                            this._fileTransfer(result)
-                        } catch (err) {
-                            if (__DEV__) {
-                                console.log(err, err.message);
-                            }
-                            if (err.message != 'cancel') {
-                                msg.emit('app:tip', '修改失败,请重试!');
-                            }
-                        } finally {
-                            msg.emit('account:isLoading:change', false);
-                        }
-                    }
-                }
-            }
-        });
+        // //图片选项
+        // const options = {
+        //     title: '',
+        //     cancelButtonTitle: '取消',
+        //     takePhotoButtonTitle: '拍照',
+        //     chooseFromLibraryButtonTitle: '我的相册',
+        //     customButtons: {},
+        //     quality: 0.2,
+        //     storageOptions: {
+        //         skipBackup: true,
+        //         path: 'images'
+        //     }
+        // };
+        //
+        // //显示按钮
+        // UIImagePickerManager.showImagePicker(options, async (didCancel, response) => {
+        //
+        //     if (didCancel) {
+        //
+        //     } else { //点击'拍照'或者'我的相册'或者'自定义按钮'
+        //         if (response.customButton) {
+        //         } else {
+        //             if (__DEV__) {
+        //                 console.log('response => ', response);
+        //             }
+        //             if (response.notImage) {
+        //                 msg.emit('app:tip', "图片格式有误,请重新选择!");
+        //                 return;
+        //             } else {
+        //                 if (__DEV__) {
+        //                     console.log('response uri ==>', response.uri);
+        //                 }
+        //                 try {
+        //                     let path = response.uri.replace('file://', '');
+        //                     msg.emit('account:isLoading:change', true);
+        //
+        //                     if (Platform.OS !== 'ios') {
+        //                         path = 'file://' + path;
+        //                     }
+        //                     const result = await ImageCrop.crop(path);
+        //                     if (__DEV__) {
+        //                         console.log('result => ', result);
+        //                     }
+        //                     this._fileTransfer(result)
+        //                 } catch (err) {
+        //                     if (__DEV__) {
+        //                         console.log(err, err.message);
+        //                     }
+        //                     if (err.message != 'cancel') {
+        //                         msg.emit('app:tip', '修改失败,请重试!');
+        //                     }
+        //                 } finally {
+        //                     msg.emit('account:isLoading:change', false);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // });
     }
 
     _fileTransfer(uri) {
         if (__DEV__) {
             console.log('uri======>', uri);
         }
+        Toast.show('正在上传请稍后...');
         const fileName = uri.substring(uri.lastIndexOf('/') + 1);
         //FileUpload
-        const obj = {
-            uploadUrl: `${QMConfig.HOST}/customers/image`,
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + (window.token || '')
-            },
-            fields: {},
-            files: [{
-                name: 'image',
-                filename: fileName,
-                filepath: uri.replace('file://', ''),
-            }]
+        // const obj = {
+        //     uploadUrl: `${QMConfig.HOST}/customers/image`,
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Authorization': 'Bearer ' + (window.token || '')
+        //     },
+        //     fields: {},
+        //     files: [{
+        //         name: 'image',
+        //         filename: fileName,
+        //         filepath: uri.replace('file://', ''),
+        //     }]
+        // };
+        let data = {
+            fileName: fileName,
+            filePath: uri.replace('file://', ''),
         };
-        msg.emit('app:tip', '正在上传请稍后...');
-        FileUpload.upload(obj, function (err, result) {
-            if (__DEV__) {
-                console.log('upload:', err);
-                console.log('upload:', result);
-            }
-            if (err) {
-                msg.emit('app:tip', '修改失败');
-            } else if (result && (result.status > 400 || result.status == 0)) {
-                if (result.data != "") {
-                    const errData = JSON.parse(result.data);
-                    msg.emit('app:tip', errData.message);
-                } else {
-                    msg.emit('app:tip', '图片过大或者网络异常');
-                }
-            } else if (result) {
-                msg.emit('app:tip', '修改成功!')
-                msg.emit('account:info');
-            }
-        })
+        this.props.dispatch(uploadAvatar(data));
+        // msg.emit('app:tip', '正在上传请稍后...');
+        // FileUpload.upload(obj, function (err, result) {
+        //     if (__DEV__) {
+        //         console.log('upload:', err);
+        //         console.log('upload:', result);
+        //     }
+        //     if (err) {
+        //         msg.emit('app:tip', '修改失败');
+        //     } else if (result && (result.status > 400 || result.status == 0)) {
+        //         if (result.data != "") {
+        //             const errData = JSON.parse(result.data);
+        //             msg.emit('app:tip', errData.message);
+        //         } else {
+        //             msg.emit('app:tip', '图片过大或者网络异常');
+        //         }
+        //     } else if (result) {
+        //         msg.emit('app:tip', '修改成功!')
+        //         msg.emit('account:info');
+        //     }
+        // })
     }
 
     /**

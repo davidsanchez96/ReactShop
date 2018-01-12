@@ -1,13 +1,13 @@
 import NetUtils from "../utils/NetUtils";
 import {AsyncStorage,} from 'react-native';
 import {
-    AreaUrl,
+    AreaUrl, OrderDetailUrl,
     URL,
     UserFollowUrl, UserLevelUrl, UserOrderUrl, UserRecordUrl, UserStatusUrl, UserUnreadUrl,
     UserUrl
 } from "../utils/Constant";
 import {
-    Address,
+    Address, CommentDetailScore,
     NetError, UserBrowseRecord, UserFollow, UserLevel, UserLoaded, UserLoading, UserRecord, UserStatus,
     UserUnread
 } from "../utils/actionTypes";
@@ -126,6 +126,22 @@ export function browse() {
                 Toast.show('获取浏览记录错误');
             }
         });
+
+    }
+}
+
+export function uploadAvatar(data) {
+    return (dispatch) => {
+        NetUtils.uploadFile(UserUrl + '/image', data,
+            (result) => {
+                Toast.show('修改成功!')
+                dispatch(user());
+                console.log(result);
+            },
+            (error) => {
+                console.log(error);
+                Toast.show('修改失败')
+            })
 
     }
 }
