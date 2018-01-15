@@ -302,7 +302,7 @@ class Account extends Component {
         // };
         let data = {
             fileName: fileName,
-            filePath: uri.replace('file://', ''),
+            filePath: uri,//uri.replace('file://', ''),
         };
         this.props.dispatch(uploadAvatar(data));
         // msg.emit('app:tip', '正在上传请稍后...');

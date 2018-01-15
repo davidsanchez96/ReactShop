@@ -1,4 +1,7 @@
 import Toast from 'react-native-root-toast';
+import {
+    Platform
+} from 'react-native';
 
 export default NetUtils = {
     /**
@@ -248,7 +251,7 @@ export default NetUtils = {
      */
     uploadFile: (url, data,successCallback, failCallback) => {
         let formData = new FormData();
-        let file = {uri: data.filePath, type: 'multipart/form-data', name: data.fileName, };
+        let file = {uri: Platform.OS==='ios'?data.filePath.replace('file://', ''): data.filePath, type: 'multipart/form-data', name: data.fileName, };
         formData.append("image", file);
 
         let fetchOptions = {

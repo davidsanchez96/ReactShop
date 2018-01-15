@@ -102,11 +102,12 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        vectorDrawables.useSupportLibrary = true
     }
 
     signingConfigs {
         release {
-            storeFile file("hkshop.keystore")
+            storeFile file("keystore/hkshop.keystore")
             keyAlias "hk0472.hkshop"
             keyPassword "hk0472"
             storePassword "hk0472"
@@ -147,8 +148,6 @@ android {
 
 dependencies {
     compile project(':react-native-image-crop-picker')
-    compile project(':react-native-fileupload')
-    compile project(':react-native-image-picker')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules

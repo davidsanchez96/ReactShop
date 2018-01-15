@@ -7,8 +7,6 @@ import Swiper from 'react-native-swiper';
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 
-
-
 /**
  * 首页楼层模板组件, 此模板只允许展示三件商品.
  */
@@ -60,23 +58,22 @@ export default class FloorOne extends Component {
                     </View>
                 </View>
 
-
-                <Swiper
-                    style={styles.slide}
-                >
-                    {banners.map((slider, i) => {
-                        return (
-                            <TouchableOpacity
-                                activeOpacity={0.8}
-                                key={i}
-                            >
-                                <Image source={{uri: slider.img}} style={styles.slide}/>
-                            </TouchableOpacity>
-                        )
-                    })}
-                </Swiper>
-
-
+                {banners ?
+                    <Swiper
+                        style={styles.slide}
+                    >
+                        {banners.map((slider, i) => {
+                            return (
+                                <TouchableOpacity
+                                    activeOpacity={0.8}
+                                    key={i}
+                                >
+                                    <Image source={{uri: slider.img}} style={styles.slide}/>
+                                </TouchableOpacity>
+                            )
+                        })}
+                    </Swiper> : null
+                }
             </View>
         );
     }
