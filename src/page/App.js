@@ -5,7 +5,6 @@ import Main from './main/Main';
 import Goods from './category/Category';
 import {connect} from 'react-redux';
 import GoodsDetail from "./category/GoodsDetail";
-import Shopping from "./shopping/Shopping";
 import User from "./user/User";
 import Search from "./components/Search";
 import GoodsList from "./category/GoodsList";
@@ -48,12 +47,13 @@ import MessageDetail from "./user/MessageDetail";
 import OrderDetail from "./user/OrderDetail";
 import OrderCancel from "./user/OrderCancel";
 import CommentDetail from "./user/CommentDetail";
+import Shop from "./shopping/Shop";
 
 
 const HomeNavigator = TabNavigator({
         Main: {screen: Main},
         Goods: {screen: Goods},
-        Shopping: {screen: Shopping},
+        Shop: {screen: Shop},
         User: {screen: User}
     }, {
         tabBarPosition: 'bottom',

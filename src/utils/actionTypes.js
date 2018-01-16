@@ -257,3 +257,9 @@ export const MessageListTotal = 'MessageListTotal';
 export const MessageListEdit = 'MessageListEdit';
 export const MessageListItem = 'MessageListItem';
 export const MessageListClean = 'MessageListClean';
+/**
+ *shop
+ **/
+export const ShopListLoading = 'ShopListLoading';
+export const ShopListLoaded = 'ShopListLoaded';
+export const ShopListAll = 'ShopListAll';

@@ -71,4 +71,6 @@ export const MessageReadAllUrl = URL + '/customers/read/messages/_all';
 export const MessageDeleteUrl = URL + '/customers/messages/';
 export const MessageDeleteAllUrl = URL + '/customers/clean/messages';
 
+export const ShopListUrl = URL + '/cart/list?districtId=';
+
 

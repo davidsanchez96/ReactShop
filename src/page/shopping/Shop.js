@@ -7,17 +7,8 @@
 
 import React, {Component} from 'react';
 import {
-    View,
-    TouchableOpacity,
-    StyleSheet,
-    Text,
-    Platform,
-    InteractionManager,
-    ScrollView,
-    PixelRatio,
-    Dimensions,
-    Image,
-    findNodeHandle
+    Dimensions, findNodeHandle, Image, InteractionManager, PixelRatio, Platform, RefreshControl, ScrollView,
+    StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
 import {List, Map} from 'immutable';
 
@@ -68,13 +59,8 @@ class Shop extends Component {
 
     render() {
         const {shopListReducer, navigation, dispatch} = this.props;
-        const cart = shopListReducer.get("cart");
         //是不是正在loading
         const isLoading = shopListReducer.get('loading');
-        //if(__DEV__) {
-        //  console.log('isLoading-->', isLoading);
-        //}
-
 
         //根据条件是否显示左侧箭头
         const left = {};
@@ -87,7 +73,7 @@ class Shop extends Component {
                 style={[{
                     flex: 1,
                     backgroundColor: '#eee'
-                }, !this.props.haveParent && Platform.OS === 'ios' && {marginBottom: 50}]}
+                },]}
                 onStartShouldSetResponderCapture={(e) => {
                     this._handleCapture(e);
                     return false;
@@ -98,7 +84,25 @@ class Shop extends Component {
                 {/*ref={(view) => this._listView = view}*/}
                 {/*onRefreshStart={(onRefreshEnd) => msg.emit('cart:cartlist', onRefreshEnd)}*/}
                 {/*needInitLoading={isLoading}>*/}
-                {this._renderContent(shopListReducer)}
+
+
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isLoading}
+                            onRefresh={() => {
+                                if (window.token) {
+                                    dispatch(shopList());
+                                } else {
+
+                                }
+                            }}
+                        />
+                    }
+                >
+
+                    {this._renderContent(shopListReducer)}
+                </ScrollView>
                 {/*</QMSwipeRefreshView>*/}
 
                 {this._renderEditableView(shopListReducer)}
