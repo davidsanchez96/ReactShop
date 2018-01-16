@@ -30,6 +30,7 @@ export function shopListUpdate(shoppingCartId,goodsNum) {
             (result) => {
                 console.log(result);
                 dispatch({type: ShopListUpdate, shoppingCartId: shoppingCartId,goodsNum:goodsNum});
+                dispatch(shopListCount())
             },
             (error) => {
                 console.log(error);
