@@ -4,12 +4,7 @@ import {ShopListLoaded} from "../utils/actionTypes";
 
 const initialState = Immutable.fromJS({
     loading: true,
-    page: 0,
-    reloading: false,
-    loadingMore: false,
-    hasMore: false,
-    data: [],
-    total: 0,
+    count: 0,
     cart: [],
     goodChecked: false,
     editable: false,
@@ -58,11 +53,38 @@ export default function shopListReducer(state = initialState, action) {
                 selectAll(cursor);
                 jisuan(cursor);
             });
+        case types.ShopListCount:
+            return state.set('count', action.data);
         case types.NetError:
             return state.set('loading', false);
         case types.ShopListAll:
             return state.withMutations((cursor) => {
                 selectAll(cursor);
+            });
+        case types.ShopListUpdate:
+            return state.withMutations((cursor) => {
+                cursor.get("cart").map((c, i) => {
+
+                    c.get("groupResponseList").map((p, q) => {
+                        if (action.shoppingCartId == p.get("shoppingCartId")) {
+                            cursor.setIn(['cart', i, 'groupResponseList', q, 'groupNum'], action.goodsNum);
+                        }
+                    });
+
+                    c.get("marketingList").map((m, j) => {
+                        m.get("productResponseList").map((p, q) => {
+                            if (action.shoppingCartId == p.get("shoppingCartId")) {
+                                cursor.setIn(['cart', i, 'marketingList', j, 'productResponseList', q, 'goodsNum'], action.goodsNum);
+                            }
+                        });
+                    });
+                    c.get("productResponseList").map((p, q) => {
+                        if (action.shoppingCartId == p.get("shoppingCartId")) {
+                            cursor.setIn(['cart', i, 'productResponseList', q, 'goodsNum'], action.goodsNum);
+                        }
+                    });
+                });
+                jisuan(cursor);
             });
         case types.ShopListGoodsSelect:
             return state.withMutations((cursor) => {

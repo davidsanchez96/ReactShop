@@ -2,24 +2,22 @@
 import React, {Component} from 'react';
 
 import {View, Text, StyleSheet} from 'react-native';
+import {connect} from "react-redux";
 
 
 /**
  * badge组件
  */
-export default class Badge extends Component {
-    static defaultProps = {
-        badge: 0
-    };
-
+ class Badge extends Component {
 
     render() {
-        let count = this.props.badge;
+        const {badgeReducer}=this.props;
+        let count = badgeReducer.get('count');
 
         if (count > 99) {
             count = '99+';
         } else if (count < 10) {
-            count = ' ' + this.props.badge + ' ';
+            count = ' ' + count + ' ';
         }
 
         return (
@@ -51,4 +49,7 @@ const styles = StyleSheet.create({
         fontSize: 8
     }
 });
-
+const mapStateToProps = (state) => ({
+    badgeReducer: state.get('badgeReducer')
+});
+export default connect(mapStateToProps)(Badge);

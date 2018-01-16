@@ -3,6 +3,7 @@ import {AreaUrl, URL} from "../utils/Constant";
 import {Address, Change, Loaded, Loading, NetError, Show} from "../utils/actionTypes";
 import {AsyncStorage} from 'react-native';
 import {detail} from "./detailActions";
+import {shopListCount} from "./shopListActions";
 
 export function getMain() {
     return (dispatch) => {
@@ -11,6 +12,7 @@ export function getMain() {
             if(result){
                 window.token =JSON.parse(result).token
             }
+            dispatch(shopListCount());
             NetUtils.get(URL,
                 (result) => {
                     console.log(URL + result);

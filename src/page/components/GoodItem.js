@@ -5,7 +5,8 @@ import {View, TouchableOpacity, StyleSheet, Text, Platform, PixelRatio, Image, D
 import SwipeOut from 'react-native-swipeout';
 import {List} from 'immutable';
 import NumberControl from "./NumberControl";
-import {ShopListGoodsSelect} from "../../utils/actionTypes";
+import {ShopListGoodsSelect, ShopListUpdate} from "../../utils/actionTypes";
+import {shopListUpdate} from "../../action/shopListActions";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 export default class GoodItem extends Component {
@@ -132,7 +133,8 @@ export default class GoodItem extends Component {
     }
 
     onChildChanged(newState, shoppingCartId) {
-        msg.emit('cart:changeGoodsNum', shoppingCartId, newState);
+        // msg.emit('cart:changeGoodsNum', shoppingCartId, newState);
+        this.props.dispatch(shopListUpdate(shoppingCartId,newState));
     }
 
     _goodsDetail(goodsInfoId) {
