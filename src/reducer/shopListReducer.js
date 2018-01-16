@@ -31,9 +31,7 @@ export default function shopListReducer(state = initialState, action) {
             return state.withMutations((cursor) => {
                 cursor
                     .set('cart', fromJS(action.data))
-                    .set('isLoading', false);
-
-
+                    .set('loading', false);
                 if (!cursor.get('checkedList').isEmpty()) {
 
                     cursor.get("cart").map((c, i) => {
@@ -65,8 +63,59 @@ export default function shopListReducer(state = initialState, action) {
         case types.ShopListAll:
             return state.withMutations((cursor) => {
                 selectAll(cursor);
+            });
+        case types.ShopListGoodsSelect:
+            return state.withMutations((cursor) => {
+                if (action.checks) {
+                    cursor.set("checkedList", cursor.get("checkedList").concat(action.shoppingCartId));
+                } else {
+                    cursor.set("checkedList", cursor.get("checkedList").delete(action.shoppingCartId));
+                }
 
-        });
+                cursor.get("cart").map((c, i) => {
+                    var ck = true;
+                    c.get("groupResponseList").map((p, q) => {
+                        ck = cursor.get("checkedList").has(p.get("shoppingCartId")) && ck;
+                    });
+
+                    c.get("marketingList").map((m, j) => {
+                        m.get("productResponseList").map((p, q) => {
+                            ck = cursor.get("checkedList").has(p.get("shoppingCartId")) && ck;
+                        });
+                    });
+                    c.get("productResponseList").map((p, q) => {
+                        ck = cursor.get("checkedList").has(p.get("shoppingCartId")) && ck;
+                    });
+
+
+                    cursor.setIn(['cart', i, 'checked'], ck);
+
+
+                });
+
+                var ak = true;
+                cursor.get("cart").map((c, i) => {
+                    ak = c.get("checked") && ak;
+                });
+                cursor.set("checkedAll", ak);
+                jisuan(cursor);
+            });
+        case types.ShopListStoreSelect:
+            return state.withMutations((cursor) => {
+                cursor.setIn(['cart', action.index, 'checked'], action.checks);
+                if (action.checks) {
+                    cursor.set("checkedList", cursor.get("checkedList").concat(action.goodsArr));
+                } else {
+                    cursor.set("checkedList", cursor.get("checkedList").subtract(action.goodsArr));
+                }
+
+                var ak = true;
+                cursor.get("cart").map((c, i) => {
+                    ak = c.get("checked") && ak;
+                });
+                cursor.set("checkedAll", ak);
+                jisuan(cursor);
+            });
         case types.MessageListEdit:
             return state.set('editable', !state.get('editable'));
         case types.MessageListItem:
@@ -85,6 +134,7 @@ export default function shopListReducer(state = initialState, action) {
             return state;
     }
 }
+
 function selectAll(cursor) {
     if (cursor.get("checkedAll")) {
         cursor.set("checkedList", cursor.get("checkedList").clear());

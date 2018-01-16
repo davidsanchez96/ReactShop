@@ -5,6 +5,7 @@ import {View, TouchableOpacity, StyleSheet, Text, Platform, PixelRatio, Image, D
 import SwipeOut from 'react-native-swipeout';
 import {List} from 'immutable';
 import NumberControl from "./NumberControl";
+import {ShopListGoodsSelect} from "../../utils/actionTypes";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 export default class GoodItem extends Component {
@@ -118,7 +119,8 @@ export default class GoodItem extends Component {
     }
 
     _handleCheck(shoppingCartId) {
-        msg.emit('cart:changeGoodChecked', shoppingCartId, !this.props.checkedList.has(shoppingCartId));
+        this.props.dispatch({type:ShopListGoodsSelect,shoppingCartId:shoppingCartId,checks:!this.props.checkedList.has(shoppingCartId)});
+        // msg.emit('cart:changeGoodChecked', shoppingCartId, !this.props.checkedList.has(shoppingCartId));
     }
 
     _promotionProduct(goodsInfoId) {

@@ -101,7 +101,7 @@ class Shop extends Component {
                     }
                 >
 
-                    {this._renderContent(shopListReducer)}
+                    {this._renderContent(shopListReducer,dispatch)}
                 </ScrollView>
                 {/*</QMSwipeRefreshView>*/}
 
@@ -116,7 +116,7 @@ class Shop extends Component {
      * @returns {*}
      * @private
      */
-    _renderContent(shopListReducer) {
+    _renderContent(shopListReducer,dispatch) {
         const cart = shopListReducer.get("cart");
         const checkedList = shopListReducer.get("checkedList");
 
@@ -125,6 +125,7 @@ class Shop extends Component {
         } else {
             return cart.map((v, i) => (
                 <CartItem
+                    dispatch={dispatch}
                     ref={'cart' + i}
                     key={i}
                     cart={v}

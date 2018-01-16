@@ -263,3 +263,5 @@ export const MessageListClean = 'MessageListClean';
 export const ShopListLoading = 'ShopListLoading';
 export const ShopListLoaded = 'ShopListLoaded';
 export const ShopListAll = 'ShopListAll';
+export const ShopListStoreSelect = 'ShopListStoreSelect';
+export const ShopListGoodsSelect = 'ShopListGoodsSelect';
