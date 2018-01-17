@@ -74,5 +74,6 @@ export const MessageDeleteAllUrl = URL + '/customers/clean/messages';
 export const ShopListUrl = URL + '/cart/list?districtId=';
 export const ShopListUpdateUrl = URL + '/cart/update?shoppingCartId=';
 export const ShopListCountUrl = URL + '/cart/count';
+export const ShopListDeleteUrl = URL + '/cart/batch?shoppingCartIds=';
 
 

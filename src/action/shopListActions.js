@@ -1,5 +1,8 @@
 import NetUtils from "../utils/NetUtils";
-import {FollowListUrl, ShopListCountUrl, ShopListUpdateUrl, ShopListUrl, SuggestionUrl} from "../utils/Constant";
+import {
+    FollowListUrl, ShopListCountUrl, ShopListDeleteUrl, ShopListUpdateUrl, ShopListUrl,
+    SuggestionUrl
+} from "../utils/Constant";
 import {
     CategorySelected, NetError, SuggestionLoading,
     SuggestionLoaded, FollowListLoaded, ShopListLoading, ShopListLoaded, ShopListUpdate, ShopListCount
@@ -13,7 +16,7 @@ export function shopList() {
             NetUtils.get(ShopListUrl + JSON.parse(result).districtId,
                 (result) => {
                     console.log(result);
-
+                    dispatch(shopListCount());
                     dispatch({type: ShopListLoaded, data: result});
                 },
                 (error) => {
@@ -24,12 +27,12 @@ export function shopList() {
     }
 }
 
-export function shopListUpdate(shoppingCartId,goodsNum) {
+export function shopListUpdate(shoppingCartId, goodsNum) {
     return (dispatch) => {
         NetUtils.get(ShopListUpdateUrl + `${shoppingCartId}&goodsNum=${goodsNum}`,
             (result) => {
                 console.log(result);
-                dispatch({type: ShopListUpdate, shoppingCartId: shoppingCartId,goodsNum:goodsNum});
+                dispatch({type: ShopListUpdate, shoppingCartId: shoppingCartId, goodsNum: goodsNum});
                 dispatch(shopListCount())
             },
             (error) => {
@@ -45,7 +48,21 @@ export function shopListCount() {
         NetUtils.get(ShopListCountUrl,
             (result) => {
                 console.log(result);
-                dispatch({type: ShopListCount,data:result});
+                dispatch({type: ShopListCount, data: result});
+            },
+            (error) => {
+                console.log(error);
+                dispatch({type: NetError});
+            });
+    }
+}
+
+export function shopListDelete(checkedList) {
+    return (dispatch) => {
+        NetUtils.get(ShopListDeleteUrl + `${checkedList.toArray()}`,
+            (result) => {
+                console.log(result);
+                dispatch(shopList());
             },
             (error) => {
                 console.log(error);

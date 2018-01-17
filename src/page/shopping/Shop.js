@@ -18,7 +18,7 @@ import Badge from "../components/Badge";
 import Edit from "../components/Edit";
 import GoShopping from "../components/GoShopping";
 import CartItem from "../components/CartItem";
-import {shopList} from "../../action/shopListActions";
+import {shopList, shopListDelete} from "../../action/shopListActions";
 import {ShopListEdit} from "../../utils/actionTypes";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -41,7 +41,7 @@ class Shop extends Component {
                 </View>
             ),
             title: '购物车',
-            headerRight: <Edit onPress={navigation.state.params?navigation.state.params.handleSave:null}/>,
+            headerRight: <Edit onPress={navigation.state.params ? navigation.state.params.handleSave : null}/>,
         }
     };
 
@@ -123,7 +123,7 @@ class Shop extends Component {
                 </ScrollView>
                 {/*</QMSwipeRefreshView>*/}
 
-                {this._renderEditableView(shopListReducer)}
+                {this._renderEditableView(shopListReducer, dispatch)}
             </View>
         )
     }
@@ -165,10 +165,10 @@ class Shop extends Component {
      *
      * @private
      */
-    _renderEditableView(shopListReducer) {
+    _renderEditableView(shopListReducer, dispatch) {
         const cart = shopListReducer.get("cart");
         const editable = shopListReducer.get("editable");
-
+        const checkedList = shopListReducer.get("checkedList");
         if (!cart || cart.isEmpty()) {
             return null;
         }
@@ -192,7 +192,12 @@ class Shop extends Component {
                         <TouchableOpacity
                             style={[styles.editBtn, {borderColor: '#e63a59'}]}
                             activeOpacity={0.8}
-                            onPress={() => msg.emit('cart:deleteAll')}>
+                            onPress={() => {
+                                if (!checkedList.isEmpty()) {
+                                    dispatch(shopListDelete(checkedList));
+                                }
+
+                            }}>
                             <Text style={{color: '#e63a59'}} allowFontScaling={false}>删除</Text>
                         </TouchableOpacity>
                     </View>

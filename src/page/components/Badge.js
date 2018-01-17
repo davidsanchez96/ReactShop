@@ -8,10 +8,10 @@ import {connect} from "react-redux";
 /**
  * badge组件
  */
- class Badge extends Component {
+class Badge extends Component {
 
     render() {
-        const {badgeReducer}=this.props;
+        const {badgeReducer} = this.props;
         let count = badgeReducer.get('count');
 
         if (count > 99) {
@@ -21,9 +21,9 @@ import {connect} from "react-redux";
         }
 
         return (
-            <View style={styles.container}>
-                <Text style={styles.text}>{count}</Text>
-            </View>
+            count > 0 ? <View style={styles.container}>
+                <Text style={styles.text}>{count}</Text>:
+            </View> : null
         );
     }
 

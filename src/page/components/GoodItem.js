@@ -3,10 +3,10 @@
 import React, {Component} from 'react';
 import {View, TouchableOpacity, StyleSheet, Text, Platform, PixelRatio, Image, Dimensions} from 'react-native';
 import SwipeOut from 'react-native-swipeout';
-import {List} from 'immutable';
+import {List, OrderedSet} from 'immutable';
 import NumberControl from "./NumberControl";
 import {ShopListGoodsSelect, ShopListUpdate} from "../../utils/actionTypes";
-import {shopListUpdate} from "../../action/shopListActions";
+import {shopListDelete, shopListUpdate} from "../../action/shopListActions";
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 export default class GoodItem extends Component {
@@ -17,7 +17,7 @@ export default class GoodItem extends Component {
             text: '删除',
             backgroundColor: '#e63a59',
             onPress: () => {
-                msg.emit('cart:deleteOne', this._goods.get("shoppingCartId"));
+                this.props.dispatch(shopListDelete(new OrderedSet([this._goods.get("shoppingCartId")])));
             }
         }];
         //赠品集合
@@ -120,7 +120,11 @@ export default class GoodItem extends Component {
     }
 
     _handleCheck(shoppingCartId) {
-        this.props.dispatch({type:ShopListGoodsSelect,shoppingCartId:shoppingCartId,checks:!this.props.checkedList.has(shoppingCartId)});
+        this.props.dispatch({
+            type: ShopListGoodsSelect,
+            shoppingCartId: shoppingCartId,
+            checks: !this.props.checkedList.has(shoppingCartId)
+        });
         // msg.emit('cart:changeGoodChecked', shoppingCartId, !this.props.checkedList.has(shoppingCartId));
     }
 
@@ -134,7 +138,7 @@ export default class GoodItem extends Component {
 
     onChildChanged(newState, shoppingCartId) {
         // msg.emit('cart:changeGoodsNum', shoppingCartId, newState);
-        this.props.dispatch(shopListUpdate(shoppingCartId,newState));
+        this.props.dispatch(shopListUpdate(shoppingCartId, newState));
     }
 
     _goodsDetail(goodsInfoId) {
