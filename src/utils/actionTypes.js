@@ -267,3 +267,4 @@ export const ShopListStoreSelect = 'ShopListStoreSelect';
 export const ShopListGoodsSelect = 'ShopListGoodsSelect';
 export const ShopListUpdate = 'ShopListUpdate';
 export const ShopListCount = 'ShopListCount';
+export const ShopListEdit = 'ShopListEdit';

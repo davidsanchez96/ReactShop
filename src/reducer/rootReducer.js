@@ -40,6 +40,7 @@ import orderCancelReducer from "./orderCancelReducer";
 import commentDetailReducer from "./commentDetailReducer";
 import shopListReducer from "./shopListReducer";
 import badgeReducer from "./badgeReducer";
+import editReducer from "./editReducer";
 
 
 export default combineReducers({
@@ -84,4 +85,5 @@ export default combineReducers({
     commentDetailReducer,
     shopListReducer,
     badgeReducer,
+    editReducer,
 });

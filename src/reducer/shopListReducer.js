@@ -5,7 +5,7 @@ import {ShopListLoaded} from "../utils/actionTypes";
 const initialState = Immutable.fromJS({
     loading: true,
     count: 0,
-    cart: [],
+    cart: null,
     goodChecked: false,
     editable: false,
     checkedList: new OrderedSet([]),
@@ -55,6 +55,8 @@ export default function shopListReducer(state = initialState, action) {
             });
         case types.ShopListCount:
             return state.set('count', action.data);
+        case types.ShopListEdit:
+            return state.set('editable', !state.get('editable'));
         case types.NetError:
             return state.set('loading', false);
         case types.ShopListAll:
