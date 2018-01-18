@@ -14,7 +14,7 @@ const initialState = Immutable.fromJS({
     totalPrice: '0.00',
     sumPrice: '0.00',
     yhPrice: '0.00',
-    cartNum: '0',
+    cartNum: 0,
 
     checkedAll: true,
 });
@@ -52,7 +52,6 @@ export default function shopListReducer(state = initialState, action) {
                 }
 
                 selectAll(cursor);
-                jisuan(cursor);
             });
         case types.ShopListCount:
             return state.set('count', action.data);
@@ -195,8 +194,8 @@ function selectAll(cursor, isAll) {
             cursor.setIn(['cart', i, 'checked'], true);
 
         });
-
     }
+    jisuan(cursor);
 }
 
 function jisuan(cursor) {
