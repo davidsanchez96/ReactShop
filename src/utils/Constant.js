@@ -75,5 +75,9 @@ export const ShopListUrl = URL + '/cart/list?districtId=';
 export const ShopListUpdateUrl = URL + '/cart/update?shoppingCartId=';
 export const ShopListCountUrl = URL + '/cart/count';
 export const ShopListDeleteUrl = URL + '/cart/batch?shoppingCartIds=';
+export const ShopPromotionUrl = URL + '/marketing/list?goodsId=';
+export const GiveawayUrl = URL + '/cart';
+export const GiveawayRuleUrl = URL + '/marketing/';
+export const ShopListPromotionUrl = URL + '/cart/updatemarketing?shoppingCartId=';
 
 

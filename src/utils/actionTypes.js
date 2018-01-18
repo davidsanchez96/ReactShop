@@ -268,4 +268,13 @@ export const ShopListGoodsSelect = 'ShopListGoodsSelect';
 export const ShopListUpdate = 'ShopListUpdate';
 export const ShopListCount = 'ShopListCount';
 export const ShopListEdit = 'ShopListEdit';
-export const ShopListDelete = 'ShopListDelete';
+export const ShopListGiveaway= 'ShopListGiveaway';
+export const ShopListPromotion= 'ShopListPromotion';
+/**
+ *Sales Promotion
+ **/
+export const SalesPromotionLoading = 'SalesPromotionLoading';
+export const SalesPromotionLoaded = 'SalesPromotionLoaded';
+export const SalesPromotionSelect = 'SalesPromotionSelect';
+export const GiveawayLoading = 'GiveawayLoading';
+export const GiveawayLoaded = 'GiveawayLoaded';

@@ -48,6 +48,8 @@ import OrderDetail from "./user/OrderDetail";
 import OrderCancel from "./user/OrderCancel";
 import CommentDetail from "./user/CommentDetail";
 import Shop from "./shopping/Shop";
+import SalesPromotion from "./shopping/SalesPromotion";
+import Giveaway from "./shopping/Giveaway";
 
 
 const HomeNavigator = TabNavigator({
@@ -221,6 +223,12 @@ export const AppNavigator = StackNavigator({
         },
         MessageDetail: {
             screen: MessageDetail,
+        },
+        SalesPromotion: {
+            screen: SalesPromotion,
+        },
+        Giveaway: {
+            screen: Giveaway,
         },
     },
     {

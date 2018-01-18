@@ -21,9 +21,10 @@ class Badge extends Component {
         }
 
         return (
-            count > 0 ? <View style={styles.container}>
-                <Text style={styles.text}>{count}</Text>:
-            </View> : null
+                    count > 0 ? <View style={styles.container}>
+                        <Text style={styles.text}>{count}</Text>
+                    </View> : null
+
         );
     }
 

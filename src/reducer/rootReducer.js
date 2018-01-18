@@ -41,6 +41,8 @@ import commentDetailReducer from "./commentDetailReducer";
 import shopListReducer from "./shopListReducer";
 import badgeReducer from "./badgeReducer";
 import editReducer from "./editReducer";
+import salesPromotionReducer from "./salesPromotionReducer";
+import giveawayReducer from "./giveawayReducer";
 
 
 export default combineReducers({
@@ -86,4 +88,6 @@ export default combineReducers({
     shopListReducer,
     badgeReducer,
     editReducer,
+    salesPromotionReducer,
+    giveawayReducer,
 });

@@ -129,11 +129,13 @@ export default class GoodItem extends Component {
     }
 
     _promotionProduct(goodsInfoId) {
-        msg.emit('route:goToNext', {
-            sceneName: 'PromotionInfor',
-            goodsInfoId: goodsInfoId,
-            shoppingCartId: this._goods.get("shoppingCartId"),
-        })
+        this.props.navigation.navigate('SalesPromotion',{goodsInfoId: goodsInfoId,
+            shoppingCartId: this._goods.get("shoppingCartId")});
+        // msg.emit('route:goToNext', {
+        //     sceneName: 'PromotionInfor',
+        //     goodsInfoId: goodsInfoId,
+        //     shoppingCartId: this._goods.get("shoppingCartId"),
+        // })
     }
 
     onChildChanged(newState, shoppingCartId) {

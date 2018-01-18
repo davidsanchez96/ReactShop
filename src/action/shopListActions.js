@@ -1,6 +1,6 @@
 import NetUtils from "../utils/NetUtils";
 import {
-    FollowListUrl, ShopListCountUrl, ShopListDeleteUrl, ShopListUpdateUrl, ShopListUrl,
+    FollowListUrl, ShopListCountUrl, ShopListDeleteUrl, ShopListPromotionUrl, ShopListUpdateUrl, ShopListUrl,
     SuggestionUrl
 } from "../utils/Constant";
 import {
@@ -60,6 +60,19 @@ export function shopListCount() {
 export function shopListDelete(checkedList) {
     return (dispatch) => {
         NetUtils.get(ShopListDeleteUrl + `${checkedList.toArray()}`,
+            (result) => {
+                console.log(result);
+                dispatch(shopList());
+            },
+            (error) => {
+                console.log(error);
+                dispatch({type: NetError});
+            });
+    }
+}
+export function shopListPromotion(shoppingCartId,marketingActiveId) {
+    return (dispatch) => {
+        NetUtils.get(ShopListPromotionUrl + `${shoppingCartId}&marketingActiveId=${marketingActiveId}`,
             (result) => {
                 console.log(result);
                 dispatch(shopList());

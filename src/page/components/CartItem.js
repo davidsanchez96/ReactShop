@@ -60,7 +60,7 @@ export default class CartItem extends Component {
             <View style={styles.cartTitle}>
                 <TouchableOpacity
                     style={{height: 50, justifyContent: 'center'}}
-                    onPress={()=>this._handleCheck()}
+                    onPress={() => this._handleCheck()}
                     activeOpacity={0.8}>
                     <Image
                         style={styles.check}
@@ -101,6 +101,7 @@ export default class CartItem extends Component {
             this.props.cart.get("productResponseList").map((v, i) => (
                 <GoodItem
                     dispatch={this.props.dispatch}
+                    navigation={this.props.navigation}
                     ref={v.get("goodsInfoId")}
                     onSwipe={this.props.onSwipe}
                     listView={this.props.listView}
@@ -159,6 +160,7 @@ export default class CartItem extends Component {
                         v.get("productResponseList").map((s, j) => (
                                 <GoodItem
                                     dispatch={this.props.dispatch}
+                                    navigation={this.props.navigation}
                                     ref={s.get("goodsInfoId")}
                                     onSwipe={this.props.onSwipe}
                                     listView={this.props.listView}
@@ -196,13 +198,17 @@ export default class CartItem extends Component {
                 if (v.get('marketingActivityId') != null) {
                     marketingId = v.get('marketingActivityId');
                 }
-
-                msg.emit('route:goToNext', {
-                    sceneName: 'PromotionInfor',
+                this.props.navigation.navigate('SalesPromotion', {
                     marketingId: marketingId,
                     goodsInfoId: v.get('goodsInfoId'),
                     shoppingCartId: v.get('shoppingCartId')
-                })
+                });
+                // msg.emit('route:goToNext', {
+                //     sceneName: 'PromotionInfor',
+                //     marketingId: marketingId,
+                //     goodsInfoId: v.get('goodsInfoId'),
+                //     shoppingCartId: v.get('shoppingCartId')
+                // })
             }
         });
     }
@@ -219,22 +225,33 @@ export default class CartItem extends Component {
         var goodsArr = this.newGoods;
 
         if (!this.props.cart.get("checked")) {
-            this.props.dispatch({type:ShopListStoreSelect,index:this.props.index,checks:true,goodsArr:goodsArr});
+            this.props.dispatch({type: ShopListStoreSelect, index: this.props.index, checks: true, goodsArr: goodsArr});
             // msg.emit('cart:changeSellerChecked', this.props.index, this.props.cart.get("storeId"), true, goodsArr);
         } else {
-            this.props.dispatch({type:ShopListStoreSelect,index:this.props.index,checks:false,goodsArr:goodsArr});
+            this.props.dispatch({
+                type: ShopListStoreSelect,
+                index: this.props.index,
+                checks: false,
+                goodsArr: goodsArr
+            });
             // msg.emit('cart:changeSellerChecked', this.props.index, this.props.cart.get("storeId"), false, goodsArr);
         }
     }
 
 
     _queryPresents(fullBuyPresentMarketingId, store_index, marketing_index) {
-        msg.emit('route:goToNext', {
-            sceneName: 'Presents',
+        this.props.navigation.navigate('Giveaway', {
             fullBuyPresentMarketingId: fullBuyPresentMarketingId,
             store_index: store_index,
             marketing_index: marketing_index
-        })
+        });
+
+        // msg.emit('route:goToNext', {
+        //     sceneName: 'Presents',
+        //     fullBuyPresentMarketingId: fullBuyPresentMarketingId,
+        //     store_index: store_index,
+        //     marketing_index: marketing_index
+        // })
     }
 
 

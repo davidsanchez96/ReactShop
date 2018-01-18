@@ -16,7 +16,7 @@ const initialState = Immutable.fromJS({
     yhPrice: '0.00',
     cartNum: '0',
 
-    checkedAll: false,
+    checkedAll: true,
 });
 export default function shopListReducer(state = initialState, action) {
     switch (action.type) {
@@ -50,6 +50,7 @@ export default function shopListReducer(state = initialState, action) {
                     })
                     cursor.set("checkedAll", ak);
                 }
+
                 selectAll(cursor);
                 jisuan(cursor);
             });
@@ -61,7 +62,7 @@ export default function shopListReducer(state = initialState, action) {
             return state.set('loading', false);
         case types.ShopListAll:
             return state.withMutations((cursor) => {
-                selectAll(cursor);
+                selectAll(cursor,true);
             });
         case types.ShopListUpdate:
             return state.withMutations((cursor) => {
@@ -140,9 +141,11 @@ export default function shopListReducer(state = initialState, action) {
                 cursor.set("checkedAll", ak);
                 jisuan(cursor);
             });
-        case types.MessageListEdit:
-            return state.set('editable', !state.get('editable'));
-        case types.MessageListItem:
+        case types.ShopListGiveaway:
+            return state.withMutations((cursor) => {
+                cursor.setIn(['cart', action.store_index, 'marketingList', action.marketing_index, 'presentGoodsInfo', 'fullBuyPresentProductResponseList'], action.presentCheckedList);
+            });
+        case types.ShopListPromotion:
             return state.withMutations((cursor) => {
                 if (action.checked) {
                     cursor.set('checkedList', cursor.get('checkedList').concat(action.id));
@@ -159,8 +162,8 @@ export default function shopListReducer(state = initialState, action) {
     }
 }
 
-function selectAll(cursor) {
-    if (cursor.get("checkedAll")) {
+function selectAll(cursor, isAll) {
+    if (cursor.get("checkedAll") && isAll) {
         cursor.set("checkedList", cursor.get("checkedList").clear());
         cursor.set("checkedAll", false);
         cursor.get("cart").map((c, i) => {
